@@ -28,7 +28,7 @@ model Account {
   password String
 
   darkMode             Boolean @default(true)
-  genreRelevanceFilter Int     @default(1)
+  genreRelevanceFilter Int     @default(0)
   showTypeTags         Boolean @default(true)
   showRelevanceTags    Boolean @default(false)
 
