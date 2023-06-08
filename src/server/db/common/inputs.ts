@@ -7,7 +7,7 @@ export const CrudOperationInput = z.union([
   z.literal(CrudOperation.DELETE),
 ])
 
-export const MIN_GENRE_RELEVANCE = 1
+export const MIN_GENRE_RELEVANCE = 0
 export const MAX_GENRE_RELEVANCE = 7
 export const UNSET_GENRE_RELEVANCE = 99
 
