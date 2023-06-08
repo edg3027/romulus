@@ -5,6 +5,8 @@ import { isNotNull } from '../../utils/types'
 
 export const getGenreRelevanceText = (relevance: number) => {
   switch (relevance) {
+    case 0:
+      return 'Invented'
     case 1:
       return 'Unknown'
     case 2:
