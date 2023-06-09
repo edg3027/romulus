@@ -40,6 +40,8 @@ const HasData: FC<{
 
   const getColor = useCallback((relevance: number) => {
     switch (relevance) {
+      case 0:
+        return 'bg-primary-50 border-y border-r border-primary-200'
       case 1:
         return 'bg-primary-100 border-y border-r border-primary-300'
       case 2:
