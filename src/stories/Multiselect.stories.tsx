@@ -42,7 +42,7 @@ const Template: Story<ComponentProps<typeof M> & { numOptions: number }> = ({
       <M.Box>
         {selected.map((item) => (
           <M.Selected key={item.id} item={item}>
-            {item.id}
+            {item.id.toString()}
           </M.Selected>
         ))}
         <M.Input />
@@ -50,7 +50,7 @@ const Template: Story<ComponentProps<typeof M> & { numOptions: number }> = ({
       <M.Options>
         {options.slice(0, page * numOptions).map((option) => (
           <M.Option key={option.id} item={option}>
-            {option.id}
+            {option.id.toString()}
           </M.Option>
         ))}
         {options.length > page * numOptions && (
@@ -101,7 +101,7 @@ const PopoverDirectionTemplate: Story<
         <M.Box>
           {selected.map((item) => (
             <M.Selected key={item.id} item={item}>
-              {item.id}
+              {item.id.toString()}
             </M.Selected>
           ))}
           <M.Input />
@@ -109,7 +109,7 @@ const PopoverDirectionTemplate: Story<
         <M.Options>
           {options.slice(0, page * numOptions).map((option) => (
             <M.Option key={option.id} item={option}>
-              {option.id}
+              {option.id.toString()}
             </M.Option>
           ))}
           {options.length > page * numOptions && (
