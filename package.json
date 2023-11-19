@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "migrate": "prisma migrate deploy",
-    "build:vercel": "yarn build && yarn migrate",
-    "analyze": "ANALYZE=true yarn build",
+    "build:vercel": "pnpm build && pnpm migrate",
+    "analyze": "ANALYZE=true pnpm build",
     "start": "next start",
     "lint": "tsc && eslint .",
     "test": "jest --watch",
@@ -49,7 +49,6 @@
     "superjson": "^1.9.1",
     "tailwind-merge": "^1.6.0",
     "validator": "^13.7.0",
-    "yarn": "^1.22.19",
     "zod": "^3.18.0",
     "zustand": "^4.3.2"
   },
