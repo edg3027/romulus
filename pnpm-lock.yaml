@@ -35,9 +35,6 @@ dependencies:
   '@trpc/server':
     specifier: ^10.9.0
     version: 10.9.0
-  add:
-    specifier: ^2.0.6
-    version: 2.0.6
   bcrypt:
     specifier: ^5.0.1
     version: 5.1.0
@@ -6549,13 +6546,6 @@ packages:
       }
     engines: { node: '>=0.4.0' }
     hasBin: true
-
-  /add@2.0.6:
-    resolution:
-      {
-        integrity: sha512-j5QzrmsokwWWp6kUcJQySpbG+xfOBqqKnup3OIk1pz+kB/80SLorZ9V8zHFLO92Lcd+hbvq8bT+zOGoPkmBV0Q==,
-      }
-    dev: false
 
   /address@1.2.2:
     resolution:
