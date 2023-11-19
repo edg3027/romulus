@@ -1,5 +1,6 @@
 module.exports = {
   stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
+
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
@@ -13,9 +14,17 @@ module.exports = {
       },
     },
   ],
-  framework: '@storybook/react',
+
+  framework: {
+    name: '@storybook/nextjs',
+    options: {},
+  },
+
   core: {
-    builder: '@storybook/builder-webpack5',
     disableTelemetry: true,
+  },
+
+  docs: {
+    autodocs: true,
   },
 }
