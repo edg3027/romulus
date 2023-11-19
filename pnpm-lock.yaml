@@ -59,9 +59,6 @@ dependencies:
   iron-session:
     specifier: ^6.2.0
     version: 6.3.1(next@12.2.5)
-  jotai:
-    specifier: ^1.8.0
-    version: 1.13.1(@babel/core@7.20.12)(react@18.2.0)
   ky:
     specifier: ^0.31.1
     version: 0.31.4
@@ -12707,53 +12704,6 @@ packages:
       merge-stream: 2.0.0
       supports-color: 8.1.1
     dev: true
-
-  /jotai@1.13.1(@babel/core@7.20.12)(react@18.2.0):
-    resolution:
-      {
-        integrity: sha512-RUmH1S4vLsG3V6fbGlKzGJnLrDcC/HNb5gH2AeA9DzuJknoVxSGvvg8OBB7lke+gDc4oXmdVsaKn/xDUhWZ0vw==,
-      }
-    engines: { node: '>=12.20.0' }
-    peerDependencies:
-      '@babel/core': '*'
-      '@babel/template': '*'
-      jotai-devtools: '*'
-      jotai-immer: '*'
-      jotai-optics: '*'
-      jotai-redux: '*'
-      jotai-tanstack-query: '*'
-      jotai-urql: '*'
-      jotai-valtio: '*'
-      jotai-xstate: '*'
-      jotai-zustand: '*'
-      react: '>=16.8'
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
-      '@babel/template':
-        optional: true
-      jotai-devtools:
-        optional: true
-      jotai-immer:
-        optional: true
-      jotai-optics:
-        optional: true
-      jotai-redux:
-        optional: true
-      jotai-tanstack-query:
-        optional: true
-      jotai-urql:
-        optional: true
-      jotai-valtio:
-        optional: true
-      jotai-xstate:
-        optional: true
-      jotai-zustand:
-        optional: true
-    dependencies:
-      '@babel/core': 7.20.12
-      react: 18.2.0
-    dev: false
 
   /js-sdsl@4.3.0:
     resolution:
