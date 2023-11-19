@@ -25,8 +25,9 @@ const defaultColumns = [
           pathname: '/genres',
           query: { id: props.row.original.treeGenreId.toString() },
         }}
+        className='text-primary-500 hover:underline'
       >
-        <a className='text-primary-500 hover:underline'>{props.getValue()}</a>
+        {props.getValue()}
       </Link>
     ),
   }),

@@ -58,10 +58,9 @@ const Tree: FC<{ topLevelGenres: TreeGenre[] }> = ({ topLevelGenres }) => {
                 <div>
                   <Link
                     href={{ pathname: '/genres', query: { view: 'create' } }}
+                    className='text-primary-500 hover:underline'
                   >
-                    <a className='text-primary-500 hover:underline'>
-                      Create one.
-                    </a>
+                    Create one.
                   </Link>
                 </div>
               )}

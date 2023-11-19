@@ -281,8 +281,9 @@ const GenreViewData: FC<{
                     pathname: '/accounts/[id]',
                     query: { id: id.toString() },
                   }}
+                  className='text-primary-500 hover:underline'
                 >
-                  <a className='text-primary-500 hover:underline'>{username}</a>
+                  {username}
                 </Link>
               </li>
             ))}

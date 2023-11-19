@@ -64,44 +64,41 @@ const GenreTreeNode: FC<{ genre: TreeGenre; path: number[] }> = ({
             pathname: '/genres',
             query: { id: id.toString() },
           }}
+          onClick={() => {
+            setSelectedId(id)
+            setSelectedPath(path)
+          }}
+          className={clsx(
+            'hover:font-bold',
+            isSelected ? 'font-bold text-primary-600' : 'text-gray-600'
+          )}
         >
-          <a
-            onClick={() => {
-              setSelectedId(id)
-              setSelectedPath(path)
-            }}
-            className={clsx(
-              'hover:font-bold',
-              isSelected ? 'font-bold text-primary-600' : 'text-gray-600'
-            )}
-          >
-            {name}
-            {subtitle && (
-              <>
-                {' '}
-                <span
-                  className={clsx(
-                    'text-sm',
-                    isSelected ? 'text-primary-500' : 'text-gray-500'
-                  )}
-                >
-                  [{subtitle}]
-                </span>
-              </>
-            )}
-            {showTypeTags && genre.type !== 'STYLE' && (
-              <>
-                {' '}
-                <GenreTypeChip type={genre.type} />
-              </>
-            )}
-            {showRelevanceTags && (
-              <>
-                {' '}
-                <RelevanceChip relevance={relevance} />
-              </>
-            )}
-          </a>
+          {name}
+          {subtitle && (
+            <>
+              {' '}
+              <span
+                className={clsx(
+                  'text-sm',
+                  isSelected ? 'text-primary-500' : 'text-gray-500'
+                )}
+              >
+                [{subtitle}]
+              </span>
+            </>
+          )}
+          {showTypeTags && genre.type !== 'STYLE' && (
+            <>
+              {' '}
+              <GenreTypeChip type={genre.type} />
+            </>
+          )}
+          {showRelevanceTags && (
+            <>
+              {' '}
+              <RelevanceChip relevance={relevance} />
+            </>
+          )}
         </Link>
       </div>
       {isExpanded && childGenres.length > 0 && (

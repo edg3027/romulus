@@ -57,12 +57,13 @@ const GenreNavigator: FC<{ className?: string }> = ({ className }) => {
       </div>
       {session.isLoggedIn && session.hasPermission(Permission.EDIT_GENRES) && (
         <div className='border-t p-1'>
-          <Link href={{ pathname: '/genres', query: { view: 'create' } }}>
-            <a className='w-full'>
-              <Button template='secondary' className='w-full'>
-                New Genre
-              </Button>
-            </a>
+          <Link
+            href={{ pathname: '/genres', query: { view: 'create' } }}
+            className='w-full'
+          >
+            <Button template='secondary' className='w-full'>
+              New Genre
+            </Button>
           </Link>
         </div>
       )}

@@ -163,10 +163,9 @@ const Table: FC<{ history: DefaultGenreHistory[] }> = ({ history }) => {
                 pathname: '/accounts/[id]',
                 query: { id: account.id.toString() },
               }}
+              className='text-primary-500 hover:underline'
             >
-              <a className='text-primary-500 hover:underline'>
-                {account.username}
-              </a>
+              {account.username}
             </Link>
           )
         },

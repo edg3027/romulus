@@ -49,10 +49,11 @@ const HasData: FC<{ matches: Match[] }> = ({ matches }) => {
           {session.isLoggedIn &&
             session.hasPermission(Permission.EDIT_GENRES) && (
               <div>
-                <Link href={{ pathname: '/genres', query: { view: 'create' } }}>
-                  <a className='text-primary-500 hover:underline'>
-                    Create one.
-                  </a>
+                <Link
+                  href={{ pathname: '/genres', query: { view: 'create' } }}
+                  className='text-primary-500 hover:underline'
+                >
+                  Create one.
                 </Link>
               </div>
             )}
@@ -69,31 +70,30 @@ const SearchResult: FC<{ match: Match; clearFilter: () => void }> = ({
   const { showTypeTags } = useGenreNavigatorSettings()
 
   return (
-    <Link href={{ pathname: '/genres', query: { id: genre.id.toString() } }}>
-      <a
-        className='block text-gray-700 hover:font-bold'
-        onClick={() => clearFilter()}
-      >
-        {genre.name}
-        {genre?.subtitle && (
-          <>
-            {' '}
-            <span className='text-sm text-gray-600'>[{genre.subtitle}]</span>
-          </>
-        )}
-        {matchedAka && (
-          <>
-            {' '}
-            <span className='text-sm'>({matchedAka})</span>
-          </>
-        )}
-        {showTypeTags && genre.type !== 'STYLE' && (
-          <>
-            {' '}
-            <GenreTypeChip type={genre.type} />
-          </>
-        )}
-      </a>
+    <Link
+      href={{ pathname: '/genres', query: { id: genre.id.toString() } }}
+      className='block text-gray-700 hover:font-bold'
+      onClick={() => clearFilter()}
+    >
+      {genre.name}
+      {genre?.subtitle && (
+        <>
+          {' '}
+          <span className='text-sm text-gray-600'>[{genre.subtitle}]</span>
+        </>
+      )}
+      {matchedAka && (
+        <>
+          {' '}
+          <span className='text-sm'>({matchedAka})</span>
+        </>
+      )}
+      {showTypeTags && genre.type !== 'STYLE' && (
+        <>
+          {' '}
+          <GenreTypeChip type={genre.type} />
+        </>
+      )}
     </Link>
   )
 }

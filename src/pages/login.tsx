@@ -71,8 +71,11 @@ const Login: NextPage = () => {
 
         <div className='mt-3 text-sm text-gray-700'>
           Need an account?{' '}
-          <Link href={{ pathname: '/register' }}>
-            <a className='text-primary-500 hover:underline'>Register.</a>
+          <Link
+            href={{ pathname: '/register' }}
+            className='text-primary-500 hover:underline'
+          >
+            Register.
           </Link>
         </div>
       </form>

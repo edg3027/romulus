@@ -1,7 +1,6 @@
 import { CrudOperation } from '@prisma/client'
 import { compareAsc } from 'date-fns'
 import Link, { LinkProps } from 'next/link'
-import { Query } from 'nextjs-routes'
 import { FC, ReactNode, useMemo } from 'react'
 
 import { useGenreHistoryQuery } from '../../services/genre-history'
@@ -14,7 +13,7 @@ export const useGenreLinkHref = (
   view?: GenrePageView['type'],
   autoFocus?: keyof GenreFormFields
 ) => {
-  const href: { pathname: '/genres'; query: Query } = useMemo(
+  const href = useMemo(
     () => ({
       pathname: '/genres',
       query: {
@@ -44,8 +43,8 @@ const GenreLink: FC<
 
   if (genreQuery.data) {
     return (
-      <Link href={href} {...props}>
-        <a className={className}>{children ?? genreQuery.data.name}</a>
+      <Link href={href} {...props} className={className}>
+        {children ?? genreQuery.data.name}
       </Link>
     )
   }
@@ -62,15 +61,15 @@ const GenreLink: FC<
         {children}
       </DeletedLinkWrapper>
     ) : (
-      <Link href={href} {...props}>
-        <a className={className}>{children ?? 'Error'}</a>
+      <Link href={href} {...props} className={className}>
+        {children ?? 'Error'}
       </Link>
     )
   }
 
   return (
-    <Link href={href} {...props}>
-      <a className={className}>{children ?? 'Loading...'}</a>
+    <Link href={href} {...props} className={className}>
+      {children ?? 'Loading...'}
     </Link>
   )
 }
@@ -121,27 +120,27 @@ const DeletedLinkWrapper: FC<
 
   if (historyQuery.data) {
     return genre ? (
-      <Link href={historyHref} {...props}>
-        <a className={className}>{children ?? `${genre.name} (Deleted)`}</a>
+      <Link href={historyHref} {...props} className={className}>
+        {children ?? `${genre.name} (Deleted)`}
       </Link>
     ) : (
-      <Link href={defaultHref} {...props}>
-        <a className={className}>{children ?? 'Deleted'}</a>
+      <Link href={defaultHref} {...props} className={className}>
+        {children ?? 'Deleted'}
       </Link>
     )
   }
 
   if (historyQuery.error) {
     return (
-      <Link href={defaultHref} {...props}>
-        <a className={className}>{children ?? 'Error'}</a>
+      <Link href={defaultHref} {...props} className={className}>
+        {children ?? 'Error'}
       </Link>
     )
   }
 
   return (
-    <Link href={defaultHref} {...props}>
-      <a className={className}>{children ?? 'Loading...'}</a>
+    <Link href={defaultHref} {...props} className={className}>
+      {children ?? 'Loading...'}
     </Link>
   )
 }

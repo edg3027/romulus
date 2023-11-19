@@ -79,18 +79,15 @@ const defaultColumns = [
       return (
         <Link
           href={{ pathname: '/genres', query: { id: genre.id.toString() } }}
+          className='block text-gray-700 hover:font-bold'
         >
-          <a className='block text-gray-700 hover:font-bold'>
-            {genre.name}
-            {genre?.subtitle && (
-              <>
-                {' '}
-                <span className='text-sm text-gray-600'>
-                  [{genre.subtitle}]
-                </span>
-              </>
-            )}
-          </a>
+          {genre.name}
+          {genre?.subtitle && (
+            <>
+              {' '}
+              <span className='text-sm text-gray-600'>[{genre.subtitle}]</span>
+            </>
+          )}
         </Link>
       )
     },
