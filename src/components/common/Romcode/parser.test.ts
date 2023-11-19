@@ -1,4 +1,4 @@
-import assert from 'node:assert'
+import { assert, describe, expect, test } from 'vitest'
 
 import { parser } from './parser'
 
