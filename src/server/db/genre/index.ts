@@ -1,6 +1,6 @@
 import { CrudOperation } from '@prisma/client'
 import { TRPCError } from '@trpc/server'
-import { compareTwoStrings } from 'string-similarity'
+import { distance } from 'fastest-levenshtein'
 
 import { toAscii } from '../../../utils/string'
 import { prisma } from '../../prisma'
@@ -114,7 +114,7 @@ const getMatchWeight = (name: string, filter: string) => {
     }
   }
 
-  return compareTwoStrings(fName, fFilter)
+  return distance(fName, fFilter)
 }
 
 export const getGenre = async (id: number): Promise<DefaultGenre> => {
