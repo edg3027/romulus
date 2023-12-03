@@ -33,20 +33,24 @@ const genreTreeRouter = router({
 })
 
 export const genreRouter = router({
-  history: genreHistoryRouter,
-  relevance: genreRelevanceRouter,
+  tree: genreTreeRouter,
+
+  /* Create */
   add: publicProcedure
     .input(CreateGenreInput)
     .mutation(async ({ input, ctx }) => {
       const { account } = requirePermission(ctx, Permission.EDIT_GENRES)
       return createGenre(input, account.id)
     }),
+
+  /* Read */
+  history: genreHistoryRouter,
+  relevance: genreRelevanceRouter,
   paginated: publicProcedure
     .input(z.object({ page: z.number(), size: z.number(), sort: Sort.array() }))
     .query(async ({ input: { page, size, sort } }) =>
       getPaginatedGenres(page, size > 100 ? 100 : size, sort)
     ),
-  tree: genreTreeRouter,
   byId: publicProcedure
     .input(z.object({ id: z.number() }))
     .query(async ({ input: { id } }) => getGenre(id)),
@@ -56,12 +60,16 @@ export const genreRouter = router({
   searchSimple: publicProcedure
     .input(z.object({ query: z.string() }))
     .query(async ({ input: { query } }) => searchSimpleGenres(query)),
+
+  /* Update */
   edit: publicProcedure
     .input(EditGenreInput)
     .mutation(async ({ input, ctx }) => {
       const { account } = requirePermission(ctx, Permission.EDIT_GENRES)
       return editGenre(input, account.id)
     }),
+
+  /* Delete */
   delete: publicProcedure
     .input(DeleteGenreInput)
     .mutation(async ({ input: { id }, ctx }) => {
