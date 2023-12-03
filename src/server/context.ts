@@ -1,7 +1,9 @@
 import * as trpcNext from '@trpc/server/adapters/next'
+import { getIronSession } from 'iron-session'
 
 import { getAccountById } from './db/account'
 import { DefaultAccount } from './db/account/outputs'
+import { sessionConfig } from './session'
 
 export type Context = {
   account: DefaultAccount | null
@@ -10,10 +12,12 @@ export type Context = {
 export async function createContext(
   opts: trpcNext.CreateNextContextOptions
 ): Promise<Context> {
-  const accountId = opts.req.session.accountId
+  const session = await getIronSession(opts.req, opts.res, sessionConfig)
 
   const account =
-    accountId !== undefined ? await getAccountById(accountId) : null
+    session.accountId !== undefined
+      ? await getAccountById(session.accountId)
+      : null
 
   return { account }
 }
