@@ -22,27 +22,6 @@ export const useSimpleGenresQuery = () => {
   })
 }
 
-export const useTopLevelTreeGenresQuery = () => {
-  return trpc.genre.tree.topLevel.useQuery(undefined, {
-    staleTime: ONE_MINUTE,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    showToast: false,
-  })
-}
-
-export const useTreeGenreChildrenQuery = (genreId: number) => {
-  return trpc.genre.tree.children.useQuery(
-    { id: genreId },
-    {
-      staleTime: ONE_MINUTE,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      showToast: false,
-    }
-  )
-}
-
 export const useTreeStructureMapQuery = () => {
   return trpc.genre.tree.structure.useQuery(undefined, {
     select: (data: TreeStructure[]): Map<number, TreeStructure> =>

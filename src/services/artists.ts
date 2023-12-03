@@ -15,17 +15,6 @@ export const useAddArtistMutation = () => {
   })
 }
 
-export const useEditArtistMutation = () => {
-  const utils = trpc.useContext()
-  return trpc.artist.edit.useMutation({
-    onSuccess: (data) =>
-      Promise.all([
-        utils.artist.all.invalidate(),
-        utils.artist.byId.setData({ id: data.id }, data),
-      ]),
-  })
-}
-
 export const useDeleteArtistMutation = () => {
   const utils = trpc.useContext()
   return trpc.artist.delete.useMutation({

@@ -13,21 +13,6 @@ export const useAccountQuery = (id?: number) =>
 export const useAccountByUsernameQuery = (username: string) =>
   trpc.account.byUsername.useQuery({ username })
 
-export const useAccountsQuery = () => {
-  const utils = trpc.useContext()
-  return trpc.account.all.useQuery(undefined, {
-    onSuccess: (data) => {
-      for (const account of data) {
-        utils.account.byId.setData({ id: account.id }, account)
-        utils.account.byUsername.setData(
-          { username: account.username },
-          account
-        )
-      }
-    },
-  })
-}
-
 export const useEditAccountMutation = () => {
   const utils = trpc.useContext()
   const session = useSession()

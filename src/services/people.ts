@@ -15,17 +15,6 @@ export const useAddPersonMutation = () => {
   })
 }
 
-export const useEditPersonMutation = () => {
-  const utils = trpc.useContext()
-  return trpc.person.edit.useMutation({
-    onSuccess: (data) =>
-      Promise.all([
-        utils.person.all.invalidate(),
-        utils.person.byId.setData({ id: data.id }, data),
-      ]),
-  })
-}
-
 export const useDeletePersonMutation = () => {
   const utils = trpc.useContext()
   return trpc.person.delete.useMutation({
