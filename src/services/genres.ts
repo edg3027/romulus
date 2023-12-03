@@ -15,8 +15,16 @@ export const usePaginatedGenresQuery = (
 }
 
 export const useSimpleGenresQuery = () => {
+  const utils = trpc.useContext()
   return trpc.genre.allSimple.useQuery(undefined, {
     staleTime: Number.POSITIVE_INFINITY,
+    onSuccess: (data) => {
+      void Promise.all(
+        data.map((genre) =>
+          utils.genre.byIdSimple.setData({ id: genre.id }, genre)
+        )
+      )
+    },
   })
 }
 
@@ -43,6 +51,7 @@ export const useSimpleGenreQuery = (
   trpc.genre.byIdSimple.useQuery(
     { id },
     {
+      staleTime: Number.POSITIVE_INFINITY,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       showToast: options.showToast,
