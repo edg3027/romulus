@@ -1,6 +1,10 @@
-import { TreeStructure } from '../server/db/genre/outputs'
-
 export const makeGenreTag = (id: number) => `[Genre${id}]`
+
+export type TreeStructureNode = {
+  id: number
+  parents: number[]
+  children: number[]
+}
 
 export type TreeSearchNode = {
   id: number
@@ -8,11 +12,11 @@ export type TreeSearchNode = {
 }
 
 export const treeDfs = (
-  tree: Map<number, TreeStructure>,
+  tree: Map<number, TreeStructureNode>,
   fn: (node: TreeSearchNode) => boolean
 ) => {
   const queue: TreeSearchNode[] = [...tree.values()]
-    .filter((g) => g.parentGenres.length === 0)
+    .filter((g) => g.parents.length === 0)
     .map((g) => ({
       id: g.id,
       path: [g.id],
@@ -28,9 +32,9 @@ export const treeDfs = (
       const currentGenre = tree.get(id)
       if (currentGenre) {
         queue.push(
-          ...currentGenre.childGenres.map((g) => ({
-            id: g.id,
-            path: [...path, g.id],
+          ...currentGenre.children.map((childId) => ({
+            id: childId,
+            path: [...path, childId],
           }))
         )
       }
@@ -40,11 +44,11 @@ export const treeDfs = (
 }
 
 export const treeBfs = (
-  tree: Map<number, TreeStructure>,
+  tree: Map<number, TreeStructureNode>,
   fn: (node: TreeSearchNode) => boolean
 ) => {
   const stack: TreeSearchNode[] = [...tree.values()]
-    .filter((g) => g.parentGenres.length === 0)
+    .filter((g) => g.parents.length === 0)
     .map((g) => ({
       id: g.id,
       path: [g.id],
@@ -60,9 +64,9 @@ export const treeBfs = (
       const currentGenre = tree.get(id)
       if (currentGenre) {
         stack.push(
-          ...currentGenre.childGenres.map((g) => ({
-            id: g.id,
-            path: [...path, g.id],
+          ...currentGenre.children.map((childId) => ({
+            id: childId,
+            path: [...path, childId],
           }))
         )
       }

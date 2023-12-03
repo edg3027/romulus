@@ -35,30 +35,6 @@ export type SimpleGenre = Prisma.GenreGetPayload<{
   select: typeof simpleGenreSelect
 }>
 
-export const treeGenreSelect = Prisma.validator<Prisma.GenreSelect>()({
-  id: true,
-  name: true,
-  subtitle: true,
-  type: true,
-  akas: true,
-  relevance: true,
-  parentGenres: { select: { id: true } },
-  childGenres: { select: { id: true, name: true } },
-  influencedByGenres: { select: { id: true } },
-})
-export type TreeGenre = Prisma.GenreGetPayload<{
-  select: typeof treeGenreSelect
-}>
-
-export const treeStructureSelect = Prisma.validator<Prisma.GenreSelect>()({
-  id: true,
-  parentGenres: { select: { id: true } },
-  childGenres: { select: { id: true } },
-})
-export type TreeStructure = Prisma.GenreGetPayload<{
-  select: typeof treeStructureSelect
-}>
-
 export type Match = {
   id: number
   genre: SimpleGenre

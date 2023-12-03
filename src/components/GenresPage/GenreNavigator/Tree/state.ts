@@ -2,8 +2,7 @@ import { equals } from 'ramda'
 import { useCallback, useMemo } from 'react'
 import { create } from 'zustand'
 
-import { SimpleGenre, TreeStructure } from '../../../../server/db/genre/outputs'
-import { useTreeStructureMapQuery } from '../../../../services/genres'
+import { SimpleGenre } from '../../../../server/db/genre/outputs'
 import { treeBfs } from '../../../../utils/genres'
 
 export type TreeGenre = Omit<SimpleGenre, 'parentGenres'> & {
@@ -77,29 +76,26 @@ type Source = 'ancestor' | 'pre-expanded' | 'new'
 export const usePathUpdater = ():
   | { path: number[]; source: Source }
   | undefined => {
-  const treeStructureQuery = useTreeStructureMapQuery()
+  const genres = useTreeState((state) => state.genres)
   const id = useTreeState((state) => state.selectedId)
   const selectedPath = useTreeState((state) => state.selectedPath)
   const expanded = useTreeState((state) => state.expanded)
 
-  type TreeMap = Map<number, TreeStructure>
-
   const isPathValid = useCallback(
-    (id: number, path: number[], tree: TreeMap) => {
+    (id: number, path: number[]) => {
       const existingNode = search(
-        tree,
+        genres,
         (node) => node.id === id && equals(node.path, path)
       )
 
       return existingNode !== undefined
     },
-    []
+    [genres]
   )
 
   const getExpandedPathToId = useCallback(
-    (id: number, tree: TreeMap) => {
-      const parents =
-        tree.get(id)?.parentGenres.map((parent) => parent.id) ?? []
+    (id: number) => {
+      const parents = genres.get(id)?.parents ?? []
 
       for (const path_ of expanded) {
         const path = path_.split('-').map((x) => Number.parseInt(x))
@@ -112,14 +108,11 @@ export const usePathUpdater = ():
         }
       }
     },
-    [expanded]
+    [expanded, genres]
   )
 
   const getNewPath = useCallback(
-    (
-      id: number,
-      tree: TreeMap
-    ): { path: number[]; source: Source } | undefined => {
+    (id: number): { path: number[]; source: Source } | undefined => {
       // try to use an ancestor path
       if (selectedPath) {
         const indexOfId = selectedPath.indexOf(id)
@@ -137,32 +130,32 @@ export const usePathUpdater = ():
       }
 
       // otherwise, get a pre-expanded path to this id
-      const preExpandedPath = getExpandedPathToId(id, tree)
+      const preExpandedPath = getExpandedPathToId(id)
       if (preExpandedPath) {
         return { path: preExpandedPath, source: 'pre-expanded' }
       }
 
       // otherwise, search for a brand new path
-      const node = search(tree, (node) => node.id === id)
+      const node = search(genres, (node) => node.id === id)
       if (node) {
         return { path: node.path, source: 'new' }
       }
     },
-    [getExpandedPathToId, selectedPath]
+    [genres, getExpandedPathToId, selectedPath]
   )
 
   const p = useMemo(() => {
-    if (!id || !treeStructureQuery.data) {
+    if (!id) {
       return
     }
 
     if (selectedPath) {
-      const pathValid = isPathValid(id, selectedPath, treeStructureQuery.data)
-      return pathValid ? undefined : getNewPath(id, treeStructureQuery.data)
+      const pathValid = isPathValid(id, selectedPath)
+      return pathValid ? undefined : getNewPath(id)
     } else {
-      return getNewPath(id, treeStructureQuery.data)
+      return getNewPath(id)
     }
-  }, [getNewPath, id, isPathValid, selectedPath, treeStructureQuery.data])
+  }, [getNewPath, id, isPathValid, selectedPath])
 
   return p
 }

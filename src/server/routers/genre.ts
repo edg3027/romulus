@@ -9,9 +9,6 @@ import {
   getPaginatedGenres,
   getSimpleGenre,
   getSimpleGenres,
-  getTopLevelTreeGenres,
-  getTreeGenreChildren,
-  getTreeStructure,
   searchSimpleGenres,
 } from '../db/genre'
 import {
@@ -25,17 +22,7 @@ import { publicProcedure, router } from '../trpc'
 import { genreHistoryRouter } from './genre-history'
 import { genreRelevanceRouter } from './genre-relevance'
 
-const genreTreeRouter = router({
-  topLevel: publicProcedure.query(() => getTopLevelTreeGenres()),
-  children: publicProcedure
-    .input(z.object({ id: z.number() }))
-    .query(async ({ input: { id } }) => getTreeGenreChildren(id)),
-  structure: publicProcedure.query(() => getTreeStructure()),
-})
-
 export const genreRouter = router({
-  tree: genreTreeRouter,
-
   /* Create */
   add: publicProcedure
     .input(CreateGenreInput)

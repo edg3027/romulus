@@ -1,6 +1,4 @@
 import { Sort } from '../server/db/genre/inputs'
-import { TreeStructure } from '../server/db/genre/outputs'
-import { ONE_MINUTE } from '../utils/datetime'
 import { trpc } from '../utils/trpc'
 
 export const usePaginatedGenresQuery = (
@@ -19,14 +17,6 @@ export const usePaginatedGenresQuery = (
 export const useSimpleGenresQuery = () => {
   return trpc.genre.allSimple.useQuery(undefined, {
     staleTime: Number.POSITIVE_INFINITY,
-  })
-}
-
-export const useTreeStructureMapQuery = () => {
-  return trpc.genre.tree.structure.useQuery(undefined, {
-    select: (data: TreeStructure[]): Map<number, TreeStructure> =>
-      new Map(data.map((genre) => [genre.id, genre])),
-    staleTime: ONE_MINUTE,
   })
 }
 
@@ -67,9 +57,6 @@ export const useAddGenreMutation = () => {
       utils.genre.byIdSimple.setData({ id: data.id }, data)
       await Promise.all([
         utils.genre.paginated.invalidate(),
-        utils.genre.tree.topLevel.invalidate(),
-        utils.genre.tree.children.invalidate(),
-        utils.genre.tree.structure.invalidate(),
         utils.genre.searchSimple.invalidate(),
         utils.genre.history.byGenreId.invalidate(),
         utils.genre.history.byUserId.invalidate(),
@@ -87,9 +74,6 @@ export const useEditGenreMutation = () => {
       utils.genre.byIdSimple.setData({ id: data.id }, data)
       await Promise.all([
         utils.genre.paginated.invalidate(),
-        utils.genre.tree.topLevel.invalidate(),
-        utils.genre.tree.children.invalidate(),
-        utils.genre.tree.structure.invalidate(),
         utils.genre.searchSimple.invalidate(),
         utils.genre.history.byGenreId.invalidate(),
         utils.genre.history.byUserId.invalidate(),
@@ -105,9 +89,6 @@ export const useDeleteGenreMutation = () => {
     onSuccess: async (data, { id }) => {
       await Promise.all([
         utils.genre.paginated.invalidate(),
-        utils.genre.tree.topLevel.invalidate(),
-        utils.genre.tree.children.invalidate(),
-        utils.genre.tree.structure.invalidate(),
         utils.genre.searchSimple.invalidate(),
         utils.genre.history.byGenreId.invalidate({ id }),
         utils.genre.history.byUserId.invalidate(),

@@ -13,8 +13,6 @@ import {
   Match,
   SimpleGenre,
   simpleGenreSelect,
-  treeGenreSelect,
-  treeStructureSelect,
 } from './outputs'
 import { didChange, throwOnCycle } from './utils'
 
@@ -40,23 +38,6 @@ export const getPaginatedGenres = async (
     total: result[0],
   }
 }
-
-export const getTopLevelTreeGenres = () =>
-  prisma.genre.findMany({
-    where: { parentGenres: { none: {} } },
-    orderBy: { name: 'asc' },
-    select: treeGenreSelect,
-  })
-
-export const getTreeGenreChildren = (genreId: number) =>
-  prisma.genre.findMany({
-    where: { parentGenres: { some: { id: genreId } } },
-    orderBy: { name: 'asc' },
-    select: treeGenreSelect,
-  })
-
-export const getTreeStructure = () =>
-  prisma.genre.findMany({ select: treeStructureSelect })
 
 export const getSimpleGenres = async () =>
   prisma.genre.findMany({ select: simpleGenreSelect })
