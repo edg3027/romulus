@@ -58,6 +58,9 @@ export const getTreeGenreChildren = (genreId: number) =>
 export const getTreeStructure = () =>
   prisma.genre.findMany({ select: treeStructureSelect })
 
+export const getSimpleGenres = async () =>
+  prisma.genre.findMany({ select: simpleGenreSelect })
+
 export const searchSimpleGenres = async (query: string) => {
   const allGenres = await prisma.genre.findMany({ select: simpleGenreSelect })
 

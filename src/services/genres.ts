@@ -16,6 +16,12 @@ export const usePaginatedGenresQuery = (
   )
 }
 
+export const useSimpleGenresQuery = () => {
+  return trpc.genre.allSimple.useQuery(undefined, {
+    staleTime: Number.POSITIVE_INFINITY,
+  })
+}
+
 export const useTopLevelTreeGenresQuery = () => {
   return trpc.genre.tree.topLevel.useQuery(undefined, {
     staleTime: ONE_MINUTE,

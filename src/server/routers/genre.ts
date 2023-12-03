@@ -8,6 +8,7 @@ import {
   getGenre,
   getPaginatedGenres,
   getSimpleGenre,
+  getSimpleGenres,
   getTopLevelTreeGenres,
   getTreeGenreChildren,
   getTreeStructure,
@@ -60,6 +61,7 @@ export const genreRouter = router({
   searchSimple: publicProcedure
     .input(z.object({ query: z.string() }))
     .query(async ({ input: { query } }) => searchSimpleGenres(query)),
+  allSimple: publicProcedure.query(() => getSimpleGenres()),
 
   /* Update */
   edit: publicProcedure

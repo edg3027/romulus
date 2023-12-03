@@ -1,24 +1,24 @@
 import { Permission } from '@prisma/client'
 import Link from 'next/link'
-import { FC, useState } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 
-import { TreeGenre } from '../../../../server/db/genre/outputs'
+import { SimpleGenre } from '../../../../server/db/genre/outputs'
 import { useSession } from '../../../../services/auth'
-import { useTopLevelTreeGenresQuery } from '../../../../services/genres'
+import { useSimpleGenresQuery } from '../../../../services/genres'
 import Button from '../../../common/Button'
 import { CenteredLoader } from '../../../common/Loader'
-import { useTreeState } from './state'
+import { TreeGenre, useTreeState } from './state'
 import GenreTreeNode from './TreeNode'
 import { GenreTreeRefProvider } from './useGenreTreeRef'
 
 const GenreTree: FC = () => {
-  const topLevelGenresQuery = useTopLevelTreeGenresQuery()
+  const genres = useSimpleGenresQuery()
 
-  if (topLevelGenresQuery.data) {
-    return <Tree topLevelGenres={topLevelGenresQuery.data} />
+  if (genres.data) {
+    return <Tree genres={genres.data} />
   }
 
-  if (topLevelGenresQuery.error) {
+  if (genres.error) {
     return (
       <div className='flex h-full w-full items-center justify-center text-error-600'>
         Error fetching genres :(
@@ -29,7 +29,7 @@ const GenreTree: FC = () => {
   return <CenteredLoader />
 }
 
-const Tree: FC<{ topLevelGenres: TreeGenre[] }> = ({ topLevelGenres }) => {
+const Tree: FC<{ genres: SimpleGenre[] }> = ({ genres }) => {
   const session = useSession()
   const [ref, setRef] = useState<HTMLDivElement | null>(null)
 
@@ -39,6 +39,34 @@ const Tree: FC<{ topLevelGenres: TreeGenre[] }> = ({ topLevelGenres }) => {
 
   const collapseAll = useTreeState((state) => state.collapseAll)
 
+  const genresMap = useMemo(() => {
+    const map = new Map<number, TreeGenre>(
+      genres.map(({ parentGenres, ...genre }) => [
+        genre.id,
+        { ...genre, parents: parentGenres.map((pg) => pg.id), children: [] },
+      ])
+    )
+
+    for (const genre of genres) {
+      for (const parent of genre.parentGenres) {
+        const parentGenre = map.get(parent.id)
+        if (parentGenre) {
+          parentGenre.children.push(genre.id)
+        }
+      }
+    }
+
+    return map
+  }, [genres])
+
+  const topLevelGenres = useMemo(
+    () => genres.filter((genre) => genre.parentGenres.length === 0),
+    [genres]
+  )
+
+  const setGenres = useTreeState((state) => state.setGenres)
+  useEffect(() => setGenres(genresMap), [genresMap, setGenres])
+
   return (
     <GenreTreeRefProvider treeEl={ref}>
       <div className='flex h-full w-full flex-col'>
@@ -46,7 +74,7 @@ const Tree: FC<{ topLevelGenres: TreeGenre[] }> = ({ topLevelGenres }) => {
           <div ref={setRef} className='flex-1 overflow-auto p-4'>
             <ul>
               {topLevelGenres.map((genre) => (
-                <GenreTreeNode key={genre.id} genre={genre} path={[genre.id]} />
+                <GenreTreeNode key={genre.id} id={genre.id} path={[genre.id]} />
               ))}
             </ul>
           </div>

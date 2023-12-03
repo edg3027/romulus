@@ -2,11 +2,19 @@ import { equals } from 'ramda'
 import { useCallback, useMemo } from 'react'
 import { create } from 'zustand'
 
-import { TreeStructure } from '../../../../server/db/genre/outputs'
+import { SimpleGenre, TreeStructure } from '../../../../server/db/genre/outputs'
 import { useTreeStructureMapQuery } from '../../../../services/genres'
 import { treeBfs } from '../../../../utils/genres'
 
+export type TreeGenre = Omit<SimpleGenre, 'parentGenres'> & {
+  parents: number[]
+  children: number[]
+}
+
 interface TreeState {
+  genres: Map<number, TreeGenre>
+  setGenres: (genres: Map<number, TreeGenre>) => void
+
   selectedId: number | undefined
   setSelectedId: (id: number | undefined) => void
 
@@ -21,6 +29,9 @@ interface TreeState {
 }
 
 export const useTreeState = create<TreeState>()((set, get) => ({
+  genres: new Map(),
+  setGenres: (genres) => set({ genres }),
+
   selectedId: undefined,
   setSelectedId: (id) => set({ selectedId: id }),
 

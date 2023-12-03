@@ -4,23 +4,27 @@ import { equals } from 'ramda'
 import { FC, useEffect, useState } from 'react'
 import { RiArrowDownSLine, RiArrowRightSLine } from 'react-icons/ri'
 
-import { TreeGenre } from '../../../../server/db/genre/outputs'
-import { useTreeGenreChildrenQuery } from '../../../../services/genres'
 import { isFullyVisible } from '../../../../utils/dom'
 import IconButton from '../../../common/IconButton'
 import GenreTypeChip from '../../GenreTypeChip'
 import useGenreNavigatorSettings from '../useGenreNavigatorSettings'
 import RelevanceChip from './RelevanceChip'
-import { useTreeState } from './state'
+import { TreeGenre, useTreeState } from './state'
 import { useGenreTreeRef } from './useGenreTreeRef'
+
+const Wrapper: FC<{ id: number; path: number[] }> = ({ id, path }) => {
+  const genre = useTreeState((state) => state.genres.get(id))
+
+  if (!genre) return null
+
+  return <GenreTreeNode genre={genre} path={path} />
+}
 
 const GenreTreeNode: FC<{ genre: TreeGenre; path: number[] }> = ({
   genre,
   path,
 }) => {
-  const { id, childGenres, parentGenres, name, subtitle, relevance } = genre
-
-  const childrenQuery = useTreeGenreChildrenQuery(id)
+  const { id, children, parents, name, subtitle, relevance } = genre
 
   const setExpanded = useTreeState((state) => state.setExpanded)
   const isExpanded = useTreeState((state) => state.getExpanded(path))
@@ -44,16 +48,13 @@ const GenreTreeNode: FC<{ genre: TreeGenre; path: number[] }> = ({
   }, [isSelected, ref, treeRef])
 
   return (
-    <li
-      ref={setRef}
-      className={clsx(parentGenres.length > 0 && 'ml-4 border-l')}
-    >
+    <li ref={setRef} className={clsx(parents.length > 0 && 'ml-4 border-l')}>
       <div className='ml-1 flex space-x-1'>
         <IconButton
           size='sm'
           className={clsx(
             'text-gray-500',
-            childGenres.length === 0 && 'invisible'
+            children.length === 0 && 'invisible'
           )}
           onClick={() => setExpanded(path, !isExpanded)}
         >
@@ -101,26 +102,22 @@ const GenreTreeNode: FC<{ genre: TreeGenre; path: number[] }> = ({
           )}
         </Link>
       </div>
-      {isExpanded && childGenres.length > 0 && (
+      {isExpanded && children.length > 0 && (
         <ul>
-          {childrenQuery.data ? (
-            childrenQuery.data.map((node) => {
-              const p = [...path, node.id]
-              return <GenreTreeNode key={p.join('-')} genre={node} path={p} />
-            })
-          ) : childrenQuery.error ? (
-            <li className='ml-4 border-l pl-[34px] text-error-600'>
-              Error fetching children
-            </li>
-          ) : (
-            <li className='ml-4 border-l pl-[34px] text-gray-600'>
-              Loading...
-            </li>
-          )}
+          {children.map((childId) => {
+            const childPath = [...path, childId]
+            return (
+              <Wrapper
+                key={childPath.join('-')}
+                id={childId}
+                path={childPath}
+              />
+            )
+          })}
         </ul>
       )}
     </li>
   )
 }
 
-export default GenreTreeNode
+export default Wrapper
