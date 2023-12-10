@@ -94,30 +94,6 @@ export const trpcNext = createTRPCNext<AppRouter, SSRContext>({
       }),
     ],
   }),
-  responseMeta(opts) {
-    const ctx = opts.ctx as SSRContext
-
-    if (ctx.status) {
-      // If HTTP status set, propagate that
-      return {
-        status: ctx.status,
-      }
-    }
-
-    const error = opts.clientErrors[0]
-    if (error) {
-      // Propagate http first error from API calls
-      return {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-        status: error.data?.httpStatus ?? 500,
-      }
-    }
-
-    // for app caching with SSR see https://trpc.io/docs/caching
-
-    return {}
-  },
-  ssr: true,
 })
 
 /**
