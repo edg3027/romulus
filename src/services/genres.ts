@@ -15,7 +15,7 @@ export const usePaginatedGenresQuery = (
 }
 
 export const useSimpleGenresQuery = () => {
-  const utils = trpc.useContext()
+  const utils = trpc.useUtils()
   return trpc.genre.allSimple.useQuery(undefined, {
     staleTime: Number.POSITIVE_INFINITY,
     onSuccess: (data) => {
@@ -33,7 +33,7 @@ export const useSimpleGenreSearchQuery = (query: string) => {
 }
 
 export const useGenreQuery = (id: number) => {
-  const utils = trpc.useContext()
+  const utils = trpc.useUtils()
   return trpc.genre.byId.useQuery(
     { id },
     {
@@ -59,7 +59,7 @@ export const useSimpleGenreQuery = (
   )
 
 export const useAddGenreMutation = () => {
-  const utils = trpc.useContext()
+  const utils = trpc.useUtils()
   return trpc.genre.add.useMutation({
     onSuccess: async (data) => {
       utils.genre.byId.setData({ id: data.id }, data)
@@ -77,7 +77,7 @@ export const useAddGenreMutation = () => {
 }
 
 export const useEditGenreMutation = () => {
-  const utils = trpc.useContext()
+  const utils = trpc.useUtils()
   return trpc.genre.edit.useMutation({
     onSuccess: async (data) => {
       utils.genre.byId.setData({ id: data.id }, data)
@@ -95,7 +95,7 @@ export const useEditGenreMutation = () => {
 }
 
 export const useDeleteGenreMutation = () => {
-  const utils = trpc.useContext()
+  const utils = trpc.useUtils()
   return trpc.genre.delete.useMutation({
     onSuccess: async (data, { id }) => {
       await Promise.all([

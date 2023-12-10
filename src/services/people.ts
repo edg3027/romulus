@@ -5,7 +5,7 @@ export const usePeopleQuery = () => trpc.person.all.useQuery()
 export const usePersonQuery = (id: number) => trpc.person.byId.useQuery({ id })
 
 export const useAddPersonMutation = () => {
-  const utils = trpc.useContext()
+  const utils = trpc.useUtils()
   return trpc.person.add.useMutation({
     onSuccess: (data) =>
       Promise.all([
@@ -16,7 +16,7 @@ export const useAddPersonMutation = () => {
 }
 
 export const useDeletePersonMutation = () => {
-  const utils = trpc.useContext()
+  const utils = trpc.useUtils()
   return trpc.person.delete.useMutation({
     onSuccess: (data) =>
       Promise.all([

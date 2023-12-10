@@ -7,7 +7,7 @@ export const useGenreRelevanceVoteQuery = (genreId: number) =>
   trpc.genre.relevance.byGenreIdForAccount.useQuery({ id: genreId })
 
 export const useGenreRelevanceVoteMutation = () => {
-  const utils = trpc.useContext()
+  const utils = trpc.useUtils()
   return trpc.genre.relevance.vote.useMutation({
     onSuccess: async (data, { genreId }) => {
       utils.genre.relevance.byGenreIdForAccount.setData({ id: genreId }, data)
@@ -23,7 +23,7 @@ export const useGenreRelevanceVoteMutation = () => {
 }
 
 export const useDeleteGenreRelevanceVoteMutation = () => {
-  const utils = trpc.useContext()
+  const utils = trpc.useUtils()
   return trpc.genre.relevance.delete.useMutation({
     onSuccess: async (data, { genreId }) => {
       utils.genre.relevance.byGenreIdForAccount.setData({ id: genreId }, null)

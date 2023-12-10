@@ -14,7 +14,7 @@ export const useAccountByUsernameQuery = (username: string) =>
   trpc.account.byUsername.useQuery({ username })
 
 export const useEditAccountMutation = () => {
-  const utils = trpc.useContext()
+  const utils = trpc.useUtils()
   const session = useSession()
 
   return trpc.account.edit.useMutation({

@@ -38,7 +38,7 @@ export const useSession = () => {
 }
 
 export const useLoginMutation = () => {
-  const utils = trpc.useContext()
+  const utils = trpc.useUtils()
   return useMutation(
     ({ username, password }: { username: string; password: string }) =>
       ky.post('/api/login', { json: { username, password } }),
@@ -51,7 +51,7 @@ export const useLoginMutation = () => {
 }
 
 export const useRegisterMutation = () => {
-  const utils = trpc.useContext()
+  const utils = trpc.useUtils()
   return useMutation(
     ({ username, password }: { username: string; password: string }) =>
       ky.post('/api/register', { json: { username, password } }),
@@ -64,7 +64,7 @@ export const useRegisterMutation = () => {
 }
 
 export const useLogoutMutation = () => {
-  const utils = trpc.useContext()
+  const utils = trpc.useUtils()
   return useMutation(() => ky.post('/api/logout'), {
     onSuccess: async () => {
       await utils.auth.whoami.invalidate()
