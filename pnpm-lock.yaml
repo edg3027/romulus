@@ -41,9 +41,6 @@ dependencies:
   clsx:
     specifier: ^1.2.1
     version: 1.2.1
-  cookies:
-    specifier: ^0.8.0
-    version: 0.8.0
   date-fns:
     specifier: ^2.30.0
     version: 2.30.0
@@ -133,9 +130,6 @@ devDependencies:
   '@types/bcrypt':
     specifier: ^5.0.2
     version: 5.0.2
-  '@types/cookies':
-    specifier: ^0.7.7
-    version: 0.7.7
   '@types/node':
     specifier: 18.7.3
     version: 18.7.3
@@ -5432,16 +5426,6 @@ packages:
       '@types/node': 18.7.3
     dev: true
 
-  /@types/body-parser@1.19.2:
-    resolution:
-      {
-        integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==,
-      }
-    dependencies:
-      '@types/connect': 3.4.35
-      '@types/node': 18.11.18
-    dev: true
-
   /@types/body-parser@1.19.5:
     resolution:
       {
@@ -5468,15 +5452,6 @@ packages:
       }
     dev: true
 
-  /@types/connect@3.4.35:
-    resolution:
-      {
-        integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==,
-      }
-    dependencies:
-      '@types/node': 18.11.18
-    dev: true
-
   /@types/connect@3.4.38:
     resolution:
       {
@@ -5484,18 +5459,6 @@ packages:
       }
     dependencies:
       '@types/node': 18.7.3
-    dev: true
-
-  /@types/cookies@0.7.7:
-    resolution:
-      {
-        integrity: sha512-h7BcvPUogWbKCzBR2lY4oqaZbO3jXZksexYJVFvkrFeLgbZjQkU4x8pRq6eg2MHXQhY0McQdqmmsxRWlVAHooA==,
-      }
-    dependencies:
-      '@types/connect': 3.4.35
-      '@types/express': 4.17.16
-      '@types/keygrip': 1.0.2
-      '@types/node': 18.11.18
     dev: true
 
   /@types/cross-spawn@6.0.6:
@@ -5583,17 +5546,6 @@ packages:
       }
     dev: true
 
-  /@types/express-serve-static-core@4.17.33:
-    resolution:
-      {
-        integrity: sha512-TPBqmR/HRYI3eC2E5hmiivIzv+bidAfXofM+sbonAGvyDhySGw9/PQZFt2BLOrjUUR++4eJVpx6KnLQK1Fk9tA==,
-      }
-    dependencies:
-      '@types/node': 18.11.18
-      '@types/qs': 6.9.7
-      '@types/range-parser': 1.2.4
-    dev: true
-
   /@types/express-serve-static-core@4.17.41:
     resolution:
       {
@@ -5604,18 +5556,6 @@ packages:
       '@types/qs': 6.9.10
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
-    dev: true
-
-  /@types/express@4.17.16:
-    resolution:
-      {
-        integrity: sha512-LkKpqRZ7zqXJuvoELakaFYuETHjZkSol8EV6cNnyishutDBCCdv6+dsKPbKkCcIk57qRphOLY5sEgClw1bO3gA==,
-      }
-    dependencies:
-      '@types/body-parser': 1.19.2
-      '@types/express-serve-static-core': 4.17.33
-      '@types/qs': 6.9.7
-      '@types/serve-static': 1.15.0
     dev: true
 
   /@types/express@4.17.21:
@@ -5699,13 +5639,6 @@ packages:
       }
     dev: true
 
-  /@types/keygrip@1.0.2:
-    resolution:
-      {
-        integrity: sha512-GJhpTepz2udxGexqos8wgaBx4I/zWIDPh/KOGEwAqtuGDkOUJu5eFvwmdBX4AmB8Odsr+9pHCQqiAqDL/yKMKw==,
-      }
-    dev: true
-
   /@types/lodash@4.14.202:
     resolution:
       {
@@ -5734,13 +5667,6 @@ packages:
       }
     dev: true
 
-  /@types/mime@3.0.1:
-    resolution:
-      {
-        integrity: sha512-Y4XFY5VJAuw0FgAqPNd6NNoV44jbq9Bz2L7Rh/J6jLTiHBSBJa9fxqQIvkIld4GsoDOcCbvzOUAbLPsSKKg+uA==,
-      }
-    dev: true
-
   /@types/mime@3.0.4:
     resolution:
       {
@@ -5756,13 +5682,6 @@ packages:
     dependencies:
       '@types/node': 18.7.3
       form-data: 4.0.0
-    dev: true
-
-  /@types/node@18.11.18:
-    resolution:
-      {
-        integrity: sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==,
-      }
     dev: true
 
   /@types/node@18.7.3:
@@ -5806,13 +5725,6 @@ packages:
       }
     dev: true
 
-  /@types/qs@6.9.7:
-    resolution:
-      {
-        integrity: sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==,
-      }
-    dev: true
-
   /@types/ramda@0.28.22:
     resolution:
       {
@@ -5820,13 +5732,6 @@ packages:
       }
     dependencies:
       ts-toolbelt: 6.15.5
-    dev: true
-
-  /@types/range-parser@1.2.4:
-    resolution:
-      {
-        integrity: sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==,
-      }
     dev: true
 
   /@types/range-parser@1.2.7:
@@ -5890,16 +5795,6 @@ packages:
     dependencies:
       '@types/mime': 1.3.5
       '@types/node': 18.7.3
-    dev: true
-
-  /@types/serve-static@1.15.0:
-    resolution:
-      {
-        integrity: sha512-z5xyF6uh8CbjAu9760KDKsH2FcDxZ2tFCsA4HIMWE6IkiYMXfVoa+4f9KX+FN0ZLsaMw1WNG2ETLA6N+/YA+cg==,
-      }
-    dependencies:
-      '@types/mime': 3.0.1
-      '@types/node': 18.11.18
     dev: true
 
   /@types/serve-static@1.15.5:
@@ -8071,17 +7966,6 @@ packages:
     engines: { node: '>= 0.6' }
     dev: false
 
-  /cookies@0.8.0:
-    resolution:
-      {
-        integrity: sha512-8aPsApQfebXnuI+537McwYsDtjVxGm8gTIzQI3FDW6t5t/DAhERxtnbEPN/8RX+uZthoz4eCOgloXaE5cYyNow==,
-      }
-    engines: { node: '>= 0.8' }
-    dependencies:
-      depd: 2.0.0
-      keygrip: 1.1.0
-    dev: false
-
   /copy-anything@3.0.3:
     resolution:
       {
@@ -8509,6 +8393,7 @@ packages:
         integrity: sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==,
       }
     engines: { node: '>= 0.8' }
+    dev: true
 
   /dequal@2.0.3:
     resolution:
@@ -11622,16 +11507,6 @@ packages:
       object.assign: 4.1.5
       object.values: 1.1.7
     dev: true
-
-  /keygrip@1.1.0:
-    resolution:
-      {
-        integrity: sha512-iYSchDJ+liQ8iwbSI2QqsQOvqv58eJCEanyJPJi+Khyu8smkcKSFUCbPwzFcL7YVtZ6eONjqRX/38caJ7QjRAQ==,
-      }
-    engines: { node: '>= 0.6' }
-    dependencies:
-      tsscmp: 1.0.6
-    dev: false
 
   /keyv@4.5.4:
     resolution:
@@ -15967,14 +15842,6 @@ packages:
       {
         integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==,
       }
-
-  /tsscmp@1.0.6:
-    resolution:
-      {
-        integrity: sha512-LxhtAkPDTkVCMQjt2h6eBVY28KCjikZqZfMcC15YBeNjkgUpdCfBu5HoiOTDu86v6smE8yOjyEktJ8hlbANHQA==,
-      }
-    engines: { node: '>=0.6.x' }
-    dev: false
 
   /tsutils@3.21.0(typescript@5.3.3):
     resolution:
