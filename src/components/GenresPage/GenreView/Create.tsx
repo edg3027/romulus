@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { FC, useCallback } from 'react'
 import toast from 'react-hot-toast'
 
@@ -22,10 +22,7 @@ export const GenreCreate: FC = () => {
         {
           onSuccess: (data) => {
             toast.success(`Created genre '${data.name}'`)
-            void router.push({
-              pathname: '/genres',
-              query: { id: data.id.toString() },
-            })
+            router.push(`/genres/${data.id}`)
           },
         }
       ),
@@ -35,7 +32,7 @@ export const GenreCreate: FC = () => {
   return (
     <GenreForm
       onSubmit={(data) => handleCreate(data)}
-      onClose={() => void router.push({ pathname: '/genres' })}
+      onClose={() => router.push('/genres')}
       isSubmitting={isLoading}
       isSubmitted={isSuccess}
     />

@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import Error from 'next/error'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
 import AccountPage from '../../components/AccountPage'
@@ -12,7 +12,7 @@ const Account: NextPage = () => {
   const router = useRouter()
   useEffect(() => {
     if (id === undefined) {
-      void router.push({ pathname: '/genres' })
+      router.push('/genres')
     }
   }, [id, router])
 

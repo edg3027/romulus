@@ -1,12 +1,12 @@
 import { NextPage } from 'next'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
 const Home: NextPage = () => {
   const router = useRouter()
 
   useEffect(() => {
-    void router.push({ pathname: '/genres' })
+    router.push('/genres')
   }, [router])
 
   return <div />

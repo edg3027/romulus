@@ -1,3 +1,5 @@
+'use client'
+
 import { FC, PropsWithChildren, useEffect, useMemo } from 'react'
 import { Toaster } from 'react-hot-toast'
 

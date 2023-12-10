@@ -64,6 +64,37 @@ export interface SSRContext extends NextPageContext {
   status?: number
 }
 
+export const getBaseTrpcUrl = () => {
+  if (isBrowser) {
+    return ''
+  }
+
+  // Digital Ocean
+  if (process.env.DIGITAL_OCEAN_URL) {
+    return `https://www.romulus.lol`
+  }
+
+  // Vercel
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`
+  }
+  if (process.env.NEXT_PUBLIC_VERCEL_URL) {
+    return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+  }
+
+  return 'http://localhost:3000'
+}
+
+export const trpcReact = trpc.createClient({
+  transformer: superjson,
+  links: [
+    httpBatchLink({
+      url: `${getBaseTrpcUrl()}/api/trpc`,
+      maxURLLength: 2083,
+    }),
+  ],
+})
+
 export const trpcNext = createTRPCNext<AppRouter, SSRContext>({
   config: ({ ctx }) => ({
     transformer: superjson,
@@ -156,24 +187,3 @@ export type InferSubscriptionOutput<TRouteKey extends TSubscription> =
  */
 export type InferSubscriptionInput<TRouteKey extends TSubscription> =
   inferProcedureInput<AppRouter['_def']['subscriptions'][TRouteKey]>
-
-export const getBaseTrpcUrl = () => {
-  if (isBrowser) {
-    return ''
-  }
-
-  // Digital Ocean
-  if (process.env.DIGITAL_OCEAN_URL) {
-    return `https://www.romulus.lol`
-  }
-
-  // Vercel
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`
-  }
-  if (process.env.NEXT_PUBLIC_VERCEL_URL) {
-    return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-  }
-
-  return 'http://localhost:3000'
-}

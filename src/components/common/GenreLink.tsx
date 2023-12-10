@@ -13,17 +13,12 @@ export const useGenreLinkHref = (
   view?: GenrePageView['type'],
   autoFocus?: keyof GenreFormFields
 ) => {
-  const href = useMemo(
-    () => ({
-      pathname: '/genres',
-      query: {
-        id: id.toString(),
-        ...(view ? { view } : {}),
-        ...(autoFocus ? { focus: autoFocus } : {}),
-      },
-    }),
-    [autoFocus, id, view]
-  )
+  const href = useMemo(() => {
+    let path = `/genres?id=${id}`
+    if (view) path += `&view=${view}`
+    if (autoFocus) path += `&focus=${autoFocus}`
+    return path
+  }, [autoFocus, id, view])
 
   return href
 }

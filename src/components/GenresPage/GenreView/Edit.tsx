@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { FC, useCallback } from 'react'
 import toast from 'react-hot-toast'
 
@@ -40,7 +40,7 @@ const HasData: FC<{
         {
           onSuccess: (data) => {
             toast.success(`Updated genre '${data.name}'`)
-            void router.push(href)
+            router.push(href)
           },
         }
       ),

@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { useCallback, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
@@ -23,7 +23,7 @@ const Register: NextPage = () => {
   const router = useRouter()
   useEffect(() => {
     if (session.isLoggedIn) {
-      void router.push({ pathname: '/genres' })
+      router.push('/genres')
     }
   }, [router, session.isLoggedIn])
 

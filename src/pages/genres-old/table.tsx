@@ -8,7 +8,7 @@ import {
 } from '@tanstack/react-table'
 import clsx from 'clsx'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { FC, useMemo, useState } from 'react'
 import { RiSortAsc, RiSortDesc } from 'react-icons/ri'
 
@@ -27,14 +27,12 @@ const GenresTable: FC = () => {
   const page = useIntRouteParam('page')
   const size = useIntRouteParam('size')
 
-  const router = useRouter()
+  const params = useSearchParams()
   const sort = useMemo(() => {
-    const rawValue = router.query['sort']
+    const rawValue = params?.get('sort') ?? undefined
     if (rawValue === undefined || rawValue === '') return undefined
 
-    const value = Array.isArray(rawValue)
-      ? rawValue.map((v) => JSON.parse(v) as unknown)
-      : (JSON.parse(rawValue) as unknown)
+    const value = JSON.parse(rawValue) as unknown
 
     const result = Sort.safeParse(value)
     if (result.success) {
@@ -45,7 +43,7 @@ const GenresTable: FC = () => {
         return resultArray.data
       }
     }
-  }, [router.query])
+  }, [params])
 
   const genresQuery = usePaginatedGenresQuery(page, size, sort)
 
@@ -144,24 +142,20 @@ const HasData: FC<{
     },
     onSortingChange: (s) => {
       const sa = typeof s === 'function' ? s(sorting ?? []) : s
-      void router.push({
-        query: {
-          page: pagination.pageIndex.toString(),
-          size: pagination.pageSize.toString(),
-          sort: JSON.stringify(sa),
-        },
-      })
+      const params = new URLSearchParams()
+      params.set('page', pagination.pageIndex.toString())
+      params.set('size', pagination.pageSize.toString())
+      params.set('sort', JSON.stringify(sa))
+      router.push(`?${params.toString()}`)
     },
     onPaginationChange: (p) => {
       const pa = typeof p === 'function' ? p(pagination) : p
       setPagination(p)
-      void router.push({
-        query: {
-          page: pa.pageIndex.toString(),
-          size: pa.pageSize.toString(),
-          sort: JSON.stringify(sorting),
-        },
-      })
+      const params = new URLSearchParams()
+      params.set('page', pa.pageIndex.toString())
+      params.set('size', pa.pageSize.toString())
+      params.set('sort', JSON.stringify(sorting))
+      router.push(`?${params.toString()}`)
     },
   })
 

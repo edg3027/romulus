@@ -1,5 +1,5 @@
 import { Permission } from '@prisma/client'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { FC, useCallback, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 
@@ -76,7 +76,7 @@ const HasData: FC<{
         {
           onSuccess: () => {
             toast.success(`Deleted genre '${genre.name}'`)
-            void router.push({ pathname: '/genres' })
+            router.push('/genres')
           },
         }
       ),

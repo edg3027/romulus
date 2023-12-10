@@ -22,12 +22,7 @@ const Navbar: FC = () => {
     if (session.account !== undefined) {
       return session.account ? (
         <>
-          <Link
-            href={{
-              pathname: '/accounts/[id]',
-              query: { id: session.account.id.toString() },
-            }}
-          >
+          <Link href={`/accounts/${session.account.id.toString()}`}>
             {session.account.username}
           </Link>
           <button onClick={() => logout()}>Log out</button>

@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
 import { useIntRouteParam } from '../../utils/routes'
@@ -9,7 +9,11 @@ const GenrePage: NextPage = () => {
 
   const router = useRouter()
   useEffect(() => {
-    void router.replace({ pathname: '/genres', query: { id: id?.toString() } })
+    const url = new URL('/genres')
+    if (id !== undefined) {
+      url.searchParams.set('id', id.toString())
+    }
+    router.replace(url.toString())
   }, [id, router])
 
   return <div />
