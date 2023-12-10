@@ -104,7 +104,7 @@ const DeletedLinkWrapper: FC<
   )
 
   const genre = useMemo(() => {
-    const latestHistory = history[history.length - 1]
+    const latestHistory = history.at(-1)
     if (!latestHistory) return
     return {
       id: latestHistory.treeGenreId,

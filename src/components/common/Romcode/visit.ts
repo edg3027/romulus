@@ -29,7 +29,7 @@ const visitParents = (
 
 export const visit = (root: Root, visitor: Visitor) => {
   const overload = (node: Node, parents: Parent[]) => {
-    const parent = parents[parents.length - 1]
+    const parent = parents.at(-1)
     return visitor(
       node,
       parent && 'children' in parent

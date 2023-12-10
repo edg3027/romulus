@@ -58,7 +58,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           />
 
           {(isClearVisible || error) && (
-            <div className='absolute top-0 right-1.5 flex h-full items-center space-x-0.5'>
+            <div className='absolute right-1.5 top-0 flex h-full items-center space-x-0.5'>
               <>
                 {isClearVisible && (
                   <Tooltip tip='Clear' className='flex items-center'>

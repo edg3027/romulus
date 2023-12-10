@@ -29,7 +29,7 @@ export const useSession = () => {
   )
 
   return {
-    account: whoamiQuery.data !== null ? accountQuery.data : null,
+    account: whoamiQuery.data === null ? null : accountQuery.data,
     error: whoamiQuery.error ?? accountQuery.error,
     isLoggedIn,
     isLoggedOut,

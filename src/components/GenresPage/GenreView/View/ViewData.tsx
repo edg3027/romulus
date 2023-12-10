@@ -110,11 +110,7 @@ const GenreViewData: FC<{
             </button>
           </Label>
           <div id='relevance'>
-            {genre.relevance !== 99 ? (
-              <>
-                {genre.relevance} - {getGenreRelevanceText(genre.relevance)}
-              </>
-            ) : (
+            {genre.relevance === 99 ? (
               <>
                 None set.{' '}
                 <button
@@ -123,6 +119,10 @@ const GenreViewData: FC<{
                 >
                   Vote.
                 </button>
+              </>
+            ) : (
+              <>
+                {genre.relevance} - {getGenreRelevanceText(genre.relevance)}
               </>
             )}
           </div>

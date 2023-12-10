@@ -26,10 +26,10 @@ const Genres: FC = () => {
       return { type: 'history', id }
     } else if (viewType === 'create') {
       return { type: 'create' }
-    } else if (id !== undefined) {
-      return { type: 'view', id }
-    } else {
+    } else if (id === undefined) {
       return { type: 'default' }
+    } else {
+      return { type: 'view', id }
     }
   }, [autoFocus, id, viewType])
 

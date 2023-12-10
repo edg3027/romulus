@@ -78,7 +78,7 @@ const defaultColumns = [
 
       return (
         <Link
-          href={`/genres/${genre.id}`}
+          href={`/genres?id=${genre.id}`}
           className='block text-gray-700 hover:font-bold'
         >
           {genre.name}

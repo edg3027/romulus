@@ -30,12 +30,15 @@ const IconButton: FC<IconButtonProps> = ({
 }) => {
   const iconSize = useMemo(() => {
     switch (size) {
-      case 'sm':
+      case 'sm': {
         return 16
-      case 'md':
+      }
+      case 'md': {
         return 18
-      case 'lg':
+      }
+      case 'lg': {
         return 24
+      }
     }
   }, [size])
 

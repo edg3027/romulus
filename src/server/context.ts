@@ -14,9 +14,9 @@ export async function createContext(): Promise<Context> {
   const session = await getIronSession<SessionData>(cookies(), sessionConfig)
 
   const account =
-    session.accountId !== undefined
-      ? await getAccountById(session.accountId)
-      : null
+    session.accountId === undefined
+      ? null
+      : await getAccountById(session.accountId)
 
   return { account }
 }

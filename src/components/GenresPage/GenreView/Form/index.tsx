@@ -317,7 +317,7 @@ const GenreForm: FC<{
         <InputGroup id='parents' label='Parents'>
           <GenreMultiselect
             excludeIds={[
-              ...(genre !== undefined ? [genre.id] : []),
+              ...(genre === undefined ? [] : [genre.id]),
               ...(genre?.childGenres.map(({ id }) => id) ?? []),
             ]}
             selectedIds={parentGenres}
@@ -327,7 +327,7 @@ const GenreForm: FC<{
 
         <InputGroup id='influences' label='Influences'>
           <GenreMultiselect
-            excludeIds={genre !== undefined ? [genre.id] : []}
+            excludeIds={genre === undefined ? [] : [genre.id]}
             selectedIds={influencedByGenres}
             onChange={(g) => setInfluencedByGenres(g)}
           />

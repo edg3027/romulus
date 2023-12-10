@@ -66,7 +66,7 @@ const HasData: FC<{ history: DefaultGenreHistory[] }> = ({
   )
 
   const genre = useMemo(() => {
-    const latestHistory = history[history.length - 1]
+    const latestHistory = history.at(-1)
     if (!latestHistory) return
     return {
       id: latestHistory.treeGenreId,
@@ -314,12 +314,15 @@ const Diff: FC<{
 
   const getActionClass = useCallback((action: DiffAction) => {
     switch (action) {
-      case 'create':
+      case 'create': {
         return 'border border-green-500 bg-green-300'
-      case 'update':
+      }
+      case 'update': {
         return 'border border-yellow-500 bg-yellow-300'
-      case 'delete':
+      }
+      case 'delete': {
         return 'border border-red-500 bg-red-300'
+      }
     }
   }, [])
 

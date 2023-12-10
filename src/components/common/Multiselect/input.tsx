@@ -64,7 +64,9 @@ const MultiselectInput: FC<MultiselectInputProps> = ({
           selected.length > 0
         ) {
           e.preventDefault()
-          unselect(selected[selected.length - 1])
+          const last = selected.at(-1)
+          if (last === undefined) return
+          unselect(last)
         } else if (e.key === 'Escape') {
           e.preventDefault()
           setOpen(false)

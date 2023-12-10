@@ -20,16 +20,21 @@ export type GenrePageView =
 const GenrePage: FC<{ view: GenrePageView }> = ({ view }) => {
   const renderGenre = useCallback(() => {
     switch (view.type) {
-      case 'default':
+      case 'default': {
         return <GenreViewPlaceholder />
-      case 'view':
+      }
+      case 'view': {
         return <GenreView id={view.id} />
-      case 'history':
+      }
+      case 'history': {
         return <GenreHistory id={view.id} />
-      case 'edit':
+      }
+      case 'edit': {
         return <GenreEdit id={view.id} autoFocus={view.autoFocus} />
-      case 'create':
+      }
+      case 'create': {
         return <GenreCreate />
+      }
     }
   }, [view])
 

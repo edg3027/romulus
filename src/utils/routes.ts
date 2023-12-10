@@ -51,7 +51,7 @@ export const useIntRouteParam = (param: string): number | undefined => {
 export const useBoolRouteParam = (param: string): boolean | undefined => {
   const stringValue = useStringRouteParam(param)
   return useMemo(
-    () => (stringValue !== undefined ? stringValue === 'true' : undefined),
+    () => (stringValue === undefined ? undefined : stringValue === 'true'),
     [stringValue]
   )
 }
