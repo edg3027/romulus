@@ -107,8 +107,8 @@ devDependencies:
     specifier: ^7.18.13
     version: 7.20.12
   '@next/eslint-plugin-next':
-    specifier: ^12.2.5
-    version: 12.3.4
+    specifier: ^14.0.4
+    version: 14.0.4
   '@storybook/addon-actions':
     specifier: ^7.5.3
     version: 7.5.3(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.2.0)(react@18.2.0)
@@ -4476,10 +4476,10 @@ packages:
         integrity: sha512-7xRqh9nMvP5xrW4/+L0jgRRX+HoNRGnfJpD+5Wq6/13j3dsdzxO3BCXn7D3hMqsDb+vjZnJq+vI7+EtgrYZTeA==,
       }
 
-  /@next/eslint-plugin-next@12.3.4:
+  /@next/eslint-plugin-next@14.0.4:
     resolution:
       {
-        integrity: sha512-BFwj8ykJY+zc1/jWANsDprDIu2MgwPOIKxNVnrKvPs+f5TPegrVnem8uScND+1veT4B7F6VeqgaNLFW1Hzl9Og==,
+        integrity: sha512-U3qMNHmEZoVmHA0j/57nRfi3AscXNvkOnxDmle/69Jz/G0o/gWjXTDdlgILZdrxQ0Lw/jv2mPW8PGy0EGIHXhQ==,
       }
     dependencies:
       glob: 7.1.7
