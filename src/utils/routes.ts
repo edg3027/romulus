@@ -37,7 +37,9 @@ export const toValidInt = (
   return Number.isNaN(intValue) ? undefined : intValue
 }
 
-export const useIntParam = (stringValue: string): number | undefined => {
+export const useIntParam = (
+  stringValue: string | undefined
+): number | undefined => {
   return useMemo(() => toValidInt(stringValue), [stringValue])
 }
 
