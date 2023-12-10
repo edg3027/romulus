@@ -26,7 +26,7 @@ Select.argTypes = {
 }
 
 const PopoverDirectionTemplate: ComponentStory<typeof SelectComponent> = (
-  args
+  args,
 ) => {
   const [value, setValue] = useState<Option>()
   return (

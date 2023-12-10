@@ -29,7 +29,7 @@ const GenreTreeNode: FC<{ genre: TreeGenre; path: number[] }> = ({
   const setExpanded = useTreeState((state) => state.setExpanded)
   const isExpanded = useTreeState((state) => state.getExpanded(path))
   const isSelected = useTreeState(
-    (state) => state.selectedPath && equals(state.selectedPath, path)
+    (state) => state.selectedPath && equals(state.selectedPath, path),
   )
 
   const { showTypeTags, showRelevanceTags } = useGenreNavigatorSettings()
@@ -54,7 +54,7 @@ const GenreTreeNode: FC<{ genre: TreeGenre; path: number[] }> = ({
           size='sm'
           className={clsx(
             'text-gray-500',
-            children.length === 0 && 'invisible'
+            children.length === 0 && 'invisible',
           )}
           onClick={() => setExpanded(path, !isExpanded)}
         >
@@ -68,7 +68,7 @@ const GenreTreeNode: FC<{ genre: TreeGenre; path: number[] }> = ({
           }}
           className={clsx(
             'hover:font-bold',
-            isSelected ? 'font-bold text-primary-600' : 'text-gray-600'
+            isSelected ? 'font-bold text-primary-600' : 'text-gray-600',
           )}
         >
           {name}
@@ -78,7 +78,7 @@ const GenreTreeNode: FC<{ genre: TreeGenre; path: number[] }> = ({
               <span
                 className={clsx(
                   'text-sm',
-                  isSelected ? 'text-primary-500' : 'text-gray-500'
+                  isSelected ? 'text-primary-500' : 'text-gray-500',
                 )}
               >
                 [{subtitle}]

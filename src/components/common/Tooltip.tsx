@@ -74,7 +74,7 @@ const Tooltip: FC<
                 style={styles.arrow}
               />
             </Transition>,
-            document.body
+            document.body,
           )
         : null}
     </div>

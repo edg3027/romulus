@@ -36,7 +36,7 @@ const Login: NextPage = () => {
   const { mutate, isLoading } = useLoginMutation()
   const onSubmit = useCallback(
     (data: LoginFormFields) => mutate(data),
-    [mutate]
+    [mutate],
   )
 
   useEffect(() => setFocus('username'), [setFocus])

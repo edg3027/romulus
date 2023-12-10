@@ -21,7 +21,7 @@ const Paginator = <TData extends RowData>({
   table: PaginationInstance<TData> & CoreInstance<TData>
 }) => {
   const pageOptions = useTablePaginationOptions(
-    table.getState().pagination.pageSize
+    table.getState().pagination.pageSize,
   )
 
   return (
@@ -73,7 +73,7 @@ const Paginator = <TData extends RowData>({
         <div className='absolute' style={{ width: 'max-content' }}>
           <Select
             value={pageOptions.find(
-              (po) => table.getState().pagination.pageSize === po.key
+              (po) => table.getState().pagination.pageSize === po.key,
             )}
             onChange={(value) => table.setPageSize(value.key ?? 30)}
             options={pageOptions}

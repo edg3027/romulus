@@ -19,7 +19,7 @@ import { didChange, throwOnCycle } from './utils'
 export const getPaginatedGenres = async (
   page: number,
   size: number,
-  sort: Sort[]
+  sort: Sort[],
 ) => {
   const skip = page * size
   const result = await prisma.$transaction([
@@ -28,7 +28,7 @@ export const getPaginatedGenres = async (
       skip,
       take: size,
       orderBy: Object.fromEntries(
-        sort.map((s) => [s.id, s.desc ? 'desc' : 'asc'])
+        sort.map((s) => [s.id, s.desc ? 'desc' : 'asc']),
       ),
       select: defaultGenreSelect,
     }),
@@ -77,7 +77,7 @@ export const searchSimpleGenres = async (query: string) => {
     .sort(
       (a, b) =>
         b.weight - a.weight ||
-        a.genre.name.toLowerCase().localeCompare(b.genre.name.toLowerCase())
+        a.genre.name.toLowerCase().localeCompare(b.genre.name.toLowerCase()),
     )
     .slice(0, 100)
 }
@@ -135,7 +135,7 @@ export const getSimpleGenre = async (id: number): Promise<SimpleGenre> => {
 
 export const createGenre = async (
   { relevance, ...input }: CreateGenreInput,
-  accountId: number
+  accountId: number,
 ): Promise<DefaultGenre> => {
   await throwOnCycle(input)
 
@@ -164,7 +164,7 @@ export const createGenre = async (
 
 export const editGenre = async (
   { id, data: { relevance, ...data } }: EditGenreInput,
-  accountId: number
+  accountId: number,
 ): Promise<DefaultGenre> => {
   let name = data.name
 
@@ -221,7 +221,7 @@ export const editGenre = async (
 
 export const deleteGenre = async (
   id: number,
-  accountId: number
+  accountId: number,
 ): Promise<{ id: number }> => {
   const genre = await prisma.genre.findUnique({
     where: { id },
@@ -263,8 +263,8 @@ export const deleteGenre = async (
         prisma.genre.update({
           where: { id: childGenre.id },
           data: { parentGenres: { connect: { id: parentGenre.id } } },
-        })
-      )
+        }),
+      ),
     ),
     prisma.genre.delete({ where: { id } }),
   ])

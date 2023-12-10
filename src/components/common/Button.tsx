@@ -37,7 +37,7 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({
           (disabled
             ? 'bg-gray-300 text-gray-500 border border-transparent'
             : 'bg-error-500 hover:bg-error-600 active:bg-error-700 text-gray-100 border border-transparent focus:border-error-800'),
-        className
+        className,
       )}
       disabled={disabled || loading}
       {...props}

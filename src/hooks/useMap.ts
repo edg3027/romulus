@@ -15,7 +15,7 @@ export type Return<K, V> = [HookMap<K, V>, Actions<K, V>]
 export type HookMap<K, V> = Omit<Map<K, V>, 'set' | 'clear' | 'delete'>
 
 function useMap<K, V>(
-  initialState: MapOrEntries<K, V> = new Map()
+  initialState: MapOrEntries<K, V> = new Map(),
 ): Return<K, V> {
   const [map, setMap] = useState(new Map(initialState))
 

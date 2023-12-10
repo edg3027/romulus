@@ -170,14 +170,14 @@ const HasData: FC<{
                       className={clsx(
                         'flex items-center space-x-1',
                         header.column.getCanSort() &&
-                          'cursor-pointer select-none'
+                          'cursor-pointer select-none',
                       )}
                       onClick={header.column.getToggleSortingHandler()}
                     >
                       <span>
                         {flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                       </span>
                       {{
@@ -211,7 +211,7 @@ const HasData: FC<{
                     ? null
                     : flexRender(
                         header.column.columnDef.footer,
-                        header.getContext()
+                        header.getContext(),
                       )}
                 </th>
               ))}

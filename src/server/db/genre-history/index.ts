@@ -10,7 +10,7 @@ export const addGenreHistory = (
     akas: GenreAka[]
   },
   operation: CrudOperation,
-  accountId: number
+  accountId: number,
 ) =>
   prisma.genreHistory.create({
     data: {
@@ -38,7 +38,7 @@ export const addGenreHistory = (
 export const addGenreHistoryById = async (
   id: number,
   operation: CrudOperation,
-  accountId: number
+  accountId: number,
 ) => {
   const updatedGenre = await prisma.genre.findUnique({
     where: { id },

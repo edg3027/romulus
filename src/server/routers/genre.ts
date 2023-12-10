@@ -37,7 +37,7 @@ export const genreRouter = router({
   paginated: publicProcedure
     .input(z.object({ page: z.number(), size: z.number(), sort: Sort.array() }))
     .query(async ({ input: { page, size, sort } }) =>
-      getPaginatedGenres(page, size > 100 ? 100 : size, sort)
+      getPaginatedGenres(page, size > 100 ? 100 : size, sort),
     ),
   byId: publicProcedure
     .input(z.object({ id: z.number() }))

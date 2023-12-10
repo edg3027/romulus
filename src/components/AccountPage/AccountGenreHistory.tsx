@@ -49,7 +49,7 @@ const AccountGenreHistory: FC<{ id: number }> = ({ id }) => {
 
   const data: DefaultGenreHistory[] = useMemo(
     () => history?.pages.flatMap((page) => page.history) ?? [],
-    [history?.pages]
+    [history?.pages],
   )
 
   const table = useReactTable({
@@ -75,7 +75,7 @@ const AccountGenreHistory: FC<{ id: number }> = ({ id }) => {
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                   </th>
                 ))}
@@ -102,7 +102,7 @@ const AccountGenreHistory: FC<{ id: number }> = ({ id }) => {
                       ? null
                       : flexRender(
                           header.column.columnDef.footer,
-                          header.getContext()
+                          header.getContext(),
                         )}
                   </th>
                 ))}
@@ -119,8 +119,8 @@ const AccountGenreHistory: FC<{ id: number }> = ({ id }) => {
           {isFetchingNextPage
             ? 'Loading more...'
             : hasNextPage
-            ? 'Load More'
-            : 'Nothing more to load'}
+              ? 'Load More'
+              : 'Nothing more to load'}
         </Button>
       </div>
     )

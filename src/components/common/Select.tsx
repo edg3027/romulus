@@ -50,20 +50,20 @@ const Select = <T extends Option = Option>(
     dropdownClassName,
     error: propsError,
   }: SelectProps<T>,
-  ref: ForwardedRef<HTMLButtonElement>
+  ref: ForwardedRef<HTMLButtonElement>,
 ) => {
   const { id: contextId, error: contextError } = useInputGroupContext()
   const id = useMemo(() => propsId || contextId, [contextId, propsId])
   const error = useMemo(
     () => propsError || contextError,
-    [contextError, propsError]
+    [contextError, propsError],
   )
 
   // HeadlessUI overwrites our ids. Re-overwrite them here.
   const internalRef = useRef<HTMLButtonElement>(null)
   useImperativeHandle<HTMLButtonElement | null, HTMLButtonElement | null>(
     ref,
-    () => internalRef.current
+    () => internalRef.current,
   )
   useEffect(() => {
     if (internalRef.current && id !== undefined) {
@@ -82,7 +82,7 @@ const Select = <T extends Option = Option>(
                 ref={internalRef}
                 className={twsx(
                   'h-8 flex w-full items-center rounded border border-gray-500 bg-gray-100 p-1.5 text-start text-sm text-gray-800 outline-none transition hover:bg-gray-200 focus:border-secondary-500 active:bg-gray-300 disabled:pointer-events-none disabled:border-dashed',
-                  value === undefined && 'italic text-gray-700'
+                  value === undefined && 'italic text-gray-700',
                 )}
               >
                 <>
@@ -120,7 +120,7 @@ const Select = <T extends Option = Option>(
                         className={twsx(
                           'cursor-pointer rounded p-1 px-1.5 text-sm text-gray-800 hover:bg-gray-200 focus:border-secondary-500 active:bg-gray-300 border border-transparent',
                           selected && 'border-primary-500',
-                          active && 'border-secondary-500'
+                          active && 'border-secondary-500',
                         )}
                       >
                         {option.label}
@@ -138,7 +138,7 @@ const Select = <T extends Option = Option>(
 }
 
 const Wrapper = forwardRef(Select) as <T extends Option = Option>(
-  props: SelectProps<T> & { ref?: ForwardedRef<HTMLButtonElement> }
+  props: SelectProps<T> & { ref?: ForwardedRef<HTMLButtonElement> },
 ) => ReactElement
 
 export default Wrapper

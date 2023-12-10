@@ -34,7 +34,7 @@ const Tree: FC<{ genres: SimpleGenre[] }> = ({ genres }) => {
   const [ref, setRef] = useState<HTMLDivElement | null>(null)
 
   const isAnyTopLevelExpanded = useTreeState((state) =>
-    [...state.expanded].some((key) => !key.includes('-'))
+    [...state.expanded].some((key) => !key.includes('-')),
   )
 
   const collapseAll = useTreeState((state) => state.collapseAll)
@@ -44,7 +44,7 @@ const Tree: FC<{ genres: SimpleGenre[] }> = ({ genres }) => {
       genres.map(({ parentGenres, ...genre }) => [
         genre.id,
         { ...genre, parents: parentGenres.map((pg) => pg.id), children: [] },
-      ])
+      ]),
     )
 
     for (const genre of genres) {
@@ -61,7 +61,7 @@ const Tree: FC<{ genres: SimpleGenre[] }> = ({ genres }) => {
 
   const topLevelGenres = useMemo(
     () => genres.filter((genre) => genre.parentGenres.length === 0),
-    [genres]
+    [genres],
   )
 
   const setGenres = useTreeState((state) => state.setGenres)

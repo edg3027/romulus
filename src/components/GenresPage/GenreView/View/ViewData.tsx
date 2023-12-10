@@ -46,16 +46,16 @@ const GenreViewData: FC<{
 
         return compareAsc(a.createdAt, b.createdAt)
       }),
-    [history]
+    [history],
   )
 
   const contributors = useMemo(
     () =>
       uniqBy(
         (account) => account.id,
-        sortedHistory.map((h) => h.account).filter(isNotNull)
+        sortedHistory.map((h) => h.account).filter(isNotNull),
       ),
-    [sortedHistory]
+    [sortedHistory],
   )
 
   return (

@@ -32,7 +32,7 @@ const GenreMultiselect = forwardRef<HTMLInputElement, GenreMultiselectProps>(
           if (selectedIds.includes(genre.id)) return false
           return true
         }),
-      [excludeIds, genreSearchQuery.data, selectedIds]
+      [excludeIds, genreSearchQuery.data, selectedIds],
     )
 
     const [page, setPage] = useState(1)
@@ -94,7 +94,7 @@ const GenreMultiselect = forwardRef<HTMLInputElement, GenreMultiselectProps>(
         </M.Options>
       </M>
     )
-  }
+  },
 )
 
 GenreMultiselect.displayName = 'GenreMultiselect'

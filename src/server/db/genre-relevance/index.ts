@@ -17,7 +17,7 @@ export const getByGenreId = async (genreId: number) =>
 
 export const getByGenreIdForAccount = async (
   genreId: number,
-  accountId: number
+  accountId: number,
 ) =>
   prisma.genreRelevanceVote.findUnique({
     where: { genreId_accountId: { genreId, accountId } },
@@ -26,7 +26,7 @@ export const getByGenreIdForAccount = async (
 
 export const setGenreRelevanceVote = async (
   input: GenreRelevanceVoteInput,
-  accountId: number
+  accountId: number,
 ) => {
   if (input.relevance === UNSET_GENRE_RELEVANCE) {
     await deleteGenreRelevanceVote({ genreId: input.genreId }, accountId)
@@ -49,7 +49,7 @@ export const setGenreRelevanceVote = async (
 
 export const deleteGenreRelevanceVote = async (
   input: DeleteGenreRelevanceVoteInput,
-  accountId: number
+  accountId: number,
 ) => {
   try {
     await prisma.genreRelevanceVote.delete({

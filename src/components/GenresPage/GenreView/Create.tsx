@@ -24,9 +24,9 @@ export const GenreCreate: FC = () => {
             toast.success(`Created genre '${data.name}'`)
             router.push(`/genres?id=${data.id}`)
           },
-        }
+        },
       ),
-    [mutate, router]
+    [mutate, router],
   )
 
   return (

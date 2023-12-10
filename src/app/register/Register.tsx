@@ -41,7 +41,7 @@ const Register: NextPage = () => {
   const { mutate, isLoading } = useRegisterMutation()
   const onSubmit = useCallback(
     (data: RegisterFormFields) => mutate(data),
-    [mutate]
+    [mutate],
   )
 
   useEffect(() => setFocus('username'), [setFocus])

@@ -45,9 +45,9 @@ const IconButton: FC<IconButtonProps> = ({
   const icon = useMemo(
     () =>
       Children.map(children, (child) =>
-        cloneElement(child, { size: iconSize })
+        cloneElement(child, { size: iconSize }),
       ),
-    [children, iconSize]
+    [children, iconSize],
   )
 
   return (
@@ -55,7 +55,7 @@ const IconButton: FC<IconButtonProps> = ({
       className={twsx(
         'p-1 rounded bg-transparent hover:bg-gray-200 active:bg-gray-300 text-primary-500 border border-transparent focus:border-secondary-500 outline-none transition',
         disabled && 'pointer-events-none text-gray-400',
-        className
+        className,
       )}
       disabled={disabled}
       {...props}

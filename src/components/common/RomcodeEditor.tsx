@@ -30,7 +30,7 @@ const RomcodeEditor = forwardRef<
     <div
       className={twsx(
         'group flex flex-col h-72 overflow-auto resize-y rounded border border-gray-500 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 focus-within:border-secondary-500 transition text-sm text-gray-800',
-        className
+        className,
       )}
     >
       {tab === Tab.EDIT && (
@@ -53,7 +53,7 @@ const RomcodeEditor = forwardRef<
         <button
           className={clsx(
             'border-r border-gray-200 px-2 py-1 text-xs uppercase text-gray-400 transition hover:bg-gray-100 group-hover:border-gray-300 group-hover:text-gray-500 group-active:border-gray-400 group-active:text-gray-600',
-            tab === Tab.EDIT ? 'font-bold' : 'font-medium'
+            tab === Tab.EDIT ? 'font-bold' : 'font-medium',
           )}
           type='button'
           onClick={() => setTab(Tab.EDIT)}
@@ -63,7 +63,7 @@ const RomcodeEditor = forwardRef<
         <button
           className={clsx(
             'border-r border-gray-200 px-2 py-1 text-xs uppercase text-gray-400 transition hover:bg-gray-100 group-hover:border-gray-300 group-hover:text-gray-500 group-active:border-gray-400 group-active:text-gray-600',
-            tab === Tab.VIEW ? 'font-bold' : 'font-medium'
+            tab === Tab.VIEW ? 'font-bold' : 'font-medium',
           )}
           type='button'
           onClick={() => setTab(Tab.VIEW)}

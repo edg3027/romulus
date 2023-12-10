@@ -16,7 +16,7 @@ type BasicGenre = {
 const detectCycleInner = (
   id: number,
   stack: number[],
-  allGenresMap: Record<number, BasicGenre>
+  allGenresMap: Record<number, BasicGenre>,
 ): number[] | false => {
   if (stack.includes(id)) {
     return [...stack, id]
@@ -61,7 +61,7 @@ const detectCycle = async (data: {
     allGenres = allGenres.map((genre) =>
       genre.id === data.id
         ? { ...genre, parentGenres: parentGenres.map((id) => ({ id })) }
-        : genre
+        : genre,
     )
   }
   if (data.childGenres) {
@@ -69,12 +69,12 @@ const detectCycle = async (data: {
     allGenres = allGenres.map((genre) =>
       childGenres.includes(genre.id)
         ? { ...genre, parentGenres: [...genre.parentGenres, { id }] }
-        : genre
+        : genre,
     )
   }
 
   const allGenresMap: Record<number, BasicGenre> = Object.fromEntries(
-    allGenres.map((genre) => [genre.id, genre])
+    allGenres.map((genre) => [genre.id, genre]),
   )
 
   for (const genre of allGenres) {
@@ -107,7 +107,7 @@ export const throwOnCycle = async (data: {
 
 export const didChange = (
   update: Omit<EditGenreInput['data'], 'relevance'>,
-  history: GenreHistory & { akas: GenreHistoryAka[] }
+  history: GenreHistory & { akas: GenreHistoryAka[] },
 ) => {
   if (update.name !== undefined && update.name !== history.name) {
     return true
@@ -146,7 +146,7 @@ export const didChange = (
     update.influencedByGenres !== undefined &&
     !equals(
       new Set(update.influencedByGenres),
-      new Set(history.influencedByGenreIds)
+      new Set(history.influencedByGenreIds),
     )
   ) {
     return true

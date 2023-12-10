@@ -37,7 +37,7 @@ const PopoverParent: FC<PropsWithChildren<{ show: boolean }>> = ({
 
   const value: PopoverContext = useMemo(
     () => ({ show, referenceElement, setReferenceElement }),
-    [referenceElement, show]
+    [referenceElement, show],
   )
 
   return (

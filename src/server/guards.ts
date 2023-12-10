@@ -8,7 +8,7 @@ type LoggedInContext = Omit<Context, 'account'> & {
 }
 
 const isLoggedInContext = (
-  ctx: Context | LoggedInContext
+  ctx: Context | LoggedInContext,
 ): ctx is LoggedInContext => ctx.account !== null
 
 export const requireLogin = (ctx: Context): LoggedInContext => {
@@ -24,7 +24,7 @@ export const requireLogin = (ctx: Context): LoggedInContext => {
 
 export const requirePermission = (
   ctx: Context,
-  permission: Permission
+  permission: Permission,
 ): LoggedInContext => {
   const ctx_ = requireLogin(ctx)
 

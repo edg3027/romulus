@@ -7,7 +7,7 @@ const SearchInput: FC = () => {
   const filter = useSearchState((state) => state.filter)
   const setFilter = useSearchState((state) => state.setFilter)
   const setFilterImmediately = useSearchState(
-    (state) => state.setFilterImmediately
+    (state) => state.setFilterImmediately,
   )
 
   return (

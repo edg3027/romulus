@@ -7,7 +7,7 @@ export const toQueryString = (
     | string[][]
     | Record<string, string>
     | URLSearchParams
-    | undefined
+    | undefined,
 ): string => new URLSearchParams(params).toString()
 
 export const fromQueryString = (qs: string): URLSearchParams =>
@@ -15,7 +15,7 @@ export const fromQueryString = (qs: string): URLSearchParams =>
 
 const useRouteParam = <T>(
   param: string,
-  processor: (value: string | string[] | undefined) => T
+  processor: (value: string | string[] | undefined) => T,
 ): T => {
   const params = useSearchParams()
 
@@ -29,7 +29,7 @@ export const useStringRouteParam = (param: string): string | undefined =>
   useRouteParam(param, (value) => (Array.isArray(value) ? value[0] : value))
 
 export const toValidInt = (
-  val: string | null | undefined
+  val: string | null | undefined,
 ): number | undefined => {
   if (val === null || val === undefined) return undefined
 
@@ -38,7 +38,7 @@ export const toValidInt = (
 }
 
 export const useIntParam = (
-  stringValue: string | undefined
+  stringValue: string | undefined,
 ): number | undefined => {
   return useMemo(() => toValidInt(stringValue), [stringValue])
 }
@@ -52,13 +52,13 @@ export const useBoolRouteParam = (param: string): boolean | undefined => {
   const stringValue = useStringRouteParam(param)
   return useMemo(
     () => (stringValue === undefined ? undefined : stringValue === 'true'),
-    [stringValue]
+    [stringValue],
   )
 }
 
 export const useCustomRouteParam = <T>(
   param: string,
-  validator: (value: string) => value is string & T
+  validator: (value: string) => value is string & T,
 ): T | undefined => {
   const stringValue = useStringRouteParam(param)
 
@@ -67,6 +67,6 @@ export const useCustomRouteParam = <T>(
       stringValue !== undefined && validator(stringValue)
         ? stringValue
         : undefined,
-    [stringValue, validator]
+    [stringValue, validator],
   )
 }

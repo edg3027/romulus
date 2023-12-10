@@ -35,7 +35,7 @@ const HasData: FC<{
 }> = ({ votes, className }) => {
   const data = useMemo(
     () => countBy((vote: DefaultGenreRelevanceVote) => vote.relevance)(votes),
-    [votes]
+    [votes],
   )
 
   const getColor = useCallback((relevance: number) => {

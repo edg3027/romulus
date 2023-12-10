@@ -4,13 +4,13 @@ import { trpc } from '../utils/trpc'
 export const usePaginatedGenresQuery = (
   page = 0,
   size = 30,
-  sort: Sort[] = []
+  sort: Sort[] = [],
 ) => {
   return trpc.genre.paginated.useQuery(
     { page, size, sort },
     {
       keepPreviousData: true,
-    }
+    },
   )
 }
 
@@ -21,8 +21,8 @@ export const useSimpleGenresQuery = () => {
     onSuccess: (data) => {
       void Promise.all(
         data.map((genre) =>
-          utils.genre.byIdSimple.setData({ id: genre.id }, genre)
-        )
+          utils.genre.byIdSimple.setData({ id: genre.id }, genre),
+        ),
       )
     },
   })
@@ -40,13 +40,13 @@ export const useGenreQuery = (id: number) => {
       onSuccess: (data) => {
         utils.genre.byIdSimple.setData({ id: data.id }, data)
       },
-    }
+    },
   )
 }
 
 export const useSimpleGenreQuery = (
   id: number,
-  options: { showToast?: boolean } = {}
+  options: { showToast?: boolean } = {},
 ) =>
   trpc.genre.byIdSimple.useQuery(
     { id },
@@ -55,7 +55,7 @@ export const useSimpleGenreQuery = (
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       showToast: options.showToast,
-    }
+    },
   )
 
 export const useAddGenreMutation = () => {

@@ -9,7 +9,7 @@ export interface Config {
 
 export default function useForwardedRef<T>(
   forwardedRef: React.Ref<T>,
-  config?: Config
+  config?: Config,
 ): React.MutableRefObject<T> {
   const statefulRef = useStatefulRef<T>(null)
   const ref = useRef<T>(null)

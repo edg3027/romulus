@@ -3,12 +3,12 @@ import { Node, Parent, Root } from './types'
 export type Visitor = (
   node: Node,
   index: number | undefined,
-  parent: Parent | undefined
+  parent: Parent | undefined,
 ) => void
 
 const visitParents = (
   root: Root,
-  visitor: (node: Node, ancestors: Parent[]) => void
+  visitor: (node: Node, ancestors: Parent[]) => void,
 ) => {
   const factory = (node: Node, parents: Parent[]) => {
     visitor(node, parents)
@@ -35,7 +35,7 @@ export const visit = (root: Root, visitor: Visitor) => {
       parent && 'children' in parent
         ? (parent.children as Node[]).indexOf(node)
         : undefined,
-      parent
+      parent,
     )
   }
 

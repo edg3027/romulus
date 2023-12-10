@@ -15,7 +15,7 @@ const Navbar: FC = () => {
         <Link href='/register'>Register</Link>
       </>
     ),
-    []
+    [],
   )
 
   const renderSession = useCallback(() => {

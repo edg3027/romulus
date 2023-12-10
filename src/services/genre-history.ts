@@ -10,10 +10,10 @@ export const useGenreHistoryByUserQuery = (id: number) =>
     { id, limit: 10 },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
-    }
+    },
   )
 
 export const useGenreHistoryCountByUserQuery = (
   id: number,
-  operation: CrudOperation
+  operation: CrudOperation,
 ) => trpc.genre.history.userCount.useQuery({ id, operation })

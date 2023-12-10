@@ -85,12 +85,12 @@ export const usePathUpdater = ():
     (id: number, path: number[]) => {
       const existingNode = search(
         genres,
-        (node) => node.id === id && equals(node.path, path)
+        (node) => node.id === id && equals(node.path, path),
       )
 
       return existingNode !== undefined
     },
-    [genres]
+    [genres],
   )
 
   const getExpandedPathToId = useCallback(
@@ -108,7 +108,7 @@ export const usePathUpdater = ():
         }
       }
     },
-    [expanded, genres]
+    [expanded, genres],
   )
 
   const getNewPath = useCallback(
@@ -141,7 +141,7 @@ export const usePathUpdater = ():
         return { path: node.path, source: 'new' }
       }
     },
-    [genres, getExpandedPathToId, selectedPath]
+    [genres, getExpandedPathToId, selectedPath],
   )
 
   const p = useMemo(() => {

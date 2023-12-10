@@ -16,13 +16,13 @@ const AccountPage: FC<{ id: number }> = ({ id }) => {
       <div
         className={clsx(
           'h-full min-h-0 p-4',
-          'sm:bg-texture sm:flex sm:w-full sm:items-center sm:justify-center'
+          'sm:bg-texture sm:flex sm:w-full sm:items-center sm:justify-center',
         )}
       >
         <div
           className={clsx(
             'h-full',
-            'sm:h-[600px] sm:w-[500px] sm:border sm:bg-white sm:p-4 sm:shadow'
+            'sm:h-[600px] sm:w-[500px] sm:border sm:bg-white sm:p-4 sm:shadow',
           )}
         >
           <HasData account={accountQuery.data} />
@@ -43,15 +43,15 @@ const HasData: FC<{
 }> = ({ account }) => {
   const createdCountQuery = useGenreHistoryCountByUserQuery(
     account.id,
-    CrudOperation.CREATE
+    CrudOperation.CREATE,
   )
   const editedCountQuery = useGenreHistoryCountByUserQuery(
     account.id,
-    CrudOperation.UPDATE
+    CrudOperation.UPDATE,
   )
   const deletedCountQuery = useGenreHistoryCountByUserQuery(
     account.id,
-    CrudOperation.DELETE
+    CrudOperation.DELETE,
   )
 
   return (

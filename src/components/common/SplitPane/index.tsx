@@ -25,7 +25,7 @@ const SplitPane: FC<{
   const [pos, setPos] = useState(0)
   const [size, setSize] = useLocalStorage(
     'settings.genreTree.size',
-    getDefaultSize(defaultSize, minSize, maxSize)
+    getDefaultSize(defaultSize, minSize, maxSize),
   )
 
   const splitPaneRef = useRef<HTMLDivElement>(null)
@@ -76,7 +76,7 @@ const SplitPane: FC<{
 
       setSize(newSize)
     },
-    [active, maxSize, minSize, pos, setSize]
+    [active, maxSize, minSize, pos, setSize],
   )
 
   const handleMouseDown = useCallback(
@@ -85,13 +85,13 @@ const SplitPane: FC<{
         ...e,
         touches: [{ clientX: e.clientX }],
       }),
-    [handleTouchStart]
+    [handleTouchStart],
   )
 
   const handleMouseMove = useCallback(
     (e: MouseEvent) =>
       handleTouchMove({ ...e, touches: [{ clientX: e.clientX }] }),
-    [handleTouchMove]
+    [handleTouchMove],
   )
 
   const documentRef = useRef(isBrowser ? document : null)
@@ -107,7 +107,7 @@ const SplitPane: FC<{
       <div
         className={twsx(
           'group w-px cursor-col-resize bg-transparent px-1 transition hover:bg-gray-100',
-          active && 'bg-gray-100'
+          active && 'bg-gray-100',
         )}
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
@@ -116,7 +116,7 @@ const SplitPane: FC<{
         <div
           className={twsx(
             'h-full w-px bg-gray-200 transition group-hover:bg-gray-300',
-            active && 'bg-gray-300'
+            active && 'bg-gray-300',
           )}
         />
       </div>
@@ -133,7 +133,7 @@ const Pane = forwardRef<
     ref={ref}
     className={clsx(
       'relative outline-none',
-      size === undefined ? 'flex-1' : 'flex-none'
+      size === undefined ? 'flex-1' : 'flex-none',
     )}
     style={{ width: size }}
   >
@@ -147,7 +147,7 @@ const getDefaultSize = (
   defaultSize: number | undefined,
   minSize: number,
   maxSize: number | undefined,
-  draggedSize?: number
+  draggedSize?: number,
 ) => {
   if (draggedSize !== undefined) {
     const min = minSize ?? 0

@@ -13,5 +13,5 @@ export const iso8601 = () =>
 
 export const check = <T>(
   schema: z.ZodType<T, z.ZodTypeDef, T>,
-  candidate: unknown
+  candidate: unknown,
 ): candidate is T => schema.safeParse(candidate).success

@@ -22,7 +22,7 @@ const Dialog: FC<PropsWithChildren<{ onClickOutside?: () => void }>> = ({
     >
       <div ref={ref}>{children}</div>
     </div>,
-    document.body
+    document.body,
   )
 }
 

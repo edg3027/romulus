@@ -97,10 +97,10 @@ const GenreForm: FC<{
   })
 
   const [parentGenres, setParentGenres] = useState<number[]>(
-    genre?.parentGenres.map((genre) => genre.id) ?? []
+    genre?.parentGenres.map((genre) => genre.id) ?? [],
   )
   const [influencedByGenres, setInfluencedByGenres] = useState<number[]>(
-    genre?.influencedByGenres.map((genre) => genre.id) ?? []
+    genre?.influencedByGenres.map((genre) => genre.id) ?? [],
   )
 
   const typeOptions = useMemo(
@@ -109,7 +109,7 @@ const GenreForm: FC<{
         key: type,
         label: capitalize(type),
       })),
-    []
+    [],
   )
 
   const submitHandler = useCallback(
@@ -130,7 +130,7 @@ const GenreForm: FC<{
         influencedByGenres,
         relevance: data.relevance,
       }),
-    [influencedByGenres, onSubmit, parentGenres]
+    [influencedByGenres, onSubmit, parentGenres],
   )
 
   useEffect(() => setFocus(autoFocus ?? 'name'), [autoFocus, setFocus])

@@ -62,7 +62,7 @@ const HasData: FC<{ history: DefaultGenreHistory[] }> = ({
 
         return compareAsc(a.createdAt, b.createdAt)
       }),
-    [unsortedHistory]
+    [unsortedHistory],
   )
 
   const genre = useMemo(() => {
@@ -121,7 +121,7 @@ const HasData: FC<{ history: DefaultGenreHistory[] }> = ({
 
 const Table: FC<{ history: DefaultGenreHistory[] }> = ({ history }) => {
   const [expanded, setExpanded] = useState<Record<string, boolean | undefined>>(
-    {}
+    {},
   )
 
   const columns = useMemo(
@@ -172,7 +172,7 @@ const Table: FC<{ history: DefaultGenreHistory[] }> = ({ history }) => {
         cell: (props) => format(props.getValue(), 'PPpp'),
       }),
     ],
-    [expanded]
+    [expanded],
   )
 
   const table = useReactTable({
@@ -196,7 +196,7 @@ const Table: FC<{ history: DefaultGenreHistory[] }> = ({ history }) => {
                   ? null
                   : flexRender(
                       header.column.columnDef.header,
-                      header.getContext()
+                      header.getContext(),
                     )}
               </th>
             ))}
@@ -242,7 +242,7 @@ const Table: FC<{ history: DefaultGenreHistory[] }> = ({ history }) => {
                   ? null
                   : flexRender(
                       header.column.columnDef.footer,
-                      header.getContext()
+                      header.getContext(),
                     )}
               </th>
             ))}
@@ -283,7 +283,7 @@ const Diff: FC<{
 
       return isEmpty(thisValue) ? 'delete' : 'update'
     },
-    [lastHistory, thisHistory]
+    [lastHistory, thisHistory],
   )
 
   const changed = useMemo(
@@ -302,14 +302,14 @@ const Diff: FC<{
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 const { genreId, ...data } = aka
                 return data
-              })
-            )
-          )
+              }),
+            ),
+          ),
       ),
       parentGenreIds: getAction((h) => new Set(h.parentGenreIds)),
       influencedByGenreIds: getAction((h) => new Set(h.influencedByGenreIds)),
     }),
-    [getAction]
+    [getAction],
   )
 
   const getActionClass = useCallback((action: DiffAction) => {
@@ -437,7 +437,7 @@ const Diff: FC<{
             'flex-1 rounded border',
             thisHistory.operation === CrudOperation.CREATE
               ? 'border-green-300 bg-green-100'
-              : 'border-gray-300 bg-gray-100'
+              : 'border-gray-300 bg-gray-100',
           )}
         >
           <div
@@ -445,7 +445,7 @@ const Diff: FC<{
               'border-b p-2 px-3 text-sm font-bold uppercase tracking-wide',
               thisHistory.operation === CrudOperation.CREATE
                 ? 'border-green-200 text-green-500'
-                : 'border-gray-200 text-gray-500'
+                : 'border-gray-200 text-gray-500',
             )}
           >
             After
@@ -455,7 +455,7 @@ const Diff: FC<{
               <div
                 className={clsx(
                   'rounded p-1 px-2',
-                  getActionClass(changed.name)
+                  getActionClass(changed.name),
                 )}
               >
                 <Label>Name</Label>
@@ -466,7 +466,7 @@ const Diff: FC<{
               <div
                 className={clsx(
                   'rounded p-1 px-2',
-                  getActionClass(changed.subtitle)
+                  getActionClass(changed.subtitle),
                 )}
               >
                 <Label>Subtitle</Label>
@@ -477,7 +477,7 @@ const Diff: FC<{
               <div
                 className={clsx(
                   'rounded p-1 px-2',
-                  getActionClass(changed.type)
+                  getActionClass(changed.type),
                 )}
               >
                 <Label>Type</Label>
@@ -490,7 +490,7 @@ const Diff: FC<{
               <div
                 className={clsx(
                   'rounded p-1 px-2',
-                  getActionClass(changed.shortDescription)
+                  getActionClass(changed.shortDescription),
                 )}
               >
                 <Label>Short Description</Label>
@@ -501,7 +501,7 @@ const Diff: FC<{
               <div
                 className={clsx(
                   'rounded p-1 px-2',
-                  getActionClass(changed.longDescription)
+                  getActionClass(changed.longDescription),
                 )}
               >
                 <Label>Long Description</Label>
@@ -512,7 +512,7 @@ const Diff: FC<{
               <div
                 className={clsx(
                   'rounded p-1 px-2',
-                  getActionClass(changed.notes)
+                  getActionClass(changed.notes),
                 )}
               >
                 <Label>Notes</Label>
@@ -523,7 +523,7 @@ const Diff: FC<{
               <div
                 className={clsx(
                   'rounded p-1 px-2',
-                  getActionClass(changed.akas)
+                  getActionClass(changed.akas),
                 )}
               >
                 <Label>AKAs</Label>
@@ -535,7 +535,7 @@ const Diff: FC<{
               <div
                 className={clsx(
                   'rounded p-1 px-2',
-                  getActionClass(changed.parentGenreIds)
+                  getActionClass(changed.parentGenreIds),
                 )}
               >
                 <Label>Parents</Label>
@@ -558,7 +558,7 @@ const Diff: FC<{
               <div
                 className={clsx(
                   'rounded p-1 px-2',
-                  getActionClass(changed.influencedByGenreIds)
+                  getActionClass(changed.influencedByGenreIds),
                 )}
               >
                 <Label>Influences</Label>

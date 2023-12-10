@@ -17,13 +17,15 @@ type FullGenreHistory = GenreHistory & {
 const main = async () => {
   const allTreeGenreIds = [
     ...new Set(
-      await prisma.genreHistory.findMany({ select: { treeGenreId: true } })
+      await prisma.genreHistory.findMany({ select: { treeGenreId: true } }),
     ),
   ]
 
   for (const [i, { treeGenreId }] of allTreeGenreIds.entries()) {
     console.log(
-      `[${i + 1}/${allTreeGenreIds.length}] Remove duplicate history entries...`
+      `[${i + 1}/${
+        allTreeGenreIds.length
+      }] Remove duplicate history entries...`,
     )
 
     const history = await prisma.genreHistory.findMany({
@@ -58,8 +60,8 @@ const main = async () => {
 
       await prisma.$transaction(
         [...deleteIds].map((id) =>
-          prisma.genreHistory.delete({ where: { id } })
-        )
+          prisma.genreHistory.delete({ where: { id } }),
+        ),
       )
     }
   }

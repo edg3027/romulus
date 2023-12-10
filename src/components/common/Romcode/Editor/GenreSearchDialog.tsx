@@ -102,12 +102,12 @@ const HasData: FC<{
 
   const visibleMatches = useMemo(
     () => matches.slice(0, numVisibleMatches),
-    [matches, numVisibleMatches]
+    [matches, numVisibleMatches],
   )
 
   const showMoreButton = useMemo(
     () => numVisibleMatches < matches.length,
-    [matches.length, numVisibleMatches]
+    [matches.length, numVisibleMatches],
   )
 
   return (

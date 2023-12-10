@@ -11,7 +11,7 @@ const useWarnOnUnsavedChanges = ({
 }) => {
   const hasDirtyFields = useMemo(
     () => Object.values(dirtyFields).some((dirty) => !!dirty),
-    [dirtyFields]
+    [dirtyFields],
   )
 
   useEffect(() => {

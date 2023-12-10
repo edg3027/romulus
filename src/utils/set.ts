@@ -5,7 +5,7 @@ export const setEqualsIgnoreOrder = <T>(a: Set<T>, b: Set<T>): boolean => {
 
 export const setDiff = <T>(
   original: Set<T>,
-  updated: Set<T>
+  updated: Set<T>,
 ): { added: Set<T>; removed: Set<T> } | false => {
   const added = new Set<T>()
   const removed = new Set<T>()

@@ -27,12 +27,12 @@ const RelevanceSelect = forwardRef<
         })),
       { key: UNSET_GENRE_RELEVANCE, label: 'Unset' },
     ],
-    []
+    [],
   )
 
   const selectedOption = useMemo(
     () => relevanceOptions.find((ro) => ro.key === value),
-    [relevanceOptions, value]
+    [relevanceOptions, value],
   )
 
   return (

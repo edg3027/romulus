@@ -23,7 +23,7 @@ const Template: Story<ComponentProps<typeof M> & { numOptions: number }> = ({
   const options = useMemo(() => {
     const selectedIds = new Set(selected.map((s) => s.id))
     return all.filter(
-      (i) => i.id.toString().startsWith(query) && !selectedIds.has(i.id)
+      (i) => i.id.toString().startsWith(query) && !selectedIds.has(i.id),
     )
   }, [all, query, selected])
 
@@ -81,7 +81,7 @@ const PopoverDirectionTemplate: Story<
   const options = useMemo(() => {
     const selectedIds = new Set(selected.map((s) => s.id))
     return all.filter(
-      (i) => i.id.toString().startsWith(query) && !selectedIds.has(i.id)
+      (i) => i.id.toString().startsWith(query) && !selectedIds.has(i.id),
     )
   }, [all, query, selected])
 

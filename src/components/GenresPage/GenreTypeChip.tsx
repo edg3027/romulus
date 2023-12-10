@@ -12,14 +12,14 @@ const GenreTypeChip: FC<{ type: GenreType; className?: string }> = ({
 
   const text = useMemo(
     () => (type === GenreType.MOVEMENT ? 'Mvmt' : capitalize(type)),
-    [type]
+    [type],
   )
 
   return (
     <span
       className={twsx(
         'rounded-full bg-gray-200 px-1 py-0.5 text-xs font-bold text-gray-500',
-        className
+        className,
       )}
       title={title}
     >

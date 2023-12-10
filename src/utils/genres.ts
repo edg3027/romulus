@@ -13,7 +13,7 @@ export type TreeSearchNode = {
 
 export const treeDfs = (
   tree: Map<number, TreeStructureNode>,
-  fn: (node: TreeSearchNode) => boolean
+  fn: (node: TreeSearchNode) => boolean,
 ) => {
   const queue: TreeSearchNode[] = [...tree.values()]
     .filter((g) => g.parents.length === 0)
@@ -35,7 +35,7 @@ export const treeDfs = (
           ...currentGenre.children.map((childId) => ({
             id: childId,
             path: [...path, childId],
-          }))
+          })),
         )
       }
       currentNode = queue.shift()
@@ -45,7 +45,7 @@ export const treeDfs = (
 
 export const treeBfs = (
   tree: Map<number, TreeStructureNode>,
-  fn: (node: TreeSearchNode) => boolean
+  fn: (node: TreeSearchNode) => boolean,
 ) => {
   const stack: TreeSearchNode[] = [...tree.values()]
     .filter((g) => g.parents.length === 0)
@@ -67,7 +67,7 @@ export const treeBfs = (
           ...currentGenre.children.map((childId) => ({
             id: childId,
             path: [...path, childId],
-          }))
+          })),
         )
       }
       currentNode = stack.pop()

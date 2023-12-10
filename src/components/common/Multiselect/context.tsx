@@ -32,7 +32,7 @@ export type MultiselectContext = {
 
 const placeholderFn = () => {
   throw new Error(
-    'MultiselectContext must be used inside a MultiselectProvider'
+    'MultiselectContext must be used inside a MultiselectProvider',
   )
 }
 
@@ -70,12 +70,12 @@ export const MultiselectProvider: FC<
 > = ({ children, onChange, selected, ...props }) => {
   const select = useCallback(
     (item: HasId) => onChange([...selected, item]),
-    [onChange, selected]
+    [onChange, selected],
   )
 
   const unselect = useCallback(
     (item: HasId) => onChange(selected.filter((i) => i.id !== item.id)),
-    [onChange, selected]
+    [onChange, selected],
   )
 
   const [open, setOpen] = useState(false)

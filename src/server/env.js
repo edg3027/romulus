@@ -49,7 +49,7 @@ if (!env.success) {
 
   console.error(
     '❌ Invalid environment variables:',
-    JSON.stringify(allErrors, null, 4)
+    JSON.stringify(allErrors, null, 4),
   )
   process.exit(1)
 }

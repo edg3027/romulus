@@ -12,7 +12,7 @@ export const genreHistoryRouter = router({
       prisma.genreHistory.findMany({
         where: { treeGenreId: id },
         select: defaultGenreHistorySelect,
-      })
+      }),
     ),
   byUserId: publicProcedure
     .input(
@@ -20,7 +20,7 @@ export const genreHistoryRouter = router({
         id: z.number(),
         limit: z.number().min(1).max(100).optional(),
         cursor: z.number().optional(),
-      })
+      }),
     )
     .query(async ({ input }) => {
       const limit = input.limit ?? 50

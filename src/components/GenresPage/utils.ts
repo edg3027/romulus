@@ -38,7 +38,7 @@ export const getGenreRelevanceText = (relevance: number) => {
 export const getFilteredParentGenres = <T extends TreeGenre>(
   genre: T,
   genreRelevanceFilter: number,
-  genreMap: Map<number, T>
+  genreMap: Map<number, T>,
 ) =>
   uniqBy(
     (g) => g.id,
@@ -66,13 +66,13 @@ export const getFilteredParentGenres = <T extends TreeGenre>(
 
         return ancestors
       })
-      .filter(isNotNull)
+      .filter(isNotNull),
   )
 
 export const getFilteredChildGenres = <T extends TreeGenre>(
   genre: T,
   genreRelevanceFilter: number,
-  genreMap: Map<number, T>
+  genreMap: Map<number, T>,
 ) =>
   uniqBy(
     (g) => g.id,
@@ -100,5 +100,5 @@ export const getFilteredChildGenres = <T extends TreeGenre>(
 
         return descendants
       })
-      .filter(isNotNull)
+      .filter(isNotNull),
   )

@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge'
 
 export const findAncestorNode = (
   start: Node,
-  cb: (node: Node) => boolean
+  cb: (node: Node) => boolean,
 ): Node | null => {
   let current: Node | null = start
   while (current && !cb(current)) {
@@ -15,7 +15,7 @@ export const findAncestorNode = (
 
 export const findAncestorElement = (
   start: HTMLElement,
-  cb: (node: HTMLElement) => boolean
+  cb: (node: HTMLElement) => boolean,
 ): HTMLElement | null => {
   let current: HTMLElement | null = start
   while (current && !cb(current)) {
@@ -69,7 +69,7 @@ export const copyTextToClipboard = (text: string, showToast = true) => {
       if (showToast) {
         toast.error('Could not copy to clipboard')
       }
-    }
+    },
   )
 }
 

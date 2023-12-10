@@ -20,7 +20,7 @@ export const GenreRelevanceInput = z
       val === UNSET_GENRE_RELEVANCE,
     {
       message: `Must be between ${MIN_GENRE_RELEVANCE} and ${MAX_GENRE_RELEVANCE} (inclusive)`,
-    }
+    },
   )
 
 export const CreateOrConnect = <T extends z.ZodTypeAny>(schema: T) =>

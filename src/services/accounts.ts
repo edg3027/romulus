@@ -7,7 +7,7 @@ export const useAccountQuery = (id?: number) =>
     {
       enabled: id !== undefined,
       staleTime: 60 * 1000,
-    }
+    },
   )
 
 export const useAccountByUsernameQuery = (username: string) =>

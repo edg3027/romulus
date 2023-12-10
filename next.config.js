@@ -34,5 +34,5 @@ module.exports = withBundleAnalyzer(
     publicRuntimeConfig: {
       NODE_ENV: env.NODE_ENV,
     },
-  })
+  }),
 )

@@ -42,9 +42,9 @@ const HasData: FC<{
             toast.success(`Updated genre '${data.name}'`)
             router.push(href)
           },
-        }
+        },
       ),
-    [editGenre, genre.id, href, router]
+    [editGenre, genre.id, href, router],
   )
 
   return (

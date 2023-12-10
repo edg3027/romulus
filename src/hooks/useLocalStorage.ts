@@ -19,7 +19,7 @@ type SetValue<T> = Dispatch<SetStateAction<T>>
 
 function useLocalStorage<T>(
   key: string,
-  initialValue: T
+  initialValue: T,
 ): [T, SetValue<T>, () => T] {
   // Get from local storage then
   // parse stored json or return initialValue
@@ -48,7 +48,7 @@ function useLocalStorage<T>(
     // Prevent build error "window is undefined" but keeps working
     if (typeof window == 'undefined') {
       console.warn(
-        `Tried setting localStorage key “${key}” even though environment is not a client`
+        `Tried setting localStorage key “${key}” even though environment is not a client`,
       )
     }
 
@@ -81,7 +81,7 @@ function useLocalStorage<T>(
       }
       setStoredValue(readValue())
     },
-    [key, readValue]
+    [key, readValue],
   )
 
   // this only works for other documents, not the current one

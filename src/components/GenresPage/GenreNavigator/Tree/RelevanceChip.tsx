@@ -10,7 +10,7 @@ const RelevanceChip: FC<{ relevance: number; className?: string }> = ({
       relevance === 99
         ? ['?', 'bg-error-200 text-error-500', 'Missing Relevance']
         : [relevance, 'bg-gray-200 text-gray-500'],
-    [relevance]
+    [relevance],
   )
 
   return (
@@ -18,7 +18,7 @@ const RelevanceChip: FC<{ relevance: number; className?: string }> = ({
       className={clsx(
         'rounded-full px-1 py-0.5 text-xs font-bold',
         color,
-        className
+        className,
       )}
       title={title}
     >

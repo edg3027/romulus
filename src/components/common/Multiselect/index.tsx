@@ -39,17 +39,17 @@ const Multiselect = <T extends HasId>(
     onQueryChange,
     className,
   }: PropsWithChildren<MultiselectProps<T>>,
-  ref: ForwardedRef<HTMLInputElement>
+  ref: ForwardedRef<HTMLInputElement>,
 ) => {
   const innerRef = useForwardedRef(ref)
   const select = useCallback(
     (item: T) => onChange([...value, item]),
-    [onChange, value]
+    [onChange, value],
   )
 
   const unselect = useCallback(
     (item: T) => onChange(value.filter((i) => i.id !== item.id)),
-    [onChange, value]
+    [onChange, value],
   )
 
   const [open, setOpen] = useState(false)
@@ -80,7 +80,7 @@ const Multiselect = <T extends HasId>(
       select,
       unselect,
       value,
-    ]
+    ],
   )
 
   return (
@@ -95,7 +95,7 @@ const Multiselect = <T extends HasId>(
 const Wrapper = forwardRef(Multiselect) as unknown as (<T extends HasId>(
   props: PropsWithChildren<MultiselectProps<T>> & {
     ref?: ForwardedRef<HTMLInputElement>
-  }
+  },
 ) => ReactElement) & {
   Box: typeof MultiselectBox
   Selected: typeof MultiselectSelected

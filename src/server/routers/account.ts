@@ -43,6 +43,6 @@ export const accountRouter = router({
       return editAccount(input)
     }),
   all: publicProcedure.query(() =>
-    prisma.account.findMany({ select: defaultAccountSelect })
+    prisma.account.findMany({ select: defaultAccountSelect }),
   ),
 })

@@ -24,7 +24,7 @@ export const GenreView: FC<{
 
   const hasHistory = useMemo(
     () => historyQuery.data && historyQuery.data.length > 0,
-    [historyQuery.data]
+    [historyQuery.data],
   )
 
   if (genreQuery.data && historyQuery.data) {
@@ -78,9 +78,9 @@ const HasData: FC<{
             toast.success(`Deleted genre '${genre.name}'`)
             router.push('/genres')
           },
-        }
+        },
       ),
-    [deleteGenre, genre.id, genre.name, router]
+    [deleteGenre, genre.id, genre.name, router],
   )
 
   return (

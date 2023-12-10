@@ -11,7 +11,7 @@ import { GenreFormFields } from '../GenresPage/GenreView/Form'
 export const useGenreLinkHref = (
   id: number,
   view?: GenrePageView['type'],
-  autoFocus?: keyof GenreFormFields
+  autoFocus?: keyof GenreFormFields,
 ) => {
   const href = useMemo(() => {
     let path = `/genres?id=${id}`
@@ -100,7 +100,7 @@ const DeletedLinkWrapper: FC<
 
         return compareAsc(a.createdAt, b.createdAt)
       }),
-    [historyQuery.data]
+    [historyQuery.data],
   )
 
   const genre = useMemo(() => {

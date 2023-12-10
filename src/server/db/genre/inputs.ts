@@ -35,7 +35,7 @@ export const GenreAkaRelevanceInput = z
     (val) => val >= MIN_GENRE_AKA_RELEVANCE && val <= MAX_GENRE_AKA_RELEVANCE,
     {
       message: `Must be between ${MIN_GENRE_AKA_RELEVANCE} and ${MAX_GENRE_AKA_RELEVANCE} (inclusive)`,
-    }
+    },
   )
 
 export const GenreAkaInput = z.object({

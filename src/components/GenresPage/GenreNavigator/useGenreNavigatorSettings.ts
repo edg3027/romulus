@@ -11,7 +11,7 @@ export const useGenreNavigatorSettings = () => {
 
   const genreRelevanceFilter = useMemo(
     () => session.account?.genreRelevanceFilter ?? 1,
-    [session.account?.genreRelevanceFilter]
+    [session.account?.genreRelevanceFilter],
   )
   const setGenreRelevanceFilter = useCallback(
     (value: number) => {
@@ -26,12 +26,12 @@ export const useGenreNavigatorSettings = () => {
         data: { genreRelevanceFilter: value },
       })
     },
-    [editAccount, session.account?.id]
+    [editAccount, session.account?.id],
   )
 
   const showTypeTags = useMemo(
     () => session.account?.showTypeTags ?? true,
-    [session.account?.showTypeTags]
+    [session.account?.showTypeTags],
   )
   const setShowTypeTags = useCallback(
     (value: boolean) => {
@@ -46,12 +46,12 @@ export const useGenreNavigatorSettings = () => {
         data: { showTypeTags: value },
       })
     },
-    [editAccount, session.account?.id]
+    [editAccount, session.account?.id],
   )
 
   const showRelevanceTags = useMemo(
     () => session.account?.showRelevanceTags ?? false,
-    [session.account?.showRelevanceTags]
+    [session.account?.showRelevanceTags],
   )
   const setShowRelevanceTags = useCallback(
     (value: boolean) => {
@@ -66,7 +66,7 @@ export const useGenreNavigatorSettings = () => {
         data: { showRelevanceTags: value },
       })
     },
-    [editAccount, session.account?.id]
+    [editAccount, session.account?.id],
   )
 
   const data = useMemo(
@@ -85,7 +85,7 @@ export const useGenreNavigatorSettings = () => {
       setShowTypeTags,
       showRelevanceTags,
       showTypeTags,
-    ]
+    ],
   )
 
   return data

@@ -44,7 +44,7 @@ const RelevanceVoteForm: FC<{
 
       vote({ relevance: data.relevance, genreId })
     },
-    [deleteVote, genreId, vote]
+    [deleteVote, genreId, vote],
   )
 
   useEffect(() => setFocus('relevance'), [setFocus])
@@ -54,7 +54,7 @@ const RelevanceVoteForm: FC<{
     if (data !== undefined && !dirtyFields.relevance) {
       setValue(
         'relevance',
-        data === null ? UNSET_GENRE_RELEVANCE : data.relevance
+        data === null ? UNSET_GENRE_RELEVANCE : data.relevance,
       )
     }
   }, [data, dirtyFields.relevance, setValue])
@@ -63,7 +63,7 @@ const RelevanceVoteForm: FC<{
     <div
       className={twsx(
         'rounded border border-gray-300 bg-gray-50 p-4',
-        className
+        className,
       )}
     >
       <form onSubmit={(e) => void handleSubmit(submitHandler)(e)}>

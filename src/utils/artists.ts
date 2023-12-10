@@ -2,7 +2,7 @@ import { DefaultArtist } from '../server/db/artist/outputs'
 import { PersonNameStringArg, toPersonNameString } from './people'
 
 export const toArtistNameString = (
-  artist: Pick<DefaultArtist, 'name' | 'members'>
+  artist: Pick<DefaultArtist, 'name' | 'members'>,
 ) =>
   artist.name ??
   artist.members.map((member) => toMemberNameString(member)).join(', ')

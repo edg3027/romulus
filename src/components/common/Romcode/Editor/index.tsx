@@ -33,13 +33,13 @@ const RomcodeEditor = forwardRef<
 >(({ id, value, onChange, onBlur, className }, ref) => {
   const [tab, setTab] = useState<Tab>(Tab.EDIT)
   const [showGenreDialog, setShowGenreDialog] = useState<boolean | string>(
-    false
+    false,
   )
 
   const internalRef = useRef<HTMLTextAreaElement>(null)
   useImperativeHandle<HTMLTextAreaElement | null, HTMLTextAreaElement | null>(
     ref,
-    () => internalRef.current
+    () => internalRef.current,
   )
 
   const handleInsertGenreTag = useCallback(
@@ -63,7 +63,7 @@ const RomcodeEditor = forwardRef<
         onChange(value + genreTag)
       }
     },
-    [onChange, value]
+    [onChange, value],
   )
 
   const handleBold = useCallback(() => {
@@ -115,7 +115,7 @@ const RomcodeEditor = forwardRef<
       <div
         className={twsx(
           'flex flex-col h-72 overflow-auto resize-y rounded border border-gray-500 bg-gray-100 focus-within:border-secondary-500 transition text-sm text-gray-800',
-          className
+          className,
         )}
       >
         {tab === Tab.EDIT && (
@@ -172,7 +172,7 @@ const RomcodeEditor = forwardRef<
           <button
             className={clsx(
               'border-r border-gray-200 px-2 py-1 text-xs uppercase text-gray-400 transition hover:bg-gray-200 active:bg-gray-300',
-              tab === Tab.EDIT ? 'font-bold' : 'font-medium'
+              tab === Tab.EDIT ? 'font-bold' : 'font-medium',
             )}
             type='button'
             onClick={() => setTab(Tab.EDIT)}
@@ -182,7 +182,7 @@ const RomcodeEditor = forwardRef<
           <button
             className={clsx(
               'border-r border-gray-200 px-2 py-1 text-xs uppercase text-gray-400 transition hover:bg-gray-200 active:bg-gray-300',
-              tab === Tab.VIEW ? 'font-bold' : 'font-medium'
+              tab === Tab.VIEW ? 'font-bold' : 'font-medium',
             )}
             type='button'
             onClick={() => setTab(Tab.VIEW)}

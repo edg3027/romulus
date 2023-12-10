@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     ) {
       return new Response(
         'Could not create account. Username already exists.',
-        { status: 409 }
+        { status: 409 },
       )
     }
 
