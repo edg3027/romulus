@@ -7,6 +7,7 @@ import {
   SetStateAction,
   useContext,
   useMemo,
+  useRef,
   useState,
 } from 'react'
 import { usePopper } from 'react-popper'
@@ -63,11 +64,9 @@ const PopoverContent: FC<PropsWithChildren<{ className?: string }>> = ({
 }) => {
   const { show, referenceElement } = useContext(PopoverContext)
 
-  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
-    null
-  )
+  const ref = useRef<HTMLDivElement | null>(null)
 
-  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+  const { styles, attributes } = usePopper(referenceElement, ref.current, {
     modifiers: [{ name: 'offset', options: { offset: [0, 6] } }],
   })
 
@@ -80,7 +79,7 @@ const PopoverContent: FC<PropsWithChildren<{ className?: string }>> = ({
       leave='transition-opacity'
       leaveFrom='opacity-100'
       leaveTo='opacity-0'
-      ref={setPopperElement}
+      ref={ref}
       style={styles.popper}
       className={twsx('z-10', className)}
       {...attributes.popper}

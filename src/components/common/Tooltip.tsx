@@ -1,5 +1,12 @@
 import { Transition } from '@headlessui/react'
-import { FC, PropsWithChildren, ReactNode, useEffect, useState } from 'react'
+import {
+  FC,
+  PropsWithChildren,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { createPortal } from 'react-dom'
 import { usePopper } from 'react-popper'
 
@@ -11,12 +18,10 @@ const Tooltip: FC<
 > = ({ className, tip, children, delay = 500 }) => {
   const [referenceElement, setReferenceElement] =
     useState<HTMLDivElement | null>(null)
-  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
-    null
-  )
+  const ref = useRef(null)
   const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null)
 
-  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+  const { styles, attributes } = usePopper(referenceElement, ref.current, {
     modifiers: [
       {
         name: 'arrow',
@@ -58,7 +63,7 @@ const Tooltip: FC<
               leaveFrom='opacity-100'
               leaveTo='opacity-0'
               className='tooltip rounded bg-gray-900 px-1.5 py-1 text-xs font-medium text-gray-100 shadow'
-              ref={setPopperElement}
+              ref={ref}
               style={styles.popper}
               {...attributes.popper}
             >
