@@ -4,7 +4,6 @@ import {
   QueryCache,
   QueryClient,
 } from '@tanstack/react-query'
-import { createTRPCNext } from '@trpc/next'
 import {
   createTRPCReact,
   httpBatchLink,
@@ -93,38 +92,6 @@ export const trpcReact = trpc.createClient({
       maxURLLength: 2083,
     }),
   ],
-})
-
-export const trpcNext = createTRPCNext<AppRouter, SSRContext>({
-  config: ({ ctx }) => ({
-    transformer: superjson,
-    queryClient,
-    headers: {
-      cookie: ctx?.req?.headers.cookie,
-    },
-    links: [
-      httpBatchLink({
-        url: `${getBaseTrpcUrl()}/api/trpc`,
-        maxURLLength: 2083,
-        headers() {
-          if (ctx?.req) {
-            // To use SSR properly, you need to forward the client's headers to the server
-            // This is so you can pass through things like cookies when we're server-side rendering
-
-            // If you're using Node 18, omit the "connection" header
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const { connection: _connection, ...headers } = ctx.req.headers
-            return {
-              ...headers,
-              // Optional: inform server that it's an SSR request
-              'x-ssr': '1',
-            }
-          }
-          return {}
-        },
-      }),
-    ],
-  }),
 })
 
 /**
