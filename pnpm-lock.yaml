@@ -84,8 +84,8 @@ dependencies:
     specifier: ^1.9.1
     version: 1.12.2
   tailwind-merge:
-    specifier: ^1.6.0
-    version: 1.8.1
+    specifier: ^2.1.0
+    version: 2.1.0
   validator:
     specifier: ^13.11.0
     version: 13.11.0
@@ -15378,11 +15378,13 @@ packages:
       }
     dev: true
 
-  /tailwind-merge@1.8.1:
+  /tailwind-merge@2.1.0:
     resolution:
       {
-        integrity: sha512-+fflfPxvHFr81hTJpQ3MIwtqgvefHZFUHFiIHpVIRXvG/nX9+gu2P7JNlFu2bfDMJ+uHhi/pUgzaYacMoXv+Ww==,
+        integrity: sha512-l11VvI4nSwW7MtLSLYT4ldidDEUwQAMWuSHk7l4zcXZDgnCRa0V3OdCwFfM7DCzakVXMNRwAeje9maFFXT71dQ==,
       }
+    dependencies:
+      '@babel/runtime': 7.23.5
     dev: false
 
   /tailwindcss@3.3.6(ts-node@10.9.2):
