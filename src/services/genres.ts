@@ -67,6 +67,7 @@ export const useAddGenreMutation = () => {
       await Promise.all([
         utils.genre.paginated.invalidate(),
         utils.genre.searchSimple.invalidate(),
+        utils.genre.allSimple.invalidate(),
         utils.genre.history.byGenreId.invalidate(),
         utils.genre.history.byUserId.invalidate(),
         utils.genre.history.userCount.invalidate(),
@@ -84,6 +85,7 @@ export const useEditGenreMutation = () => {
       await Promise.all([
         utils.genre.paginated.invalidate(),
         utils.genre.searchSimple.invalidate(),
+        utils.genre.allSimple.invalidate(),
         utils.genre.history.byGenreId.invalidate(),
         utils.genre.history.byUserId.invalidate(),
         utils.genre.history.userCount.invalidate(),
@@ -99,6 +101,7 @@ export const useDeleteGenreMutation = () => {
       await Promise.all([
         utils.genre.paginated.invalidate(),
         utils.genre.searchSimple.invalidate(),
+        utils.genre.allSimple.invalidate(),
         utils.genre.history.byGenreId.invalidate({ id }),
         utils.genre.history.byUserId.invalidate(),
         utils.genre.history.userCount.invalidate(),
