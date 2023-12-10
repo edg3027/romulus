@@ -85,7 +85,7 @@ const Tree: FC<{ genres: SimpleGenre[] }> = ({ genres }) => {
               session.hasPermission(Permission.EDIT_GENRES) && (
                 <div>
                   <Link
-                    href={{ pathname: '/genres', query: { view: 'create' } }}
+                    href='/genres?view=create'
                     className='text-primary-500 hover:underline'
                   >
                     Create one.

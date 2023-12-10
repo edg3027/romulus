@@ -277,10 +277,7 @@ const GenreViewData: FC<{
             {contributors.map(({ id, username }) => (
               <li key={id}>
                 <Link
-                  href={{
-                    pathname: '/accounts/[id]',
-                    query: { id: id.toString() },
-                  }}
+                  href={`/accounts/${id}`}
                   className='text-primary-500 hover:underline'
                 >
                   {username}

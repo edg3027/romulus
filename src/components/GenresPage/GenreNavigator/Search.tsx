@@ -50,7 +50,7 @@ const HasData: FC<{ matches: Match[] }> = ({ matches }) => {
             session.hasPermission(Permission.EDIT_GENRES) && (
               <div>
                 <Link
-                  href={{ pathname: '/genres', query: { view: 'create' } }}
+                  href='/genres?view=create'
                   className='text-primary-500 hover:underline'
                 >
                   Create one.
@@ -71,7 +71,7 @@ const SearchResult: FC<{ match: Match; clearFilter: () => void }> = ({
 
   return (
     <Link
-      href={{ pathname: '/genres', query: { id: genre.id.toString() } }}
+      href={`/genres?id=${genre.id}`}
       className='block text-gray-700 hover:font-bold'
       onClick={() => clearFilter()}
     >

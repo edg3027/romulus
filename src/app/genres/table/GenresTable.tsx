@@ -78,7 +78,7 @@ const defaultColumns = [
 
       return (
         <Link
-          href={{ pathname: '/genres', query: { id: genre.id.toString() } }}
+          href={`/genres/${genre.id}`}
           className='block text-gray-700 hover:font-bold'
         >
           {genre.name}

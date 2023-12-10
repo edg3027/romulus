@@ -11,8 +11,8 @@ const Navbar: FC = () => {
   const renderLoginLinks = useCallback(
     () => (
       <>
-        <Link href={{ pathname: '/login' }}>Log in</Link>
-        <Link href={{ pathname: '/register' }}>Register</Link>
+        <Link href='/login'>Log in</Link>
+        <Link href='/register'>Register</Link>
       </>
     ),
     []
@@ -22,7 +22,7 @@ const Navbar: FC = () => {
     if (session.account !== undefined) {
       return session.account ? (
         <>
-          <Link href={`/accounts/${session.account.id.toString()}`}>
+          <Link href={`/accounts/${session.account.id}`}>
             {session.account.username}
           </Link>
           <button onClick={() => logout()}>Log out</button>
@@ -42,8 +42,8 @@ const Navbar: FC = () => {
   return (
     <div className='flex justify-between border-b border-gray-300 p-2 px-4'>
       <div className='flex space-x-2'>
-        <Link href={{ pathname: '/genres' }}>Tree</Link>
-        <Link href={{ pathname: '/genres/table' }}>Table</Link>
+        <Link href='/genres'>Tree</Link>
+        <Link href='/genres/table'>Table</Link>
       </div>
 
       <div className='flex space-x-2'>{renderSession()}</div>

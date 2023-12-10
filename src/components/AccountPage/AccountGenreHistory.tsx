@@ -21,10 +21,7 @@ const defaultColumns = [
     header: 'Genre',
     cell: (props) => (
       <Link
-        href={{
-          pathname: '/genres',
-          query: { id: props.row.original.treeGenreId.toString() },
-        }}
+        href={`/genres?id=${props.row.original.treeGenreId}`}
         className='text-primary-500 hover:underline'
       >
         {props.getValue()}

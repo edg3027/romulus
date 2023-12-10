@@ -61,10 +61,7 @@ const GenreTreeNode: FC<{ genre: TreeGenre; path: number[] }> = ({
           {isExpanded ? <RiArrowDownSLine /> : <RiArrowRightSLine />}
         </IconButton>
         <Link
-          href={{
-            pathname: '/genres',
-            query: { id: id.toString() },
-          }}
+          href={`/genres?id=${id}`}
           onClick={() => {
             setSelectedId(id)
             setSelectedPath(path)

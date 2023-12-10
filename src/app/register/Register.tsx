@@ -103,10 +103,7 @@ const Register: NextPage = () => {
 
         <div className='mt-3 text-sm text-gray-700'>
           Already have an account?{' '}
-          <Link
-            href={{ pathname: '/login' }}
-            className='text-primary-500 hover:underline'
-          >
+          <Link href='/login' className='text-primary-500 hover:underline'>
             Log in.
           </Link>
         </div>

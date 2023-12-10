@@ -159,10 +159,7 @@ const Table: FC<{ history: DefaultGenreHistory[] }> = ({ history }) => {
 
           return (
             <Link
-              href={{
-                pathname: '/accounts/[id]',
-                query: { id: account.id.toString() },
-              }}
+              href={`/accounts/${account.id}`}
               className='text-primary-500 hover:underline'
             >
               {account.username}
