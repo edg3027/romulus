@@ -6,7 +6,8 @@ import { useCallback, useMemo } from 'react'
 import { trpc } from '../utils/trpc'
 import { useAccountQuery } from './accounts'
 
-export const useWhoamiQuery = () => trpc.auth.whoami.useQuery()
+export const useWhoamiQuery = () =>
+  trpc.auth.whoami.useQuery(undefined, { staleTime: 60 * 1000 })
 
 export const useSession = () => {
   const whoamiQuery = useWhoamiQuery()
@@ -25,7 +26,7 @@ export const useSession = () => {
   const hasPermission = useCallback(
     (permission: Permission) =>
       accountQuery.data?.permissions.includes(permission),
-    [accountQuery.data?.permissions]
+    [accountQuery.data?.permissions],
   )
 
   return {
@@ -46,7 +47,7 @@ export const useLoginMutation = () => {
       onSuccess: async () => {
         await utils.auth.whoami.invalidate()
       },
-    }
+    },
   )
 }
 
@@ -59,7 +60,7 @@ export const useRegisterMutation = () => {
       onSuccess: async () => {
         await utils.auth.whoami.invalidate()
       },
-    }
+    },
   )
 }
 
