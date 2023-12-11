@@ -23,19 +23,19 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({
         (disabled || loading) && 'pointer-events-none',
         template === 'primary' &&
           (disabled
-            ? 'bg-gray-300 text-gray-500 border border-transparent'
+            ? 'bg-gray-300 text-gray-500 border border-transparent dark:bg-gray-700'
             : 'bg-primary-500 hover:bg-primary-600 active:bg-primary-700 text-gray-100 border border-transparent focus:border-secondary-500'),
         template === 'secondary' &&
           (disabled
-            ? 'bg-transparent text-gray-400 border border-gray-400'
+            ? 'bg-transparent text-gray-400 border border-gray-400 dark:text-gray-500 dark:border-gray-500'
             : 'bg-transparent text-primary-500 hover:text-primary-600 active:text-primary-700 border border-primary-500 hover:border-primary-600 active:border-primary-700 focus:border-secondary-500'),
         template === 'tertiary' &&
           (disabled
-            ? 'bg-transparent text-gray-400 border border-transparent'
+            ? 'bg-transparent text-gray-400 border border-transparent dark:text-gray-500'
             : 'bg-transparent hover:bg-gray-200 active:bg-gray-300 text-primary-500 border border-transparent focus:border-secondary-500'),
         template === 'danger' &&
           (disabled
-            ? 'bg-gray-300 text-gray-500 border border-transparent'
+            ? 'bg-gray-300 text-gray-500 border border-transparent dark:bg-gray-700'
             : 'bg-error-500 hover:bg-error-600 active:bg-error-700 text-gray-100 border border-transparent focus:border-error-800'),
         className,
       )}
