@@ -1,8 +1,7 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { useState } from 'react'
-
 import Input from '../components/common/Input'
 import InputGroupComponent from '../components/common/InputGroup'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { useState } from 'react'
 
 export default {
   title: 'InputGroup',

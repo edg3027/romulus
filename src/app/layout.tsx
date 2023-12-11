@@ -1,9 +1,7 @@
 import '../../styles/globals.css'
-
-import { Metadata } from 'next'
-
 import Layout from '../components/Layout'
 import { ClientProviders } from './client-providers'
+import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Romulus',

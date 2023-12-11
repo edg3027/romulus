@@ -1,3 +1,4 @@
+import { prisma } from '../../src/server/prisma'
 import { GenreHistory, GenreHistoryAka } from '@prisma/client'
 import dotenv from 'dotenv'
 import { equals, uniq } from 'ramda'
@@ -7,8 +8,6 @@ dotenv.config({ path: '.env.local' })
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 process.env.NODE_ENV = 'development'
-
-import { prisma } from '../../src/server/prisma'
 
 type FullGenreHistory = GenreHistory & {
   akas: GenreHistoryAka[]

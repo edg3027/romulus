@@ -1,7 +1,6 @@
+import { Context } from './context'
 import { Permission } from '@prisma/client'
 import { TRPCError } from '@trpc/server'
-
-import { Context } from './context'
 
 type LoggedInContext = Omit<Context, 'account'> & {
   account: NonNullable<Context['account']>

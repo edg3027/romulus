@@ -1,7 +1,6 @@
+import useStatefulRef from './useStatefulRef'
 import { useRef } from 'react'
 import React from 'react'
-
-import useStatefulRef from './useStatefulRef'
 
 export interface Config {
   isStateful: boolean

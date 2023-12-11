@@ -1,3 +1,6 @@
+import { twsx } from '../../utils/dom'
+import { useInputGroupContext } from './InputGroup'
+import Popover from './Popover'
 import { Listbox } from '@headlessui/react'
 import {
   ForwardedRef,
@@ -16,10 +19,6 @@ import {
   RiArrowUpSLine,
   RiErrorWarningLine,
 } from 'react-icons/ri'
-
-import { twsx } from '../../utils/dom'
-import { useInputGroupContext } from './InputGroup'
-import Popover from './Popover'
 
 export type Option = ({ id: Key; key?: Key } | { key: Key; id?: Key }) & {
   label: ReactNode
@@ -81,7 +80,7 @@ const Select = <T extends Option = Option>(
                 id={id}
                 ref={internalRef}
                 className={twsx(
-                  'h-8 flex w-full items-center rounded border border-gray-500 bg-gray-100 p-1.5 text-start text-sm text-gray-800 outline-none transition hover:bg-gray-200 focus:border-secondary-500 active:bg-gray-300 disabled:pointer-events-none disabled:border-dashed',
+                  'flex h-8 w-full items-center rounded border border-gray-500 bg-gray-100 p-1.5 text-start text-sm text-gray-800 outline-none transition hover:bg-gray-200 focus:border-secondary-500 active:bg-gray-300 disabled:pointer-events-none disabled:border-dashed',
                   value === undefined && 'italic text-gray-700',
                 )}
               >
@@ -118,7 +117,7 @@ const Select = <T extends Option = Option>(
                     {({ active, selected }) => (
                       <li
                         className={twsx(
-                          'cursor-pointer rounded p-1 px-1.5 text-sm text-gray-800 hover:bg-gray-200 focus:border-secondary-500 active:bg-gray-300 border border-transparent',
+                          'cursor-pointer rounded border border-transparent p-1 px-1.5 text-sm text-gray-800 hover:bg-gray-200 focus:border-secondary-500 active:bg-gray-300',
                           selected && 'border-primary-500',
                           active && 'border-secondary-500',
                         )}

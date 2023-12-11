@@ -1,10 +1,9 @@
-import { ComponentMeta, Story } from '@storybook/react'
-import { range } from 'ramda'
-import { ComponentProps, useMemo, useState } from 'react'
-
 import Button from '../components/common/Button'
 import M from '../components/common/Multiselect'
 import { HasId } from '../components/common/Multiselect/context'
+import { ComponentMeta, Story } from '@storybook/react'
+import { range } from 'ramda'
+import { ComponentProps, useMemo, useState } from 'react'
 
 export default {
   title: 'Multiselect',

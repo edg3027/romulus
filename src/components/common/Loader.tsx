@@ -1,6 +1,5 @@
-import { FC } from 'react'
-
 import { twsx } from '../../utils/dom'
+import { FC } from 'react'
 
 const DEFAULT_SIZE = 24
 

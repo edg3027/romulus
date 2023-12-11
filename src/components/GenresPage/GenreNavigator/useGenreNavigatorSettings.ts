@@ -1,8 +1,7 @@
-import { useCallback, useMemo } from 'react'
-import toast from 'react-hot-toast'
-
 import { useEditAccountMutation } from '../../../services/accounts'
 import { useSession } from '../../../services/auth'
+import { useCallback, useMemo } from 'react'
+import toast from 'react-hot-toast'
 
 export const useGenreNavigatorSettings = () => {
   const session = useSession()

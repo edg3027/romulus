@@ -1,15 +1,14 @@
-import { Permission } from '@prisma/client'
-import Link from 'next/link'
-import { FC, useEffect, useMemo, useState } from 'react'
-
 import { SimpleGenre } from '../../../../server/db/genre/outputs'
 import { useSession } from '../../../../services/auth'
 import { useSimpleGenresQuery } from '../../../../services/genres'
 import Button from '../../../common/Button'
 import { CenteredLoader } from '../../../common/Loader'
-import { TreeGenre, useTreeState } from './state'
 import GenreTreeNode from './TreeNode'
+import { TreeGenre, useTreeState } from './state'
 import { GenreTreeRefProvider } from './useGenreTreeRef'
+import { Permission } from '@prisma/client'
+import Link from 'next/link'
+import { FC, useEffect, useMemo, useState } from 'react'
 
 const GenreTree: FC = () => {
   const genres = useSimpleGenresQuery()

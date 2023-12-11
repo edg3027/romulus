@@ -1,7 +1,6 @@
-import { z } from 'zod'
-
 import { nonemptyString } from '../../../utils/validators'
 import { GenreRelevanceInput } from '../common/inputs'
+import { z } from 'zod'
 
 export const CreateAccountInput = z.object({
   username: nonemptyString('Username is required'),

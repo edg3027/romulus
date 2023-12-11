@@ -1,6 +1,3 @@
-import { CrudOperation } from '@prisma/client'
-import { TRPCError } from '@trpc/server'
-
 import { compareTwoStrings, toAscii } from '../../../utils/string'
 import { prisma } from '../../prisma'
 import { addGenreHistory } from '../genre-history'
@@ -14,6 +11,8 @@ import {
   simpleGenreSelect,
 } from './outputs'
 import { didChange, throwOnCycle } from './utils'
+import { CrudOperation } from '@prisma/client'
+import { TRPCError } from '@trpc/server'
 
 export const getPaginatedGenres = async (
   page: number,

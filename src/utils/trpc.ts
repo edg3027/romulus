@@ -1,3 +1,6 @@
+import type { AppRouter } from '../server/routers/_app'
+import { isBrowser } from './dom'
+import { showErrorToast } from './error'
 import {
   DefaultOptions,
   MutationCache,
@@ -12,10 +15,6 @@ import {
 import type { inferProcedureInput, inferProcedureOutput } from '@trpc/server'
 import { NextPageContext } from 'next'
 import superjson from 'superjson'
-
-import type { AppRouter } from '../server/routers/_app'
-import { isBrowser } from './dom'
-import { showErrorToast } from './error'
 
 export const trpc = createTRPCReact<AppRouter>()
 

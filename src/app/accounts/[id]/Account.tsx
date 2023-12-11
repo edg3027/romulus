@@ -1,11 +1,10 @@
 'use client'
 
+import AccountPage from '../../../components/AccountPage'
+import { useIntParam } from '../../../utils/routes'
 import Error from 'next/error'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-
-import AccountPage from '../../../components/AccountPage'
-import { useIntParam } from '../../../utils/routes'
 
 const Account = ({ id: stringValue }: { id: string }) => {
   const id = useIntParam(stringValue)

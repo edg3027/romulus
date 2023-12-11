@@ -1,7 +1,3 @@
-import clsx from 'clsx'
-import { countBy, range } from 'ramda'
-import { FC, useCallback, useMemo } from 'react'
-
 import {
   MAX_GENRE_RELEVANCE,
   MIN_GENRE_RELEVANCE,
@@ -11,6 +7,9 @@ import { useGenreRelevanceVotesQuery } from '../../../../services/genre-relevanc
 import { CenteredLoader } from '../../../common/Loader'
 import Tooltip from '../../../common/Tooltip'
 import { getGenreRelevanceText } from '../../utils'
+import clsx from 'clsx'
+import { countBy, range } from 'ramda'
+import { FC, useCallback, useMemo } from 'react'
 
 const RelevanceVoteGraph: FC<{ genreId: number; className?: string }> = ({
   genreId,

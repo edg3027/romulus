@@ -1,9 +1,8 @@
-import { useCallback, useRef, useState } from 'react'
-import resolveConfig from 'tailwindcss/resolveConfig'
-
 import tailwindConfig from '../../tailwind.config'
 import { isBrowser } from '../utils/dom'
 import useIsomorphicLayoutEffect from './useIsomorphicLayoutEffect'
+import { useCallback, useRef, useState } from 'react'
+import resolveConfig from 'tailwindcss/resolveConfig'
 
 const config = resolveConfig(tailwindConfig)
 

@@ -1,9 +1,8 @@
+import { prisma } from '../../prisma'
+import { EditGenreInput } from './inputs'
 import { GenreHistory, GenreHistoryAka } from '@prisma/client'
 import { TRPCError } from '@trpc/server'
 import { equals, uniq } from 'ramda'
-
-import { prisma } from '../../prisma'
-import { EditGenreInput } from './inputs'
 
 type BasicGenre = {
   id: number

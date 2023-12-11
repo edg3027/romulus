@@ -1,6 +1,3 @@
-import { Permission } from '@prisma/client'
-import { z } from 'zod'
-
 import {
   createArtist,
   deleteArtist,
@@ -11,6 +8,8 @@ import {
 import { CreateArtistInput, EditArtistInput } from '../db/artist/inputs'
 import { requirePermission } from '../guards'
 import { publicProcedure, router } from '../trpc'
+import { Permission } from '@prisma/client'
+import { z } from 'zod'
 
 export const artistRouter = router({
   add: publicProcedure

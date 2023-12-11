@@ -1,5 +1,3 @@
-import { FC, forwardRef, useMemo, useState } from 'react'
-
 import useDebouncedState from '../../../../hooks/useDebouncedState'
 import {
   useSimpleGenreQuery,
@@ -9,6 +7,7 @@ import Button from '../../../common/Button'
 import M from '../../../common/Multiselect'
 import useGenreNavigatorSettings from '../../GenreNavigator/useGenreNavigatorSettings'
 import GenreTypeChip from '../../GenreTypeChip'
+import { FC, forwardRef, useMemo, useState } from 'react'
 
 const PER_PAGE = 100
 

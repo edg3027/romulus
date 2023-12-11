@@ -1,7 +1,6 @@
+import { useLogoutMutation, useSession } from '../services/auth'
 import Link from 'next/link'
 import { FC, useCallback } from 'react'
-
-import { useLogoutMutation, useSession } from '../services/auth'
 
 const Navbar: FC = () => {
   const session = useSession()

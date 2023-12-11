@@ -1,6 +1,5 @@
-import { FC, LabelHTMLAttributes } from 'react'
-
 import { twsx } from '../../utils/dom'
+import { FC, LabelHTMLAttributes } from 'react'
 
 export type LabelProps = LabelHTMLAttributes<HTMLLabelElement>
 

@@ -1,6 +1,5 @@
-import { redirect } from 'next/navigation'
-
 import { useIntParam } from '../../../utils/routes'
+import { redirect } from 'next/navigation'
 
 export default function Page({
   params: { id: stringValue },

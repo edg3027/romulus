@@ -1,7 +1,6 @@
+import { env } from './env'
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 import { ApiError } from 'next/dist/server/api-utils'
-
-import { env } from './env'
 
 const getExceptionStatus = (exception: unknown) =>
   exception instanceof ApiError ? exception.statusCode : 500

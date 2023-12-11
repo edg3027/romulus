@@ -1,3 +1,5 @@
+import useDebouncedState from '../../hooks/useDebouncedState'
+import { isBrowser } from '../../utils/dom'
 import { Transition } from '@headlessui/react'
 import {
   FC,
@@ -9,9 +11,6 @@ import {
 } from 'react'
 import { createPortal } from 'react-dom'
 import { usePopper } from 'react-popper'
-
-import useDebouncedState from '../../hooks/useDebouncedState'
-import { isBrowser } from '../../utils/dom'
 
 const Tooltip: FC<
   PropsWithChildren<{ className?: string; tip: ReactNode; delay?: number }>

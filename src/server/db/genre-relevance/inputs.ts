@@ -1,6 +1,5 @@
-import { z } from 'zod'
-
 import { GenreRelevanceInput } from '../common/inputs'
+import { z } from 'zod'
 
 export const GenreRelevanceVoteInput = z.object({
   genreId: z.number(),

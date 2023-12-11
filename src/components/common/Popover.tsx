@@ -1,3 +1,4 @@
+import { twsx } from '../../utils/dom'
 import { Transition } from '@headlessui/react'
 import {
   createContext,
@@ -11,8 +12,6 @@ import {
   useState,
 } from 'react'
 import { usePopper } from 'react-popper'
-
-import { twsx } from '../../utils/dom'
 
 type PopoverContext = {
   show: boolean

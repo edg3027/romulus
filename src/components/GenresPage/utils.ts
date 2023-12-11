@@ -1,7 +1,6 @@
-import { uniqBy } from 'ramda'
-
 import { isNotNull } from '../../utils/types'
 import { TreeGenre } from './GenreNavigator/Tree/state'
+import { uniqBy } from 'ramda'
 
 export const getGenreRelevanceText = (relevance: number) => {
   switch (relevance) {

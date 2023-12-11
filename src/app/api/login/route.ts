@@ -1,12 +1,11 @@
-import bcrypt from 'bcrypt'
-import { getIronSession } from 'iron-session'
-import { cookies } from 'next/headers'
-import { z } from 'zod'
-
 import { prisma } from '../../../server/prisma'
 import { sessionConfig } from '../../../server/session'
 import { SessionData } from '../../../utils/session'
 import { nonemptyString } from '../../../utils/validators'
+import bcrypt from 'bcrypt'
+import { getIronSession } from 'iron-session'
+import { cookies } from 'next/headers'
+import { z } from 'zod'
 
 const LoginRequest = z.object({
   username: nonemptyString('Username is required'),

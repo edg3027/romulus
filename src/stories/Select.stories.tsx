@@ -1,8 +1,7 @@
+import SelectComponent, { Option } from '../components/common/Select'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { range } from 'ramda'
 import { useState } from 'react'
-
-import SelectComponent, { Option } from '../components/common/Select'
 
 export default {
   title: 'Select',

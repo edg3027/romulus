@@ -1,9 +1,3 @@
-import clsx from 'clsx'
-import Link from 'next/link'
-import { equals } from 'ramda'
-import { FC, useEffect, useMemo, useState } from 'react'
-import { RiArrowDownSLine, RiArrowRightSLine } from 'react-icons/ri'
-
 import { isFullyVisible } from '../../../../utils/dom'
 import IconButton from '../../../common/IconButton'
 import GenreTypeChip from '../../GenreTypeChip'
@@ -11,6 +5,11 @@ import useGenreNavigatorSettings from '../useGenreNavigatorSettings'
 import RelevanceChip from './RelevanceChip'
 import { TreeGenre, useTreeState } from './state'
 import { useGenreTreeRef } from './useGenreTreeRef'
+import clsx from 'clsx'
+import Link from 'next/link'
+import { equals } from 'ramda'
+import { FC, useEffect, useMemo, useState } from 'react'
+import { RiArrowDownSLine, RiArrowRightSLine } from 'react-icons/ri'
 
 const Wrapper: FC<{ id: number; path: number[] }> = ({ id, path }) => {
   const genre = useTreeState((state) => state.genres.get(id))

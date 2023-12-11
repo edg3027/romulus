@@ -1,3 +1,6 @@
+import useEventListener from '../../../hooks/useEventListener'
+import useLocalStorage from '../../../hooks/useLocalStorage'
+import { isBrowser, twsx, unfocus } from '../../../utils/dom'
 import clsx from 'clsx'
 import {
   FC,
@@ -7,10 +10,6 @@ import {
   useRef,
   useState,
 } from 'react'
-
-import useEventListener from '../../../hooks/useEventListener'
-import useLocalStorage from '../../../hooks/useLocalStorage'
-import { isBrowser, twsx, unfocus } from '../../../utils/dom'
 
 type PartialTouchEvent = { touches: { [index: number]: { clientX: number } } }
 

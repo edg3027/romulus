@@ -1,9 +1,8 @@
-import { z } from 'zod'
-
 import { CrudOperationInput } from '../db/common/inputs'
 import { defaultGenreHistorySelect } from '../db/genre-history/outputs'
 import { prisma } from '../prisma'
 import { publicProcedure, router } from '../trpc'
+import { z } from 'zod'
 
 export const genreHistoryRouter = router({
   byGenreId: publicProcedure

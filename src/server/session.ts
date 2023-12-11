@@ -1,6 +1,5 @@
-import { SessionOptions } from 'iron-session'
-
 import { env } from './env'
+import { SessionOptions } from 'iron-session'
 
 export const sessionConfig: SessionOptions = {
   cookieName: 'romulus-auth',

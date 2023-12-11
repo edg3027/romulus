@@ -1,8 +1,7 @@
-import bcrypt from 'bcrypt'
-
 import { prisma } from '../../prisma'
 import { CreateAccountInput, EditAccountInput } from './inputs'
 import { defaultAccountSelect } from './outputs'
+import bcrypt from 'bcrypt'
 
 export const getAccountById = (id: number) =>
   prisma.account.findUnique({ where: { id }, select: defaultAccountSelect })

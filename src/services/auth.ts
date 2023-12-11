@@ -1,10 +1,9 @@
+import { trpc } from '../utils/trpc'
+import { useAccountQuery } from './accounts'
 import { Permission } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
 import ky from 'ky'
 import { useCallback, useMemo } from 'react'
-
-import { trpc } from '../utils/trpc'
-import { useAccountQuery } from './accounts'
 
 export const useWhoamiQuery = () =>
   trpc.auth.whoami.useQuery(undefined, { staleTime: 60 * 1000 })

@@ -1,7 +1,6 @@
+import { HasId, useMultiselectContext } from './context'
 import { PropsWithChildren } from 'react'
 import { RiCloseFill } from 'react-icons/ri'
-
-import { HasId, useMultiselectContext } from './context'
 
 export type MultiselecteSelectedProps<T> = {
   item: T

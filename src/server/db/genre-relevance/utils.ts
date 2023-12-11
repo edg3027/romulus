@@ -1,7 +1,6 @@
-import { median } from 'ramda'
-
-import { prisma } from '../../prisma'
 import { getByGenreId } from '.'
+import { prisma } from '../../prisma'
+import { median } from 'ramda'
 
 export const getRelevanceFromVotes = (votes: number[]) =>
   Math.round(median(votes))

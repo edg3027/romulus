@@ -1,8 +1,7 @@
 'use client'
 
-import { QueryClientProvider } from '@tanstack/react-query'
-
 import { queryClient, trpc, trpcReact } from '../utils/trpc'
+import { QueryClientProvider } from '@tanstack/react-query'
 
 export function ClientProviders(props: { children: React.ReactNode }) {
   return (

@@ -1,7 +1,5 @@
 'use client'
 
-import { FC, useEffect, useMemo } from 'react'
-
 import GenrePage, { GenrePageView } from '../../components/GenresPage'
 import {
   usePathUpdater,
@@ -13,6 +11,7 @@ import {
   useIntRouteParam,
   useStringRouteParam,
 } from '../../utils/routes'
+import { FC, useEffect, useMemo } from 'react'
 
 const Genres: FC = () => {
   const id = useIntRouteParam('id')

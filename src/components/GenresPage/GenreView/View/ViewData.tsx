@@ -1,11 +1,5 @@
-import { CrudOperation, Permission } from '@prisma/client'
-import { compareAsc } from 'date-fns'
-import Link from 'next/link'
-import { uniqBy } from 'ramda'
-import { FC, useMemo, useState } from 'react'
-
-import { DefaultGenre } from '../../../../server/db/genre/outputs'
 import { DefaultGenreHistory } from '../../../../server/db/genre-history/outputs'
+import { DefaultGenre } from '../../../../server/db/genre/outputs'
 import { useSession } from '../../../../services/auth'
 import { copyTextToClipboard } from '../../../../utils/dom'
 import { makeGenreTag } from '../../../../utils/genres'
@@ -17,6 +11,11 @@ import useGenreNavigatorSettings from '../../GenreNavigator/useGenreNavigatorSet
 import GenreTypeChip from '../../GenreTypeChip'
 import { getGenreRelevanceText } from '../../utils'
 import RelevanceVoteForm from './RelevanceVoteForm'
+import { CrudOperation, Permission } from '@prisma/client'
+import { compareAsc } from 'date-fns'
+import Link from 'next/link'
+import { uniqBy } from 'ramda'
+import { FC, useMemo, useState } from 'react'
 
 const GenreViewData: FC<{
   genre: DefaultGenre

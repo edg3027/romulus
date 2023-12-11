@@ -1,6 +1,3 @@
-import { FC, useCallback, useEffect } from 'react'
-import { Controller, useForm } from 'react-hook-form'
-
 import { UNSET_GENRE_RELEVANCE } from '../../../../server/db/common/inputs'
 import {
   useDeleteGenreRelevanceVoteMutation,
@@ -13,6 +10,8 @@ import InputGroup from '../../../common/InputGroup'
 import Label from '../../../common/Label'
 import RelevanceSelect from '../../RelevanceSelect'
 import RelevanceVoteGraph from './RelevanceVoteGraph'
+import { FC, useCallback, useEffect } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 
 type RelevanceVoteFormFields = {
   relevance: number

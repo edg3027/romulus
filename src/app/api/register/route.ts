@@ -1,12 +1,11 @@
-import { Prisma } from '@prisma/client'
-import { getIronSession } from 'iron-session'
-import { cookies } from 'next/headers'
-import { z } from 'zod'
-
 import { createAccount } from '../../../server/db/account'
 import { sessionConfig } from '../../../server/session'
 import { SessionData } from '../../../utils/session'
 import { nonemptyString } from '../../../utils/validators'
+import { Prisma } from '@prisma/client'
+import { getIronSession } from 'iron-session'
+import { cookies } from 'next/headers'
+import { z } from 'zod'
 
 const RegisterRequest = z.object({
   username: nonemptyString('Username is required'),

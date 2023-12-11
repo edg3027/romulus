@@ -1,3 +1,5 @@
+import InputError from './InputError'
+import Label from './Label'
 import {
   createContext,
   FC,
@@ -6,9 +8,6 @@ import {
   useContext,
 } from 'react'
 import { FieldError } from 'react-hook-form'
-
-import InputError from './InputError'
-import Label from './Label'
 
 type InputGroupContext = {
   id: string | undefined

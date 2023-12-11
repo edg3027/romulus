@@ -1,6 +1,3 @@
-import { Permission } from '@prisma/client'
-import { z } from 'zod'
-
 import {
   createGenre,
   deleteGenre,
@@ -21,6 +18,8 @@ import { requirePermission } from '../guards'
 import { publicProcedure, router } from '../trpc'
 import { genreHistoryRouter } from './genre-history'
 import { genreRelevanceRouter } from './genre-relevance'
+import { Permission } from '@prisma/client'
+import { z } from 'zod'
 
 export const genreRouter = router({
   /* Create */

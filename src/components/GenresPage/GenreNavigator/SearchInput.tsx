@@ -1,7 +1,6 @@
-import { FC } from 'react'
-
 import Input from '../../common/Input'
 import { useSearchState } from './search-state'
+import { FC } from 'react'
 
 const SearchInput: FC = () => {
   const filter = useSearchState((state) => state.filter)

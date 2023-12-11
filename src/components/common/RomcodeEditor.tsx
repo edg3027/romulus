@@ -1,3 +1,5 @@
+import { twsx } from '../../utils/dom'
+import Romcode from './Romcode'
 import clsx from 'clsx'
 import {
   ChangeEventHandler,
@@ -5,9 +7,6 @@ import {
   forwardRef,
   useState,
 } from 'react'
-
-import { twsx } from '../../utils/dom'
-import Romcode from './Romcode'
 
 enum Tab {
   EDIT,
@@ -29,7 +28,7 @@ const RomcodeEditor = forwardRef<
   return (
     <div
       className={twsx(
-        'group flex flex-col h-72 overflow-auto resize-y rounded border border-gray-500 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 focus-within:border-secondary-500 transition text-sm text-gray-800',
+        'group flex h-72 resize-y flex-col overflow-auto rounded border border-gray-500 bg-gray-100 text-sm text-gray-800 transition focus-within:border-secondary-500 hover:bg-gray-200 active:bg-gray-300',
         className,
       )}
     >

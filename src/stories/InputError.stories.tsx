@@ -1,6 +1,5 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react'
-
 import InputErrorComponent from '../components/common/InputError'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 export default {
   title: 'InputError',

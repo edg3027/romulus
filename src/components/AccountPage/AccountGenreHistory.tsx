@@ -1,3 +1,8 @@
+import { DefaultGenreHistory } from '../../server/db/genre-history/outputs'
+import { useGenreHistoryByUserQuery } from '../../services/genre-history'
+import { capitalize } from '../../utils/string'
+import Button from '../common/Button'
+import { CenteredLoader } from '../common/Loader'
 import {
   createColumnHelper,
   flexRender,
@@ -7,12 +12,6 @@ import {
 import { format } from 'date-fns'
 import Link from 'next/link'
 import { FC, useMemo } from 'react'
-
-import { DefaultGenreHistory } from '../../server/db/genre-history/outputs'
-import { useGenreHistoryByUserQuery } from '../../services/genre-history'
-import { capitalize } from '../../utils/string'
-import Button from '../common/Button'
-import { CenteredLoader } from '../common/Loader'
 
 const columnHelper = createColumnHelper<DefaultGenreHistory>()
 

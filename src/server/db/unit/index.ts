@@ -1,8 +1,7 @@
-import { TRPCError } from '@trpc/server'
-
 import { prisma } from '../../prisma'
 import { CreateUnitInput, EditUnitInput } from './inputs'
 import { defaultUnitSelect } from './outputs'
+import { TRPCError } from '@trpc/server'
 
 export const getUnits = () =>
   prisma.unit.findMany({ select: defaultUnitSelect })

@@ -1,5 +1,3 @@
-import { FC, useCallback } from 'react'
-
 import useWindowSize from '../../hooks/useWindowSize'
 import SplitPane from '../common/SplitPane'
 import GenreNavigator from './GenreNavigator'
@@ -9,6 +7,7 @@ import GenreEdit from './GenreView/Edit'
 import { GenreFormFields } from './GenreView/Form'
 import GenreHistory from './GenreView/History'
 import GenreView from './GenreView/View'
+import { FC, useCallback } from 'react'
 
 export type GenrePageView =
   | { type: 'default' }

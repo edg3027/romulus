@@ -1,6 +1,3 @@
-import { Permission } from '@prisma/client'
-import { z } from 'zod'
-
 import {
   deleteGenreRelevanceVote,
   getByGenreId,
@@ -13,6 +10,8 @@ import {
 } from '../db/genre-relevance/inputs'
 import { requireLogin, requirePermission } from '../guards'
 import { publicProcedure, router } from '../trpc'
+import { Permission } from '@prisma/client'
+import { z } from 'zod'
 
 export const genreRelevanceRouter = router({
   byGenreId: publicProcedure

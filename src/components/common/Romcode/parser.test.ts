@@ -1,6 +1,5 @@
-import { assert, describe, expect, test } from 'vitest'
-
 import { parser } from './parser'
+import { assert, describe, expect, test } from 'vitest'
 
 describe('parser', () => {
   describe('empty input', () => {

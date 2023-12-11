@@ -5,7 +5,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],
   },
-  plugins: ['@typescript-eslint', 'simple-import-sort'],
+  plugins: ['@typescript-eslint'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
@@ -16,7 +16,6 @@ module.exports = {
     'plugin:unicorn/recommended',
     'plugin:@next/next/recommended',
     'plugin:storybook/recommended',
-    'plugin:tailwindcss/recommended',
     'prettier',
   ],
   settings: {
@@ -36,17 +35,6 @@ module.exports = {
     'react-hooks/exhaustive-deps': [
       'warn',
       { additionalHooks: '(useIsomorphicLayoutEffect)' },
-    ],
-
-    'simple-import-sort/imports': 'error',
-    'simple-import-sort/exports': 'error',
-
-    'tailwindcss/no-custom-classname': [
-      'warn',
-      {
-        callees: ['clsx', 'twsx'],
-        whitelist: ['text-inherit'],
-      },
     ],
   },
 }

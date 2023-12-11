@@ -1,7 +1,6 @@
+import { prisma } from '../../prisma'
 import { CrudOperation, Genre, GenreAka } from '@prisma/client'
 import { TRPCError } from '@trpc/server'
-
-import { prisma } from '../../prisma'
 
 export const addGenreHistory = (
   genre: Omit<Genre, 'createdAt' | 'updatedAt'> & {

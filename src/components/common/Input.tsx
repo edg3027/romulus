@@ -1,9 +1,8 @@
-import { forwardRef, InputHTMLAttributes, useMemo } from 'react'
-import { RiCloseFill, RiErrorWarningLine } from 'react-icons/ri'
-
 import { twsx } from '../../utils/dom'
 import { useInputGroupContext } from './InputGroup'
 import Tooltip from './Tooltip'
+import { forwardRef, InputHTMLAttributes, useMemo } from 'react'
+import { RiCloseFill, RiErrorWarningLine } from 'react-icons/ri'
 
 export type InputProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -51,7 +50,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             value={value}
             onChange={(e) => onChange?.(e.target.value)}
             className={twsx(
-              'w-full h-8 rounded border border-gray-500 bg-gray-100 p-1.5 text-sm leading-3 text-gray-800 placeholder:italic placeholder:text-gray-700 hover:bg-gray-200 active:bg-gray-300 focus:border-secondary-500 outline-none transition disabled:border-dashed disabled:pointer-events-none',
+              'h-8 w-full rounded border border-gray-500 bg-gray-100 p-1.5 text-sm leading-3 text-gray-800 outline-none transition placeholder:italic placeholder:text-gray-700 hover:bg-gray-200 focus:border-secondary-500 active:bg-gray-300 disabled:pointer-events-none disabled:border-dashed',
               isClearVisible && 'pr-7',
             )}
             {...props}

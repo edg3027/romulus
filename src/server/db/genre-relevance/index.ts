@@ -1,5 +1,3 @@
-import { Prisma } from '@prisma/client'
-
 import { prisma } from '../../prisma'
 import { UNSET_GENRE_RELEVANCE } from '../common/inputs'
 import {
@@ -8,6 +6,7 @@ import {
 } from './inputs'
 import { defaultGenreRelevanceVoteSelect } from './outputs'
 import { updateRelevance } from './utils'
+import { Prisma } from '@prisma/client'
 
 export const getByGenreId = async (genreId: number) =>
   prisma.genreRelevanceVote.findMany({

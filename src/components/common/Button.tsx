@@ -1,7 +1,6 @@
-import { ButtonHTMLAttributes, FC, PropsWithChildren } from 'react'
-
 import { twsx } from '../../utils/dom'
 import Loader from './Loader'
+import { ButtonHTMLAttributes, FC, PropsWithChildren } from 'react'
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   template?: 'primary' | 'secondary' | 'tertiary' | 'danger'
@@ -19,24 +18,24 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({
   return (
     <button
       className={twsx(
-        'flex h-8 items-center justify-center font-semibold text-sm py-1 px-3 rounded outline-none transition',
+        'flex h-8 items-center justify-center rounded px-3 py-1 text-sm font-semibold outline-none transition',
         (disabled || loading) && 'pointer-events-none',
         template === 'primary' &&
           (disabled
-            ? 'bg-gray-300 text-gray-500 border border-transparent dark:bg-gray-700'
-            : 'bg-primary-500 hover:bg-primary-600 active:bg-primary-700 text-gray-100 border border-transparent focus:border-secondary-500'),
+            ? 'border border-transparent bg-gray-300 text-gray-500 dark:bg-gray-700'
+            : 'border border-transparent bg-primary-500 text-gray-100 hover:bg-primary-600 focus:border-secondary-500 active:bg-primary-700'),
         template === 'secondary' &&
           (disabled
-            ? 'bg-transparent text-gray-400 border border-gray-400 dark:text-gray-500 dark:border-gray-500'
-            : 'bg-transparent text-primary-500 hover:text-primary-600 active:text-primary-700 border border-primary-500 hover:border-primary-600 active:border-primary-700 focus:border-secondary-500'),
+            ? 'border border-gray-400 bg-transparent text-gray-400 dark:border-gray-500 dark:text-gray-500'
+            : 'border border-primary-500 bg-transparent text-primary-500 hover:border-primary-600 hover:text-primary-600 focus:border-secondary-500 active:border-primary-700 active:text-primary-700'),
         template === 'tertiary' &&
           (disabled
-            ? 'bg-transparent text-gray-400 border border-transparent dark:text-gray-500'
-            : 'bg-transparent hover:bg-gray-200 active:bg-gray-300 text-primary-500 border border-transparent focus:border-secondary-500'),
+            ? 'border border-transparent bg-transparent text-gray-400 dark:text-gray-500'
+            : 'border border-transparent bg-transparent text-primary-500 hover:bg-gray-200 focus:border-secondary-500 active:bg-gray-300'),
         template === 'danger' &&
           (disabled
-            ? 'bg-gray-300 text-gray-500 border border-transparent dark:bg-gray-700'
-            : 'bg-error-500 hover:bg-error-600 active:bg-error-700 text-gray-100 border border-transparent focus:border-error-800'),
+            ? 'border border-transparent bg-gray-300 text-gray-500 dark:bg-gray-700'
+            : 'border border-transparent bg-error-500 text-gray-100 hover:bg-error-600 focus:border-error-800 active:bg-error-700'),
         className,
       )}
       disabled={disabled || loading}

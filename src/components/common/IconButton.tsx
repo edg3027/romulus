@@ -1,3 +1,5 @@
+import { twsx } from '../../utils/dom'
+import Loader from './Loader'
 import {
   ButtonHTMLAttributes,
   Children,
@@ -7,9 +9,6 @@ import {
   useMemo,
 } from 'react'
 import { IconBaseProps } from 'react-icons'
-
-import { twsx } from '../../utils/dom'
-import Loader from './Loader'
 
 export type IconButtonProps = Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
@@ -53,7 +52,7 @@ const IconButton: FC<IconButtonProps> = ({
   return (
     <button
       className={twsx(
-        'p-1 rounded bg-transparent hover:bg-gray-200 active:bg-gray-300 text-primary-500 border border-transparent focus:border-secondary-500 outline-none transition dark:hover:bg-gray-600 dark:active:bg-gray-500',
+        'rounded border border-transparent bg-transparent p-1 text-primary-500 outline-none transition hover:bg-gray-200 focus:border-secondary-500 active:bg-gray-300 dark:hover:bg-gray-600 dark:active:bg-gray-500',
         disabled && 'pointer-events-none text-gray-400 dark:text-gray-500',
         className,
       )}

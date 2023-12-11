@@ -1,6 +1,3 @@
-import { Permission } from '@prisma/client'
-import { z } from 'zod'
-
 import {
   createPerson,
   deletePerson,
@@ -11,6 +8,8 @@ import {
 import { CreatePersonInput, EditPersonInput } from '../db/person/inputs'
 import { requirePermission } from '../guards'
 import { publicProcedure, router } from '../trpc'
+import { Permission } from '@prisma/client'
+import { z } from 'zod'
 
 export const personRouter = router({
   add: publicProcedure

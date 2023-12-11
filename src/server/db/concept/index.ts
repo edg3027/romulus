@@ -1,8 +1,7 @@
-import { TRPCError } from '@trpc/server'
-
 import { prisma } from '../../prisma'
 import { CreateConceptInput, EditConceptInput } from './inputs'
 import { defaultConceptSelect } from './outputs'
+import { TRPCError } from '@trpc/server'
 
 export const getConcepts = () =>
   prisma.concept.findMany({ select: defaultConceptSelect })

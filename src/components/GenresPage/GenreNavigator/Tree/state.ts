@@ -1,9 +1,8 @@
+import { SimpleGenre } from '../../../../server/db/genre/outputs'
+import { treeBfs } from '../../../../utils/genres'
 import { equals } from 'ramda'
 import { useCallback, useMemo } from 'react'
 import { create } from 'zustand'
-
-import { SimpleGenre } from '../../../../server/db/genre/outputs'
-import { treeBfs } from '../../../../utils/genres'
 
 export type TreeGenre = Omit<SimpleGenre, 'parentGenres'> & {
   parents: number[]

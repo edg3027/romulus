@@ -1,9 +1,8 @@
-import { useEffect } from 'react'
-import { FC, PropsWithChildren, useState } from 'react'
-
 import { CenteredLoader } from '../Loader'
 import Popover from '../Popover'
 import { useMultiselectContext } from './context'
+import { useEffect } from 'react'
+import { FC, PropsWithChildren, useState } from 'react'
 
 const MultiselectOptions: FC<PropsWithChildren> = ({ children }) => {
   const { options, setOpen } = useMultiselectContext()

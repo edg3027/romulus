@@ -1,3 +1,12 @@
+import useForwardedRef from '../../../hooks/useForwardedRef'
+import { twsx } from '../../../utils/dom'
+import Popover from '../Popover'
+import MultiselectBox from './box'
+import { HasId, MultiselectContext } from './context'
+import MultiselectInput from './input'
+import MultiselectOption from './option'
+import MultiselectOptions from './options'
+import MultiselectSelected from './selected'
 import {
   ForwardedRef,
   forwardRef,
@@ -8,16 +17,6 @@ import {
   useMemo,
   useState,
 } from 'react'
-
-import useForwardedRef from '../../../hooks/useForwardedRef'
-import { twsx } from '../../../utils/dom'
-import Popover from '../Popover'
-import MultiselectBox from './box'
-import { HasId, MultiselectContext } from './context'
-import MultiselectInput from './input'
-import MultiselectOption from './option'
-import MultiselectOptions from './options'
-import MultiselectSelected from './selected'
 
 type MultiselectProps<T> = {
   options: T[] | undefined

@@ -1,10 +1,9 @@
 'use client'
 
-import { FC, PropsWithChildren, useEffect, useMemo } from 'react'
-import { Toaster } from 'react-hot-toast'
-
 import { useSession } from '../services/auth'
 import Navbar from './Navbar'
+import { FC, PropsWithChildren, useEffect, useMemo } from 'react'
+import { Toaster } from 'react-hot-toast'
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {
   const session = useSession()

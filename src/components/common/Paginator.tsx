@@ -1,3 +1,7 @@
+import useTablePaginationOptions from '../../hooks/useTablePaginationOptions'
+import IconButton from './IconButton'
+import Input from './Input'
+import Select from './Select'
 import {
   CoreInstance,
   PaginationInstance,
@@ -9,11 +13,6 @@ import {
   RiSkipBackMiniFill,
   RiSkipForwardMiniFill,
 } from 'react-icons/ri'
-
-import useTablePaginationOptions from '../../hooks/useTablePaginationOptions'
-import IconButton from './IconButton'
-import Input from './Input'
-import Select from './Select'
 
 const Paginator = <TData extends RowData>({
   table,

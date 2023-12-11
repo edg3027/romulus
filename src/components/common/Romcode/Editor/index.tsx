@@ -1,3 +1,9 @@
+import Romcode from '..'
+import { twsx } from '../../../../utils/dom'
+import { makeGenreTag } from '../../../../utils/genres'
+import IconButton from '../../IconButton'
+import Tooltip from '../../Tooltip'
+import GenreSearchDialog from './GenreSearchDialog'
 import clsx from 'clsx'
 import {
   FocusEventHandler,
@@ -8,13 +14,6 @@ import {
   useState,
 } from 'react'
 import { RiBold, RiItalic, RiLink } from 'react-icons/ri'
-
-import { twsx } from '../../../../utils/dom'
-import { makeGenreTag } from '../../../../utils/genres'
-import IconButton from '../../IconButton'
-import Tooltip from '../../Tooltip'
-import Romcode from '..'
-import GenreSearchDialog from './GenreSearchDialog'
 
 enum Tab {
   EDIT,
@@ -114,7 +113,7 @@ const RomcodeEditor = forwardRef<
     <>
       <div
         className={twsx(
-          'flex flex-col h-72 overflow-auto resize-y rounded border border-gray-500 bg-gray-100 focus-within:border-secondary-500 transition text-sm text-gray-800',
+          'flex h-72 resize-y flex-col overflow-auto rounded border border-gray-500 bg-gray-100 text-sm text-gray-800 transition focus-within:border-secondary-500',
           className,
         )}
       >

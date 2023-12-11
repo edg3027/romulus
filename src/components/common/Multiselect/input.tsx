@@ -1,7 +1,6 @@
-import { FC, useEffect, useMemo } from 'react'
-
 import { useInputGroupContext } from '../InputGroup'
 import { useMultiselectContext } from './context'
+import { FC, useEffect, useMemo } from 'react'
 
 export type MultiselectInputProps = {
   id?: string

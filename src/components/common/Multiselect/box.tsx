@@ -1,9 +1,8 @@
+import Popover from '../Popover'
+import { useMultiselectContext } from './context'
 import { useMemo } from 'react'
 import { FC, PropsWithChildren } from 'react'
 import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri'
-
-import Popover from '../Popover'
-import { useMultiselectContext } from './context'
 
 const MultiselectBox: FC<PropsWithChildren> = ({ children }) => {
   const { open, setOpen, inputRef } = useMultiselectContext()

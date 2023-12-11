@@ -1,6 +1,3 @@
-import { FC, useCallback, useEffect, useMemo, useState } from 'react'
-import { RiCloseLine, RiSearchLine } from 'react-icons/ri'
-
 import useDebouncedState from '../../../../hooks/useDebouncedState'
 import { Match } from '../../../../server/db/genre/outputs'
 import { useSimpleGenreSearchQuery } from '../../../../services/genres'
@@ -12,6 +9,8 @@ import IconButton from '../../IconButton'
 import Input from '../../Input'
 import { CenteredLoader } from '../../Loader'
 import Tooltip from '../../Tooltip'
+import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { RiCloseLine, RiSearchLine } from 'react-icons/ri'
 
 const GenreSearchDialog: FC<{
   initialFilter?: string

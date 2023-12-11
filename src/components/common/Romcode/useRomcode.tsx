@@ -1,8 +1,7 @@
-import { FC, ReactNode, useMemo } from 'react'
-
 import RenderGenreLink from '../GenreLink'
 import { parser } from './parser'
 import { Node, Root } from './types'
+import { FC, ReactNode, useMemo } from 'react'
 
 export const compiler = (root: Root): ReactNode => <RenderNode node={root} />
 

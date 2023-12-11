@@ -1,8 +1,7 @@
-import { FC, useMemo } from 'react'
-
 import { GenreType } from '../../server/db/genre/outputs'
 import { twsx } from '../../utils/dom'
 import { capitalize } from '../../utils/string'
+import { FC, useMemo } from 'react'
 
 const GenreTypeChip: FC<{ type: GenreType; className?: string }> = ({
   type,

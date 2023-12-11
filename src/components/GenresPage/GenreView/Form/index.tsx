@@ -1,8 +1,3 @@
-import { GenreAka, GenreType, Permission } from '@prisma/client'
-import { useMemo } from 'react'
-import { FC, useCallback, useEffect, useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
-
 import useWarnOnUnsavedChanges from '../../../../hooks/useWarnOnUnsavedChanges'
 import { GenreAkaInput } from '../../../../server/db/genre/inputs'
 import { DefaultGenre } from '../../../../server/db/genre/outputs'
@@ -16,6 +11,10 @@ import RomcodeEditor from '../../../common/Romcode/Editor'
 import Select from '../../../common/Select'
 import RelevanceSelect from '../../RelevanceSelect'
 import GenreMultiselect from './GenreMultiselect'
+import { GenreAka, GenreType, Permission } from '@prisma/client'
+import { useMemo } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 
 const DEFAULT_RELEVANCE = undefined
 

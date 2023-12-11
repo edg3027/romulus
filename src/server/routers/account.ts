@@ -1,6 +1,3 @@
-import { TRPCError } from '@trpc/server'
-import { z } from 'zod'
-
 import {
   editAccount,
   getAccountById,
@@ -11,6 +8,8 @@ import { defaultAccountSelect } from '../db/account/outputs'
 import { requireLogin } from '../guards'
 import { prisma } from '../prisma'
 import { publicProcedure, router } from '../trpc'
+import { TRPCError } from '@trpc/server'
+import { z } from 'zod'
 
 export const accountRouter = router({
   byId: publicProcedure

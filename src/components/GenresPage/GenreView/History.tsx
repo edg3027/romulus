@@ -1,3 +1,14 @@
+import { DefaultGenreHistory } from '../../../server/db/genre-history/outputs'
+import { useGenreHistoryQuery } from '../../../services/genre-history'
+import { capitalize } from '../../../utils/string'
+import { isEmpty } from '../../../utils/types'
+import GenreLink from '../../common/GenreLink'
+import IconButton from '../../common/IconButton'
+import Label from '../../common/Label'
+import { CenteredLoader } from '../../common/Loader'
+import Romcode from '../../common/Romcode'
+import Tooltip from '../../common/Tooltip'
+import GenreTypeChip from '../GenreTypeChip'
 import { CrudOperation, GenreHistoryAka } from '@prisma/client'
 import {
   createColumnHelper,
@@ -12,18 +23,6 @@ import { equals, uniq } from 'ramda'
 import { FC, useCallback, useMemo, useState } from 'react'
 import { IoMdArrowBack } from 'react-icons/io'
 import { RiArrowDownSLine, RiArrowRightSLine } from 'react-icons/ri'
-
-import { DefaultGenreHistory } from '../../../server/db/genre-history/outputs'
-import { useGenreHistoryQuery } from '../../../services/genre-history'
-import { capitalize } from '../../../utils/string'
-import { isEmpty } from '../../../utils/types'
-import GenreLink from '../../common/GenreLink'
-import IconButton from '../../common/IconButton'
-import Label from '../../common/Label'
-import { CenteredLoader } from '../../common/Loader'
-import Romcode from '../../common/Romcode'
-import Tooltip from '../../common/Tooltip'
-import GenreTypeChip from '../GenreTypeChip'
 
 const GenreHistory: FC<{ id: number }> = ({ id }) => {
   const historyQuery = useGenreHistoryQuery(id)

@@ -1,10 +1,5 @@
-import { Permission } from '@prisma/client'
-import { useRouter } from 'next/navigation'
-import { FC, useCallback, useMemo, useState } from 'react'
-import toast from 'react-hot-toast'
-
-import { DefaultGenre } from '../../../../server/db/genre/outputs'
 import { DefaultGenreHistory } from '../../../../server/db/genre-history/outputs'
+import { DefaultGenre } from '../../../../server/db/genre/outputs'
 import { useSession } from '../../../../services/auth'
 import { useGenreHistoryQuery } from '../../../../services/genre-history'
 import {
@@ -15,6 +10,10 @@ import Button from '../../../common/Button'
 import GenreLink from '../../../common/GenreLink'
 import { CenteredLoader } from '../../../common/Loader'
 import GenreViewData from './ViewData'
+import { Permission } from '@prisma/client'
+import { useRouter } from 'next/navigation'
+import { FC, useCallback, useMemo, useState } from 'react'
+import toast from 'react-hot-toast'
 
 export const GenreView: FC<{
   id: number

@@ -1,17 +1,16 @@
-import { Permission } from '@prisma/client'
-import Link from 'next/link'
-import { FC, useState } from 'react'
-import { RiSettings3Fill } from 'react-icons/ri'
-
 import { useSession } from '../../../services/auth'
 import { twsx } from '../../../utils/dom'
 import Button from '../../common/Button'
 import IconButton from '../../common/IconButton'
 import GenreSearchResults from './Search'
-import { useSearchState } from './search-state'
 import SearchInput from './SearchInput'
 import GenreNavigatorSettings from './Settings'
 import GenreTree from './Tree'
+import { useSearchState } from './search-state'
+import { Permission } from '@prisma/client'
+import Link from 'next/link'
+import { FC, useState } from 'react'
+import { RiSettings3Fill } from 'react-icons/ri'
 
 const GenreNavigator: FC<{ className?: string }> = ({ className }) => {
   const session = useSession()

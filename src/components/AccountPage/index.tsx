@@ -1,12 +1,11 @@
-import { CrudOperation } from '@prisma/client'
-import clsx from 'clsx'
-import { FC } from 'react'
-
 import { DefaultAccount } from '../../server/db/account/outputs'
 import { useAccountQuery } from '../../services/accounts'
 import { useGenreHistoryCountByUserQuery } from '../../services/genre-history'
 import { CenteredLoader } from '../common/Loader'
 import AccountGenreHistory from './AccountGenreHistory'
+import { CrudOperation } from '@prisma/client'
+import clsx from 'clsx'
+import { FC } from 'react'
 
 const AccountPage: FC<{ id: number }> = ({ id }) => {
   const accountQuery = useAccountQuery(id)

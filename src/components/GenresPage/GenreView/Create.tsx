@@ -1,9 +1,8 @@
+import { useAddGenreMutation } from '../../../services/genres'
+import GenreForm, { GenreFormData } from './Form'
 import { useRouter } from 'next/navigation'
 import { FC, useCallback } from 'react'
 import toast from 'react-hot-toast'
-
-import { useAddGenreMutation } from '../../../services/genres'
-import GenreForm, { GenreFormData } from './Form'
 
 export const GenreCreate: FC = () => {
   const router = useRouter()

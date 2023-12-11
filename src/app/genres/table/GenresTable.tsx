@@ -1,5 +1,15 @@
 'use client'
 
+import RelevanceChip from '../../../components/GenresPage/GenreNavigator/Tree/RelevanceChip'
+import GenreTypeChip from '../../../components/GenresPage/GenreTypeChip'
+import { CenteredLoader } from '../../../components/common/Loader'
+import Paginator from '../../../components/common/Paginator'
+import Tooltip from '../../../components/common/Tooltip'
+import { Sort } from '../../../server/db/genre/inputs'
+import { DefaultGenre } from '../../../server/db/genre/outputs'
+import { usePaginatedGenresQuery } from '../../../services/genres'
+import { getTimeSinceShort, toPrettyDate } from '../../../utils/datetime'
+import { useIntRouteParam } from '../../../utils/routes'
 import {
   createColumnHelper,
   flexRender,
@@ -13,17 +23,6 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { FC, useMemo, useState } from 'react'
 import { RiSortAsc, RiSortDesc } from 'react-icons/ri'
-
-import { CenteredLoader } from '../../../components/common/Loader'
-import Paginator from '../../../components/common/Paginator'
-import Tooltip from '../../../components/common/Tooltip'
-import RelevanceChip from '../../../components/GenresPage/GenreNavigator/Tree/RelevanceChip'
-import GenreTypeChip from '../../../components/GenresPage/GenreTypeChip'
-import { Sort } from '../../../server/db/genre/inputs'
-import { DefaultGenre } from '../../../server/db/genre/outputs'
-import { usePaginatedGenresQuery } from '../../../services/genres'
-import { getTimeSinceShort, toPrettyDate } from '../../../utils/datetime'
-import { useIntRouteParam } from '../../../utils/routes'
 
 const GenresTable: FC = () => {
   const page = useIntRouteParam('page')

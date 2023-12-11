@@ -1,8 +1,7 @@
-import { TRPCError } from '@trpc/server'
-
 import { prisma } from '../../prisma'
 import { CreateArtistInput, EditArtistInput } from './inputs'
 import { defaultArtistSelect } from './outputs'
+import { TRPCError } from '@trpc/server'
 
 export const getArtists = () =>
   prisma.artist.findMany({ select: defaultArtistSelect })

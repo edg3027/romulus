@@ -1,6 +1,5 @@
-import { CrudOperation } from '@prisma/client'
-
 import { trpc } from '../utils/trpc'
+import { CrudOperation } from '@prisma/client'
 
 export const useGenreHistoryQuery = (id: number) =>
   trpc.genre.history.byGenreId.useQuery({ id })

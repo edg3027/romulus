@@ -1,7 +1,6 @@
+import IconButtonComponent from '../components/common/IconButton'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { Ri24HoursFill } from 'react-icons/ri'
-
-import IconButtonComponent from '../components/common/IconButton'
 
 export default {
   title: 'IconButton',

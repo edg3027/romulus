@@ -1,6 +1,5 @@
-import { z } from 'zod'
-
 import { nonemptyString } from '../../../utils/validators'
+import { z } from 'zod'
 
 export const MemberInput = z.object({
   personId: z.number(),

@@ -1,8 +1,7 @@
-import { TRPCError } from '@trpc/server'
-
 import { prisma } from '../../prisma'
 import { CreatePersonInput, EditPersonInput } from './inputs'
 import { defaultPersonSelect } from './outputs'
+import { TRPCError } from '@trpc/server'
 
 export const getPeople = () =>
   prisma.person.findMany({ select: defaultPersonSelect })

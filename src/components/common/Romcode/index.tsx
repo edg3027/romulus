@@ -1,6 +1,5 @@
-import { FC } from 'react'
-
 import useRomcode from './useRomcode'
+import { FC } from 'react'
 
 const Romcode: FC<{ children: string; className?: string }> = ({
   children,

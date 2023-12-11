@@ -1,6 +1,3 @@
-import { range } from 'ramda'
-import { forwardRef, useMemo } from 'react'
-
 import {
   MAX_GENRE_RELEVANCE,
   MIN_GENRE_RELEVANCE,
@@ -8,6 +5,8 @@ import {
 } from '../../server/db/common/inputs'
 import Select from '../common/Select'
 import { getGenreRelevanceText } from './utils'
+import { range } from 'ramda'
+import { forwardRef, useMemo } from 'react'
 
 const RelevanceSelect = forwardRef<
   HTMLButtonElement,
