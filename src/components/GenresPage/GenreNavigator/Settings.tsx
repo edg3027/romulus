@@ -1,8 +1,8 @@
+import useAccountSettings from '../../../hooks/useAccountSettings'
 import InputGroup from '../../common/InputGroup'
 import Label from '../../common/Label'
 import Tooltip from '../../common/Tooltip'
 import RelevanceSelect from '../RelevanceSelect'
-import useGenreNavigatorSettings from './useGenreNavigatorSettings'
 import { FC } from 'react'
 import { IoMdInformationCircle } from 'react-icons/io'
 
@@ -14,7 +14,7 @@ const GenreNavigatorSettings: FC = () => {
     setGenreRelevanceFilter,
     showRelevanceTags,
     setShowRelevanceTags,
-  } = useGenreNavigatorSettings()
+  } = useAccountSettings()
 
   return (
     <div className='space-y-4'>

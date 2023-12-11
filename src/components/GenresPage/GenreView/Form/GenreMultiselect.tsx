@@ -1,3 +1,4 @@
+import useAccountSettings from '../../../../hooks/useAccountSettings'
 import useDebouncedState from '../../../../hooks/useDebouncedState'
 import {
   useSimpleGenreQuery,
@@ -5,7 +6,6 @@ import {
 } from '../../../../services/genres'
 import Button from '../../../common/Button'
 import M from '../../../common/Multiselect'
-import useGenreNavigatorSettings from '../../GenreNavigator/useGenreNavigatorSettings'
 import GenreTypeChip from '../../GenreTypeChip'
 import { FC, forwardRef, useMemo, useState } from 'react'
 
@@ -36,7 +36,7 @@ const GenreMultiselect = forwardRef<HTMLInputElement, GenreMultiselectProps>(
 
     const [page, setPage] = useState(1)
 
-    const { showTypeTags } = useGenreNavigatorSettings()
+    const { showTypeTags } = useAccountSettings()
 
     return (
       <M
@@ -101,7 +101,7 @@ GenreMultiselect.displayName = 'GenreMultiselect'
 export default GenreMultiselect
 
 const Selected: FC<{ id: number }> = ({ id }) => {
-  const { showTypeTags } = useGenreNavigatorSettings()
+  const { showTypeTags } = useAccountSettings()
 
   const genreQuery = useSimpleGenreQuery(id)
   const genre = useMemo(() => genreQuery.data, [genreQuery.data])

@@ -1,4 +1,5 @@
 import { useLogoutMutation, useSession } from '../services/auth'
+import DarkModeToggle from './DarkModeToggle'
 import Link from 'next/link'
 import { FC, useCallback } from 'react'
 
@@ -45,7 +46,10 @@ const Navbar: FC = () => {
         <Link href='/genres/table'>Table</Link>
       </div>
 
-      <div className='flex space-x-2'>{renderSession()}</div>
+      <div className='flex space-x-2'>
+        {renderSession()}
+        <DarkModeToggle />
+      </div>
     </div>
   )
 }

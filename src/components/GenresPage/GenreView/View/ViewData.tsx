@@ -1,3 +1,4 @@
+import useAccountSettings from '../../../../hooks/useAccountSettings'
 import { DefaultGenreHistory } from '../../../../server/db/genre-history/outputs'
 import { DefaultGenre } from '../../../../server/db/genre/outputs'
 import { useSession } from '../../../../services/auth'
@@ -7,7 +8,6 @@ import { isNotNull } from '../../../../utils/types'
 import GenreLink from '../../../common/GenreLink'
 import Label from '../../../common/Label'
 import Romcode from '../../../common/Romcode'
-import useGenreNavigatorSettings from '../../GenreNavigator/useGenreNavigatorSettings'
 import GenreTypeChip from '../../GenreTypeChip'
 import { getGenreRelevanceText } from '../../utils'
 import RelevanceVoteForm from './RelevanceVoteForm'
@@ -22,7 +22,7 @@ const GenreViewData: FC<{
   history: DefaultGenreHistory[]
 }> = ({ genre, history }) => {
   const session = useSession()
-  const { showTypeTags } = useGenreNavigatorSettings()
+  const { showTypeTags } = useAccountSettings()
 
   const [showNotes, setShowNotes] = useState(false)
   const [isVoting, setVoting] = useState(false)

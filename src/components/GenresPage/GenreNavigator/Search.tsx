@@ -1,10 +1,10 @@
+import useAccountSettings from '../../../hooks/useAccountSettings'
 import { Match } from '../../../server/db/genre/outputs'
 import { useSession } from '../../../services/auth'
 import { useSimpleGenreSearchQuery } from '../../../services/genres'
 import { CenteredLoader } from '../../common/Loader'
 import GenreTypeChip from '../GenreTypeChip'
 import { useSearchState } from './search-state'
-import useGenreNavigatorSettings from './useGenreNavigatorSettings'
 import { Permission } from '@prisma/client'
 import Link from 'next/link'
 import { FC } from 'react'
@@ -66,7 +66,7 @@ const SearchResult: FC<{ match: Match; clearFilter: () => void }> = ({
   match: { genre, matchedAka },
   clearFilter,
 }) => {
-  const { showTypeTags } = useGenreNavigatorSettings()
+  const { showTypeTags } = useAccountSettings()
 
   return (
     <Link

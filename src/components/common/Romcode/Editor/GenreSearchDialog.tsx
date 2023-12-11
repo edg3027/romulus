@@ -1,7 +1,7 @@
+import useAccountSettings from '../../../../hooks/useAccountSettings'
 import useDebouncedState from '../../../../hooks/useDebouncedState'
 import { Match } from '../../../../server/db/genre/outputs'
 import { useSimpleGenreSearchQuery } from '../../../../services/genres'
-import useGenreNavigatorSettings from '../../../GenresPage/GenreNavigator/useGenreNavigatorSettings'
 import GenreTypeChip from '../../../GenresPage/GenreTypeChip'
 import Button from '../../Button'
 import Dialog from '../../Dialog'
@@ -141,7 +141,7 @@ const SearchResult: FC<{ match: Match; onClick: () => void }> = ({
   match: { genre, matchedAka },
   onClick,
 }) => {
-  const { showTypeTags } = useGenreNavigatorSettings()
+  const { showTypeTags } = useAccountSettings()
 
   return (
     <button

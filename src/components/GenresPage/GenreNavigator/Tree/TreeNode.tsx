@@ -1,7 +1,7 @@
+import useAccountSettings from '../../../../hooks/useAccountSettings'
 import { isFullyVisible } from '../../../../utils/dom'
 import IconButton from '../../../common/IconButton'
 import GenreTypeChip from '../../GenreTypeChip'
-import useGenreNavigatorSettings from '../useGenreNavigatorSettings'
 import RelevanceChip from './RelevanceChip'
 import { TreeGenre, useTreeState } from './state'
 import { useGenreTreeRef } from './useGenreTreeRef'
@@ -31,7 +31,7 @@ const GenreTreeNode: FC<{ genre: TreeGenre; path: number[] }> = ({
     (state) => state.selectedPath && equals(state.selectedPath, path),
   )
 
-  const { showTypeTags, showRelevanceTags } = useGenreNavigatorSettings()
+  const { showTypeTags, showRelevanceTags } = useAccountSettings()
   const setSelectedId = useTreeState((state) => state.setSelectedId)
   const setSelectedPath = useTreeState((state) => state.setSelectedPath)
 

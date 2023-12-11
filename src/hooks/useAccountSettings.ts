@@ -1,9 +1,9 @@
-import { useEditAccountMutation } from '../../../services/accounts'
-import { useSession } from '../../../services/auth'
+import { useEditAccountMutation } from '../services/accounts'
+import { useSession } from '../services/auth'
 import { useCallback, useMemo } from 'react'
 import toast from 'react-hot-toast'
 
-export const useGenreNavigatorSettings = () => {
+export const useAccountSettings = () => {
   const session = useSession()
 
   const { mutate: editAccount } = useEditAccountMutation()
@@ -68,6 +68,26 @@ export const useGenreNavigatorSettings = () => {
     [editAccount, session.account?.id],
   )
 
+  const darkMode = useMemo(
+    () => session.account?.darkMode ?? false,
+    [session.account?.darkMode],
+  )
+  const setDarkMode = useCallback(
+    (value: boolean) => {
+      const accountId = session.account?.id
+      if (accountId === undefined) {
+        toast.error('You must be logged in to update this setting')
+        return
+      }
+
+      return editAccount({
+        id: accountId,
+        data: { darkMode: value },
+      })
+    },
+    [editAccount, session.account?.id],
+  )
+
   const data = useMemo(
     () => ({
       showTypeTags,
@@ -76,9 +96,13 @@ export const useGenreNavigatorSettings = () => {
       setGenreRelevanceFilter,
       showRelevanceTags,
       setShowRelevanceTags,
+      darkMode,
+      setDarkMode,
     }),
     [
+      darkMode,
       genreRelevanceFilter,
+      setDarkMode,
       setGenreRelevanceFilter,
       setShowRelevanceTags,
       setShowTypeTags,
@@ -90,4 +114,4 @@ export const useGenreNavigatorSettings = () => {
   return data
 }
 
-export default useGenreNavigatorSettings
+export default useAccountSettings
