@@ -38,7 +38,7 @@ const InputGroup: FC<
           )}
           <div className='flex-1' />
           {required && (
-            <div className='self-end text-xs italic text-gray-700'>
+            <div className='self-end text-xs italic text-gray-700 dark:text-gray-300'>
               Required
             </div>
           )}
