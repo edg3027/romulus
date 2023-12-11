@@ -50,7 +50,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             value={value}
             onChange={(e) => onChange?.(e.target.value)}
             className={twsx(
-              'h-8 w-full rounded border border-gray-500 bg-gray-100 p-1.5 text-sm leading-3 text-gray-800 outline-none transition placeholder:italic placeholder:text-gray-700 hover:bg-gray-200 focus:border-secondary-500 active:bg-gray-300 disabled:pointer-events-none disabled:border-dashed',
+              'h-8 w-full rounded border border-gray-500 bg-gray-100 p-1.5 text-sm leading-3 text-gray-900 outline-none transition',
+              'placeholder:italic placeholder:text-gray-600 hover:bg-gray-200 focus:border-secondary-500 active:bg-gray-300',
+              'disabled:pointer-events-none disabled:border-dashed',
+              'dark:bg-gray-700 dark:text-gray-200 dark:placeholder:text-gray-400 dark:hover:bg-gray-600 dark:active:bg-gray-500',
               isClearVisible && 'pr-7',
             )}
             {...props}
@@ -62,7 +65,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                 {isClearVisible && (
                   <Tooltip tip='Clear' className='flex items-center'>
                     <button
-                      className='rounded-full p-1 text-gray-500 transition hover:bg-gray-300 hover:text-gray-600'
+                      className='rounded-full p-1 text-gray-500 transition hover:bg-gray-300 hover:text-gray-600 dark:text-gray-400 dark:hover:bg-gray-500 dark:hover:text-gray-300'
                       onClick={() => {
                         onChange?.('')
                         onClear?.()
