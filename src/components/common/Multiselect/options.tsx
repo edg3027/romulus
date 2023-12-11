@@ -36,7 +36,7 @@ const MultiselectOptions: FC<PropsWithChildren> = ({ children }) => {
   return (
     <Popover.Content className='w-full'>
       <ul
-        className='max-h-64 w-full overflow-auto rounded border border-gray-500 bg-gray-100 p-1 shadow outline-none'
+        className='max-h-64 w-full overflow-auto rounded border border-gray-500 bg-gray-100 p-1 shadow outline-none dark:bg-gray-700'
         ref={setRef}
       >
         {options ? (
