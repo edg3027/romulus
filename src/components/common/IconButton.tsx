@@ -53,14 +53,14 @@ const IconButton: FC<IconButtonProps> = ({
   return (
     <button
       className={twsx(
-        'p-1 rounded bg-transparent hover:bg-gray-200 active:bg-gray-300 text-primary-500 border border-transparent focus:border-secondary-500 outline-none transition',
-        disabled && 'pointer-events-none text-gray-400',
+        'p-1 rounded bg-transparent hover:bg-gray-200 active:bg-gray-300 text-primary-500 border border-transparent focus:border-secondary-500 outline-none transition dark:hover:bg-gray-600 dark:active:bg-gray-500',
+        disabled && 'pointer-events-none text-gray-400 dark:text-gray-500',
         className,
       )}
       disabled={disabled}
       {...props}
     >
-      {loading ? <Loader size={iconSize} /> : icon}
+      {loading ? <Loader className='text-inherit' size={iconSize} /> : icon}
     </button>
   )
 }
