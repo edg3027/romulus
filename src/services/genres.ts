@@ -15,16 +15,8 @@ export const usePaginatedGenresQuery = (
 }
 
 export const useSimpleGenresQuery = () => {
-  // const utils = trpc.useUtils()
   return trpc.genre.allSimple.useQuery(undefined, {
     staleTime: Number.POSITIVE_INFINITY,
-    // onSuccess: (data) => {
-    //   void Promise.all(
-    //     data.map((genre) =>
-    //       utils.genre.byIdSimple.setData({ id: genre.id }, genre),
-    //     ),
-    //   )
-    // },
   })
 }
 
