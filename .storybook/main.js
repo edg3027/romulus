@@ -32,6 +32,7 @@ module.exports = {
         ],
       },
     },
+    'storybook-addon-themes',
   ],
 
   framework: {

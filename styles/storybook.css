@@ -1,0 +1,12 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-white;
+}
+
+body.dark {
+  @apply bg-gray-800;
+}
