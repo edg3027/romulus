@@ -71,7 +71,7 @@ const SearchResult: FC<{ match: Match; clearFilter: () => void }> = ({
   return (
     <Link
       href={`/genres?id=${genre.id}`}
-      className='block text-gray-700 hover:font-bold'
+      className='block text-gray-700 hover:font-bold dark:text-gray-300'
       onClick={() => clearFilter()}
     >
       {genre.name}

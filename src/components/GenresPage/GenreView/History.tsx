@@ -76,7 +76,7 @@ const HasData: FC<{ history: DefaultGenreHistory[] }> = ({
 
   return (
     <div className='h-full flex-1 overflow-auto p-4'>
-      <div className='flex items-center border-b border-gray-100 pb-4'>
+      <div className='flex items-center border-b border-gray-100 pb-4 dark:bg-gray-700'>
         {genre ? (
           <>
             <GenreLink

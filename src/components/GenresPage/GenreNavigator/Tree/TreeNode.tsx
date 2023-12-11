@@ -58,7 +58,13 @@ const GenreTreeNode: FC<{ genre: TreeGenre; path: number[] }> = ({
   }, [children, genres])
 
   return (
-    <li ref={setRef} className={clsx(parents.length > 0 && 'ml-4 border-l')}>
+    <li
+      ref={setRef}
+      className={clsx(
+        parents.length > 0 &&
+          'ml-4 border-l border-gray-200 dark:border-gray-700',
+      )}
+    >
       <div className='ml-1 flex space-x-1'>
         <IconButton
           size='sm'
@@ -78,7 +84,9 @@ const GenreTreeNode: FC<{ genre: TreeGenre; path: number[] }> = ({
           }}
           className={clsx(
             'hover:font-bold',
-            isSelected ? 'font-bold text-primary-600' : 'text-gray-600',
+            isSelected
+              ? 'font-bold text-primary-600'
+              : 'text-gray-600 dark:text-gray-300',
           )}
         >
           {name}

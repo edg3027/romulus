@@ -105,8 +105,8 @@ const SplitPane: FC<{
       </Pane>
       <div
         className={twsx(
-          'group w-px cursor-col-resize bg-transparent px-1 transition hover:bg-gray-100',
-          active && 'bg-gray-100',
+          'group w-px cursor-col-resize bg-transparent px-1 transition hover:bg-gray-100 dark:hover:bg-gray-700',
+          active && 'bg-gray-100 dark:bg-gray-700',
         )}
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
@@ -114,8 +114,8 @@ const SplitPane: FC<{
       >
         <div
           className={twsx(
-            'h-full w-px bg-gray-200 transition group-hover:bg-gray-300',
-            active && 'bg-gray-300',
+            'h-full w-px bg-gray-200 transition group-hover:bg-gray-300 dark:bg-gray-600 dark:group-hover:bg-gray-500',
+            active && 'bg-gray-300 dark:bg-gray-500',
           )}
         />
       </div>
