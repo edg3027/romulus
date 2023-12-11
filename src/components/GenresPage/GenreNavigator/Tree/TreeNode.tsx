@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import Link from 'next/link'
 import { equals } from 'ramda'
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 import { RiArrowDownSLine, RiArrowRightSLine } from 'react-icons/ri'
 
 import { isFullyVisible } from '../../../../utils/dom'
@@ -46,6 +46,17 @@ const GenreTreeNode: FC<{ genre: TreeGenre; path: number[] }> = ({
       }
     }
   }, [isSelected, ref, treeRef])
+
+  const genres = useTreeState((state) => state.genres)
+  const sortedChildren = useMemo(() => {
+    console.log('sort children')
+    return [...children].sort((a, b) => {
+      const genreA = genres.get(a)
+      const genreB = genres.get(b)
+      if (!genreA || !genreB) return 0
+      return genreA.name.localeCompare(genreB.name)
+    })
+  }, [children, genres])
 
   return (
     <li ref={setRef} className={clsx(parents.length > 0 && 'ml-4 border-l')}>
@@ -101,7 +112,7 @@ const GenreTreeNode: FC<{ genre: TreeGenre; path: number[] }> = ({
       </div>
       {isExpanded && children.length > 0 && (
         <ul>
-          {children.map((childId) => {
+          {sortedChildren.map((childId) => {
             const childPath = [...path, childId]
             return (
               <Wrapper

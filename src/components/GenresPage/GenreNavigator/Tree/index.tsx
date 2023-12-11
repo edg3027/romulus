@@ -60,7 +60,10 @@ const Tree: FC<{ genres: SimpleGenre[] }> = ({ genres }) => {
   }, [genres])
 
   const topLevelGenres = useMemo(
-    () => genres.filter((genre) => genre.parentGenres.length === 0),
+    () =>
+      genres
+        .filter((genre) => genre.parentGenres.length === 0)
+        .sort((a, b) => a.name.localeCompare(b.name)),
     [genres],
   )
 
