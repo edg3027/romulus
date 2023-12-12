@@ -1,6 +1,6 @@
 import { GenreType } from '../../server/db/genre/outputs'
-import { twsx } from '../../utils/dom'
 import { capitalize } from '../../utils/string'
+import Chip from '../common/Chip'
 import { FC, useMemo } from 'react'
 
 const GenreTypeChip: FC<{ type: GenreType; className?: string }> = ({
@@ -14,17 +14,7 @@ const GenreTypeChip: FC<{ type: GenreType; className?: string }> = ({
     [type],
   )
 
-  return (
-    <span
-      className={twsx(
-        'rounded-full bg-gray-200 px-1 py-0.5 text-xs font-bold text-gray-500',
-        className,
-      )}
-      title={title}
-    >
-      {text}
-    </span>
-  )
+  return <Chip text={text} title={title} className={className} />
 }
 
 export default GenreTypeChip

@@ -1,30 +1,25 @@
-import clsx from 'clsx'
-import { FC, useMemo } from 'react'
+import { twsx } from '../../../../utils/dom'
+import Chip from '../../../common/Chip'
+import { FC } from 'react'
 
 const RelevanceChip: FC<{ relevance: number; className?: string }> = ({
   relevance,
   className,
 }) => {
-  const [text, color, title] = useMemo(
-    () =>
-      relevance === 99
-        ? ['?', 'bg-error-200 text-error-500', 'Missing Relevance']
-        : [relevance, 'bg-gray-200 text-gray-500'],
-    [relevance],
-  )
+  if (relevance === 99) {
+    return (
+      <Chip
+        text='?'
+        title='Missing Relevance'
+        className={twsx(
+          'bg-error-200 text-error-500 dark:bg-error-800 dark:bg-opacity-25 dark:text-error-600',
+          className,
+        )}
+      />
+    )
+  }
 
-  return (
-    <span
-      className={clsx(
-        'rounded-full px-1 py-0.5 text-xs font-bold',
-        color,
-        className,
-      )}
-      title={title}
-    >
-      {text}
-    </span>
-  )
+  return <Chip text={relevance.toString()} className={className} />
 }
 
 export default RelevanceChip
