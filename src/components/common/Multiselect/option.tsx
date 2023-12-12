@@ -21,7 +21,7 @@ const MultiselectOption = <T extends HasId>({
     <li
       className={clsx(
         'select-option cursor-pointer rounded border border-transparent p-1 px-1.5 text-sm text-gray-800',
-        'hover:bg-gray-200 focus:border-secondary-500 active:bg-gray-300 dark:text-gray-200 dark:hover:bg-gray-600 dark:active:bg-gray-500',
+        'hover:bg-gray-200 focus:border-secondary-500 active:bg-gray-300 dark:text-gray-200 dark:hover:bg-gray-700 dark:active:bg-gray-600',
       )}
       onClick={() => handleClick()}
     >

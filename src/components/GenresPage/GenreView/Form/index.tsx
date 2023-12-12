@@ -224,8 +224,8 @@ const GenreForm: FC<{
           />
         </InputGroup>
 
-        <fieldset className='border border-solid p-3'>
-          <legend className='text-sm text-gray-700'>
+        <fieldset className='border border-solid border-gray-200 p-3 dark:border-gray-800'>
+          <legend className='text-sm text-gray-700 dark:text-gray-300'>
             AKAs{' '}
             <a
               href='https://discord.com/channels/940459362168746055/1008898978911375384/1008927823647473747'

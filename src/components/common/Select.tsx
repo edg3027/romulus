@@ -82,7 +82,7 @@ const Select = <T extends Option = Option>(
                 className={twsx(
                   'flex h-8 w-full items-center rounded border border-gray-500 bg-gray-100 p-1.5 text-start text-sm text-gray-900 outline-none transition',
                   'hover:bg-gray-200 focus:border-secondary-500 active:bg-gray-300 disabled:pointer-events-none disabled:border-dashed',
-                  'dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 dark:active:bg-gray-500',
+                  'dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:active:bg-gray-600',
                   value === undefined &&
                     'italic text-gray-600 dark:text-gray-400',
                 )}
@@ -110,7 +110,7 @@ const Select = <T extends Option = Option>(
             <Popover.Content className={twsx('w-full', dropdownClassName)}>
               <Listbox.Options
                 static
-                className='rounded border border-gray-500 bg-gray-100 p-1 shadow outline-none dark:bg-gray-700'
+                className='rounded border border-gray-500 bg-gray-100 p-1 shadow outline-none dark:bg-gray-800'
               >
                 {options.map((option, i) => (
                   <Listbox.Option
@@ -121,7 +121,7 @@ const Select = <T extends Option = Option>(
                     {({ active, selected }) => (
                       <li
                         className={twsx(
-                          'cursor-pointer rounded border border-transparent p-1 px-1.5 text-sm text-gray-800 hover:bg-gray-200 focus:border-secondary-500 active:bg-gray-300 dark:text-gray-200 dark:hover:bg-gray-600 dark:active:bg-gray-500',
+                          'cursor-pointer rounded border border-transparent p-1 px-1.5 text-sm text-gray-800 hover:bg-gray-200 focus:border-secondary-500 active:bg-gray-300 dark:text-gray-200 dark:hover:bg-gray-700 dark:active:bg-gray-600',
                           selected && 'border-primary-500',
                           active && 'border-secondary-500',
                         )}

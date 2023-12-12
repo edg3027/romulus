@@ -18,7 +18,7 @@ const RenderNode: FC<{ node: Node }> = ({ node }) => {
     }
     case 'Paragraph': {
       return (
-        <p className='mb-3 leading-relaxed text-gray-700 last:mb-0'>
+        <p className='mb-3 leading-relaxed text-gray-700 last:mb-0 dark:text-gray-300'>
           {node.children.map((node, i) => (
             <RenderNode key={i} node={node} />
           ))}

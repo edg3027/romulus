@@ -16,7 +16,7 @@ const MultiselectBox: FC<PropsWithChildren> = ({ children }) => {
         className={clsx(
           'flex h-8 w-full items-center rounded border border-gray-500 bg-gray-100 text-start text-sm text-gray-900 outline-none transition',
           'focus-within:border-secondary-500 hover:bg-gray-200 active:bg-gray-300 disabled:pointer-events-none disabled:border-dashed',
-          'dark:bg-gray-700 dark:hover:bg-gray-600 dark:active:bg-gray-500',
+          'dark:bg-gray-800 dark:hover:bg-gray-700 dark:active:bg-gray-600',
         )}
         onClick={() => {
           setOpen(!open)

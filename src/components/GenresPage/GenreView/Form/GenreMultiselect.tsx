@@ -60,7 +60,7 @@ const GenreMultiselect = forwardRef<HTMLInputElement, GenreMultiselectProps>(
               {match.genre.subtitle && (
                 <>
                   {' '}
-                  <span className='text-xs text-gray-600'>
+                  <span className='text-xs text-gray-600 dark:text-gray-500'>
                     [{match.genre.subtitle}]
                   </span>
                 </>

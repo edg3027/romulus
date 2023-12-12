@@ -36,14 +36,14 @@ const MultiselectOptions: FC<PropsWithChildren> = ({ children }) => {
   return (
     <Popover.Content className='w-full'>
       <ul
-        className='max-h-64 w-full overflow-auto rounded border border-gray-500 bg-gray-100 p-1 shadow outline-none dark:bg-gray-700'
+        className='max-h-64 w-full overflow-auto rounded border border-gray-500 bg-gray-100 p-1 shadow outline-none dark:bg-gray-800'
         ref={setRef}
       >
         {options ? (
           options.length > 0 ? (
             children
           ) : (
-            <div className='px-2 py-1 text-sm text-gray-700'>
+            <div className='px-2 py-1 text-sm text-gray-700 dark:text-gray-400'>
               No results found
             </div>
           )
