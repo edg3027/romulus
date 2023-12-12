@@ -96,7 +96,9 @@ const GenreTreeNode: FC<{ genre: TreeGenre; path: number[] }> = ({
               <span
                 className={clsx(
                   'text-sm',
-                  isSelected ? 'text-primary-500' : 'text-gray-500',
+                  isSelected
+                    ? 'text-primary-500 dark:text-primary-700'
+                    : 'text-gray-500',
                 )}
               >
                 [{subtitle}]

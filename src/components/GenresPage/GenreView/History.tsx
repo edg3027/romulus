@@ -76,16 +76,16 @@ const HasData: FC<{ history: DefaultGenreHistory[] }> = ({
 
   return (
     <div className='h-full flex-1 overflow-auto p-4'>
-      <div className='flex items-center border-b border-gray-100 pb-4 dark:bg-gray-700'>
+      <div className='flex items-center border-b border-gray-100 pb-4 dark:border-gray-800'>
         {genre ? (
           <>
             <GenreLink
               id={genre.id}
-              className='mr-1.5 rounded-full p-1.5 text-gray-600 hover:bg-primary-100 hover:text-primary-700'
+              className='mr-1.5 rounded-full p-1.5 text-gray-600 hover:bg-primary-100 hover:text-primary-700 dark:text-gray-500 dark:hover:bg-gray-800 dark:hover:text-primary-700'
             >
               <IoMdArrowBack size={18} />
             </GenreLink>
-            <div className='text-2xl font-bold text-gray-600'>
+            <div className='text-2xl font-bold text-gray-600 dark:text-gray-400'>
               {genre.name}
               {genre.subtitle && (
                 <>

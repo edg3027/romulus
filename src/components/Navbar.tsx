@@ -40,7 +40,7 @@ const Navbar: FC = () => {
   }, [logout, renderLoginLinks, session.account, session.error])
 
   return (
-    <div className='flex justify-between border-b border-gray-300 p-2 px-4 dark:border-gray-600'>
+    <div className='flex justify-between border-b border-gray-300 p-2 px-4 dark:border-gray-700'>
       <div className='flex space-x-2'>
         <Link href='/genres'>Tree</Link>
         <Link href='/genres/table'>Table</Link>
