@@ -1,6 +1,7 @@
 'use client'
 
 import useAccountSettings from '../hooks/useAccountSettings'
+import Tooltip from './common/Tooltip'
 import { useEffect } from 'react'
 import { RiMoonLine, RiSunLine } from 'react-icons/ri'
 
@@ -17,9 +18,14 @@ const DarkModeToggle = () => {
   }, [darkMode])
 
   return (
-    <button onClick={() => setDarkMode(!darkMode)}>
-      {darkMode ? <RiSunLine /> : <RiMoonLine />}
-    </button>
+    <Tooltip
+      tip={darkMode ? 'Use light mode' : 'Use dark mode'}
+      className='flex'
+    >
+      <button onClick={() => setDarkMode(!darkMode)}>
+        {darkMode ? <RiMoonLine /> : <RiSunLine />}
+      </button>
+    </Tooltip>
   )
 }
 

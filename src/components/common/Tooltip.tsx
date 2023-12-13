@@ -61,14 +61,14 @@ const Tooltip: FC<
               leave='transition-opacity'
               leaveFrom='opacity-100'
               leaveTo='opacity-0'
-              className='tooltip rounded bg-gray-900 px-1.5 py-1 text-xs font-medium text-gray-100 shadow'
+              className='tooltip rounded bg-gray-900 px-1.5 py-1 text-xs font-medium text-gray-100 shadow dark:bg-gray-100 dark:text-gray-800'
               ref={ref}
               style={styles.popper}
               {...attributes.popper}
             >
               {tip}
               <div
-                className='arrow h-1 w-1 before:absolute before:h-1 before:w-1 before:rotate-45 before:bg-gray-900'
+                className='arrow h-1 w-1 before:absolute before:h-1 before:w-1 before:rotate-45 before:bg-gray-900 dark:before:bg-gray-100'
                 ref={setArrowElement}
                 style={styles.arrow}
               />
