@@ -49,14 +49,14 @@ const Paginator = <TData extends RowData>({
       >
         <RiSkipForwardMiniFill />
       </IconButton>
-      <span className='flex items-center space-x-1 text-sm text-gray-800'>
+      <span className='flex items-center space-x-1 text-sm text-gray-800 dark:text-gray-200'>
         <div>Page</div>
         <strong>
           {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
         </strong>
       </span>
       <span className='text-sm text-gray-800'>|</span>
-      <span className='flex items-center space-x-1 text-sm text-gray-800'>
+      <span className='flex items-center space-x-1 text-sm text-gray-800 dark:text-gray-200'>
         <span>Go to page:</span>
         <Input
           type='number'
@@ -65,7 +65,7 @@ const Paginator = <TData extends RowData>({
             const page = value ? Number(value) - 1 : 0
             table.setPageIndex(page)
           }}
-          className='w-16 rounded border p-1'
+          className='w-16'
         />
       </span>
       <div className='relative w-24 self-stretch'>

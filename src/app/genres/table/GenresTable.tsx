@@ -78,13 +78,15 @@ const defaultColumns = [
       return (
         <Link
           href={`/genres?id=${genre.id}`}
-          className='block text-gray-700 hover:font-bold'
+          className='block text-gray-700 hover:font-bold dark:text-gray-300'
         >
           {genre.name}
           {genre?.subtitle && (
             <>
               {' '}
-              <span className='text-sm text-gray-600'>[{genre.subtitle}]</span>
+              <span className='text-sm text-gray-600 dark:text-gray-400'>
+                [{genre.subtitle}]
+              </span>
             </>
           )}
         </Link>
