@@ -27,6 +27,7 @@ export async function POST(req: Request) {
   }
 
   const session = await getSession()
+  session.accountId = account.id
   await session.save()
 
   return Response.json({ accountId: account.id })
