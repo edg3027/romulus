@@ -1,3 +1,5 @@
+'use client'
+
 import { useLogoutMutation, useSession } from '../services/auth'
 import DarkModeToggle from './DarkModeToggle'
 import Loader from './common/Loader'

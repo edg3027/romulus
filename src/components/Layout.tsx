@@ -1,26 +1,8 @@
-'use client'
-
-import { useSession } from '../services/auth'
 import Navbar from './Navbar'
-import { FC, PropsWithChildren, useEffect, useMemo } from 'react'
+import { FC, PropsWithChildren } from 'react'
 import { Toaster } from 'react-hot-toast'
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {
-  const session = useSession()
-
-  const darkMode = useMemo(
-    () => session.account?.darkMode ?? true,
-    [session.account?.darkMode],
-  )
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }, [darkMode])
-
   return (
     <div className='flex h-screen w-screen flex-col'>
       <Navbar />
