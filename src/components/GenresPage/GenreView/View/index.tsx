@@ -113,7 +113,7 @@ const HasData: FC<{
             </div>
           </div>
         ) : (
-          <div className='flex space-x-1 border-t p-1'>
+          <div className='flex space-x-1 border-t border-gray-200 p-1 dark:border-gray-800'>
             <GenreLink id={genre.id} view='edit' className='flex-1'>
               <Button className='w-full'>Edit</Button>
             </GenreLink>

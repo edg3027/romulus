@@ -59,7 +59,7 @@ const GenreViewData: FC<{
 
   return (
     <div className='flex-1 overflow-auto'>
-      <div className='flex items-center justify-between border-b border-gray-100 p-4 dark:border-gray-700'>
+      <div className='flex items-center justify-between border-b border-gray-100 p-4 dark:border-gray-800'>
         <div className='text-2xl font-bold text-gray-600 dark:text-gray-400'>
           {genre.name}
           {genre.subtitle && (

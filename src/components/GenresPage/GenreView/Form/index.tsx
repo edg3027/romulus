@@ -155,7 +155,11 @@ const GenreForm: FC<{
     )
 
     if (!session.isLoggedIn && session.hasPermission(Permission.EDIT_GENRES)) {
-      return <div className='flex space-x-1 border-t p-1'>{CancelButton}</div>
+      return (
+        <div className='flex space-x-1 border-t border-gray-200 p-1 dark:border-gray-800'>
+          {CancelButton}
+        </div>
+      )
     }
 
     // confirm when submitting top-level genres
@@ -180,7 +184,7 @@ const GenreForm: FC<{
           </div>
         </div>
       ) : (
-        <div className='flex space-x-1 border-t p-1'>
+        <div className='flex space-x-1 border-t border-gray-200 p-1 dark:border-gray-800'>
           <Button
             type='button'
             className='flex-1'
@@ -194,7 +198,7 @@ const GenreForm: FC<{
     }
 
     return (
-      <div className='flex space-x-1 border-t p-1'>
+      <div className='flex space-x-1 border-t border-gray-200 p-1 dark:border-gray-800'>
         {SubmitButton}
         {CancelButton}
       </div>
