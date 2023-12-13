@@ -1,10 +1,7 @@
 import { createAccount } from '../../../server/db/account'
-import { sessionConfig } from '../../../server/session'
-import { SessionData } from '../../../utils/session'
+import { getSession } from '../../../server/session'
 import { nonemptyString } from '../../../utils/validators'
 import { Prisma } from '@prisma/client'
-import { getIronSession } from 'iron-session'
-import { cookies } from 'next/headers'
 import { z } from 'zod'
 
 const RegisterRequest = z.object({
@@ -20,7 +17,7 @@ export async function POST(req: Request) {
   try {
     const account = await createAccount(loginRequest)
 
-    const session = await getIronSession<SessionData>(cookies(), sessionConfig)
+    const session = await getSession()
     session.accountId = account.id
     await session.save()
 

@@ -1,10 +1,7 @@
-import { sessionConfig } from '../../../server/session'
-import { SessionData } from '../../../utils/session'
-import { getIronSession } from 'iron-session'
-import { cookies } from 'next/headers'
+import { getSession } from '../../../server/session'
 
 export async function POST() {
-  const session = await getIronSession<SessionData>(cookies(), sessionConfig)
+  const session = await getSession()
   session.destroy()
   return Response.json({ accountId: null })
 }

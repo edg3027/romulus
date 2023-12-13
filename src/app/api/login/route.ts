@@ -1,10 +1,7 @@
 import { prisma } from '../../../server/prisma'
-import { sessionConfig } from '../../../server/session'
-import { SessionData } from '../../../utils/session'
+import { getSession } from '../../../server/session'
 import { nonemptyString } from '../../../utils/validators'
 import bcrypt from 'bcrypt'
-import { getIronSession } from 'iron-session'
-import { cookies } from 'next/headers'
 import { z } from 'zod'
 
 const LoginRequest = z.object({
@@ -29,8 +26,7 @@ export async function POST(req: Request) {
     return new Response('Invalid email or password', { status: 401 })
   }
 
-  const session = await getIronSession<SessionData>(cookies(), sessionConfig)
-  session.accountId = account.id
+  const session = await getSession()
   await session.save()
 
   return Response.json({ accountId: account.id })
