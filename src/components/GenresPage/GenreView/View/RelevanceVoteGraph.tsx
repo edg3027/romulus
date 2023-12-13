@@ -77,7 +77,7 @@ const HasData: FC<{
           return (
             <div key={relevance} className='flex items-center'>
               <Tooltip tip={getGenreRelevanceText(relevance)}>
-                <div className='flex h-6 w-4 cursor-default items-center border-r border-gray-300 text-sm text-gray-700'>
+                <div className='flex h-6 w-4 cursor-default items-center border-r border-gray-300 text-sm text-gray-700 dark:border-gray-700 dark:text-gray-300'>
                   {relevance}
                 </div>
               </Tooltip>
@@ -90,7 +90,7 @@ const HasData: FC<{
               )}
 
               <Tooltip tip={`${num} vote${num === 1 ? '' : 's'}`}>
-                <div className='ml-2 cursor-default text-sm font-medium text-gray-700'>
+                <div className='ml-2 cursor-default text-sm font-medium text-gray-600 dark:text-gray-400'>
                   {num}
                 </div>
               </Tooltip>

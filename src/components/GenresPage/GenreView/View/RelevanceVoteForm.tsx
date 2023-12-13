@@ -61,7 +61,7 @@ const RelevanceVoteForm: FC<{
   return (
     <div
       className={twsx(
-        'rounded border border-gray-300 bg-gray-50 p-4',
+        'rounded border border-gray-300 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900',
         className,
       )}
     >
