@@ -228,7 +228,7 @@ const GenreForm: FC<{
           />
         </InputGroup>
 
-        <fieldset className='border border-solid border-gray-200 p-3 dark:border-gray-800'>
+        <fieldset className='rounded border border-solid border-gray-200 p-3 dark:border-gray-800'>
           <legend className='text-sm text-gray-700 dark:text-gray-300'>
             AKAs{' '}
             <a
