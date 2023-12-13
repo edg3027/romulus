@@ -1,8 +1,9 @@
 import '../../styles/globals.css'
-import Layout from '../components/Layout'
+import Navbar from '../components/Navbar'
 import { getSessionWithAccount } from '../server/session'
 import { ClientProviders } from './client-providers'
 import { Metadata } from 'next'
+import { Toaster } from 'react-hot-toast'
 
 export const metadata: Metadata = {
   title: 'Romulus',
@@ -19,9 +20,13 @@ export default async function RootLayout({
   return (
     <html lang='en' className={account?.darkMode ? 'dark' : undefined}>
       <body>
-        <ClientProviders>
-          <Layout>{children}</Layout>
-        </ClientProviders>
+        <div className='flex h-screen w-screen flex-col'>
+          <ClientProviders>
+            <Navbar />
+            <div className='min-h-0 flex-1 overflow-auto'>{children}</div>
+            <Toaster />
+          </ClientProviders>
+        </div>
       </body>
     </html>
   )
