@@ -18,7 +18,7 @@ const Dialog: FC<PropsWithChildren<{ onClickOutside?: () => void }>> = ({
           return onClickOutside?.()
         }
       }}
-      className='absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/50'
+      className='absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/50 backdrop-blur-sm'
     >
       <div ref={ref}>{children}</div>
     </div>,

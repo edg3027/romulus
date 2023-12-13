@@ -60,7 +60,7 @@ const GenreSearchDialog: FC<{
 
   return (
     <Dialog onClickOutside={onClickOutside}>
-      <div className='flex h-96 max-h-screen w-96 flex-col space-y-2 bg-white p-4'>
+      <div className='flex h-96 max-h-screen w-96 flex-col space-y-2 rounded border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900'>
         <div className='flex items-center space-x-1'>
           <Input
             className='flex-1'
@@ -145,14 +145,16 @@ const SearchResult: FC<{ match: Match; onClick: () => void }> = ({
 
   return (
     <button
-      className='block text-left text-gray-700 hover:font-bold'
+      className='block text-left text-gray-700 hover:font-bold dark:text-gray-400'
       onClick={onClick}
     >
       {genre.name}
       {genre?.subtitle && (
         <>
           {' '}
-          <span className='text-sm text-gray-600'>[{genre.subtitle}]</span>
+          <span className='text-sm text-gray-600 dark:text-gray-500'>
+            [{genre.subtitle}]
+          </span>
         </>
       )}
       {matchedAka && (
