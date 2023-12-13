@@ -166,7 +166,7 @@ const GenreForm: FC<{
     if (parentGenres.length === 0) {
       return isConfirming ? (
         <div className='border-t'>
-          <div className='mt-1 flex justify-center text-gray-800'>
+          <div className='mt-1 flex justify-center text-gray-800 dark:text-gray-300'>
             <span>
               You are submitting a <b>top-level genre</b>. Are you sure?
             </span>
