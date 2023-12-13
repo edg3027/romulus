@@ -48,7 +48,6 @@ const GenreTreeNode: FC<{ genre: TreeGenre; path: number[] }> = ({
 
   const genres = useTreeState((state) => state.genres)
   const sortedChildren = useMemo(() => {
-    console.log('sort children')
     return [...children].sort((a, b) => {
       const genreA = genres.get(a)
       const genreB = genres.get(b)

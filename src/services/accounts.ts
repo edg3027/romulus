@@ -40,6 +40,7 @@ export const useEditAccountMutation = () => {
           showTypeTags: input.data.showTypeTags ?? previousData.showTypeTags,
           showRelevanceTags:
             input.data.showRelevanceTags ?? previousData.showRelevanceTags,
+          darkMode: input.data.darkMode ?? previousData.darkMode,
         }
 
         utils.account.byId.setData({ id: input.id }, newData)

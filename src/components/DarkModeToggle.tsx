@@ -7,7 +7,6 @@ import { RiMoonLine, RiSunLine } from 'react-icons/ri'
 
 const DarkModeToggle = () => {
   const { darkMode, setDarkMode } = useAccountSettings()
-  console.log({ darkMode })
 
   useEffect(() => {
     if (darkMode) {
