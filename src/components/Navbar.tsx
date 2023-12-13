@@ -1,5 +1,6 @@
 import { useLogoutMutation, useSession } from '../services/auth'
 import DarkModeToggle from './DarkModeToggle'
+import Loader from './common/Loader'
 import Link from 'next/link'
 import { FC, useCallback } from 'react'
 
@@ -36,7 +37,7 @@ const Navbar: FC = () => {
       return renderLoginLinks()
     }
 
-    return 'Loading...'
+    return <Loader size={16} />
   }, [logout, renderLoginLinks, session.account, session.error])
 
   return (
@@ -46,7 +47,7 @@ const Navbar: FC = () => {
         <Link href='/genres/table'>Table</Link>
       </div>
 
-      <div className='flex space-x-2'>
+      <div className='flex items-center gap-2'>
         {renderSession()}
         <DarkModeToggle />
       </div>
