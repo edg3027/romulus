@@ -1,5 +1,6 @@
 import '../../styles/globals.css'
 import Navbar from '../components/Navbar'
+import { ServerAccountProvider } from '../hooks/useServerAccount'
 import { getSessionWithAccount } from '../server/session'
 import { ClientProviders } from './client-providers'
 import { Metadata } from 'next'
@@ -21,11 +22,13 @@ export default async function RootLayout({
     <html lang='en' className={account?.darkMode ? 'dark' : undefined}>
       <body>
         <div className='flex h-screen w-screen flex-col'>
-          <ClientProviders>
-            <Navbar />
-            <div className='min-h-0 flex-1 overflow-auto'>{children}</div>
-            <Toaster />
-          </ClientProviders>
+          <ServerAccountProvider account={account}>
+            <ClientProviders>
+              <Navbar />
+              <div className='min-h-0 flex-1 overflow-auto'>{children}</div>
+              <Toaster />
+            </ClientProviders>
+          </ServerAccountProvider>
         </div>
       </body>
     </html>

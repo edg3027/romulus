@@ -1,3 +1,4 @@
+import { useServerAccount } from '../hooks/useServerAccount'
 import { trpc } from '../utils/trpc'
 import { useAccountQuery } from './accounts'
 import { Permission } from '@prisma/client'
@@ -11,6 +12,7 @@ export const useWhoamiQuery = () =>
 export const useSession = () => {
   const whoamiQuery = useWhoamiQuery()
   const accountQuery = useAccountQuery(whoamiQuery.data?.id)
+  const { account: serverAccount } = useServerAccount()
 
   const isLoggedIn = useMemo(() => {
     if (!whoamiQuery.isSuccess) return undefined
@@ -28,8 +30,23 @@ export const useSession = () => {
     [accountQuery.data?.permissions],
   )
 
+  const account = useMemo(() => {
+    if (whoamiQuery.data === null) return null
+
+    if (accountQuery.isSuccess) {
+      return accountQuery.data
+    }
+
+    return serverAccount
+  }, [
+    accountQuery.data,
+    accountQuery.isSuccess,
+    serverAccount,
+    whoamiQuery.data,
+  ])
+
   return {
-    account: whoamiQuery.data === null ? null : accountQuery.data,
+    account,
     error: whoamiQuery.error ?? accountQuery.error,
     isLoggedIn,
     isLoggedOut,
