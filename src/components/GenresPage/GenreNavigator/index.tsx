@@ -22,7 +22,7 @@ const GenreNavigator: FC<{ className?: string }> = ({ className }) => {
 
   return (
     <div className={twsx('flex h-full w-full flex-col', className)}>
-      <div className='flex space-x-1 border-b border-gray-100 p-4 dark:border-gray-700'>
+      <div className='flex space-x-1 border-b border-gray-100 p-4 dark:border-gray-800'>
         <div className='relative flex-1'>
           <SearchInput />
         </div>
@@ -41,7 +41,7 @@ const GenreNavigator: FC<{ className?: string }> = ({ className }) => {
         </div>
       )}
       {isSearching && (
-        <div className='flex justify-center border-b border-gray-100 dark:border-gray-700'>
+        <div className='flex justify-center border-b border-gray-100 dark:border-gray-800'>
           <Button
             template='tertiary'
             className='w-full'
@@ -55,7 +55,7 @@ const GenreNavigator: FC<{ className?: string }> = ({ className }) => {
         {isSearching ? <GenreSearchResults /> : <GenreTree />}
       </div>
       {session.isLoggedIn && session.hasPermission(Permission.EDIT_GENRES) && (
-        <div className='border-t border-gray-200 p-1 dark:border-gray-600'>
+        <div className='border-t border-gray-200 p-1 dark:border-gray-800'>
           <Link href='/genres?view=create' className='w-full'>
             <Button template='secondary' className='w-full'>
               New Genre
