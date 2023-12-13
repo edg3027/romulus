@@ -24,6 +24,30 @@ import { FC, useCallback, useMemo, useState } from 'react'
 import { IoMdArrowBack } from 'react-icons/io'
 import { RiArrowDownSLine, RiArrowRightSLine } from 'react-icons/ri'
 
+const DEFAULT_BG = 'bg-gray-100 dark:bg-gray-800'
+const DEFAULT_BORDER = 'border-gray-300 dark:border-gray-600'
+const DEFAULT_CARD = clsx(DEFAULT_BG, DEFAULT_BORDER)
+
+const CREATE_BG = 'bg-green-100 dark:bg-green-800 dark:bg-opacity-25'
+const CREATE_BORDER = 'border-green-300 dark:border-green-800'
+const CREATE_CARD = clsx(CREATE_BG, CREATE_BORDER)
+
+const CREATE_SUBITEM_BG = 'bg-green-300 dark:bg-green-700 dark:bg-opacity-25'
+const CREATE_SUBITEM_BORDER = 'border-green-500 dark:border-green-700'
+const CREATE_SUBITEM_CARD = clsx(CREATE_SUBITEM_BG, CREATE_SUBITEM_BORDER)
+
+const UPDATE_SUBITEM_BG = 'bg-yellow-300 dark:bg-yellow-700 dark:bg-opacity-25'
+const UPDATE_SUBITEM_BORDER = 'border-yellow-500 dark:border-yellow-700'
+const UPDATE_SUBITEM_CARD = clsx(UPDATE_SUBITEM_BG, UPDATE_SUBITEM_BORDER)
+
+const DELETE_BG = 'bg-red-100 dark:bg-red-800 dark:bg-opacity-25'
+const DELETE_BORDER = 'border-red-300 dark:border-red-800'
+const DELETE_CARD = clsx(DELETE_BG, DELETE_BORDER)
+
+const DELETE_SUBITEM_BG = 'bg-red-300 dark:bg-red-700 dark:bg-opacity-25'
+const DELETE_SUBITEM_BORDER = 'border-red-500 dark:border-red-700'
+const DELETE_SUBITEM_CARD = clsx(DELETE_SUBITEM_BG, DELETE_SUBITEM_BORDER)
+
 const GenreHistory: FC<{ id: number }> = ({ id }) => {
   const historyQuery = useGenreHistoryQuery(id)
 
@@ -314,13 +338,13 @@ const Diff: FC<{
   const getActionClass = useCallback((action: DiffAction) => {
     switch (action) {
       case 'create': {
-        return 'border border-green-500 bg-green-300'
+        return clsx('border', CREATE_SUBITEM_CARD)
       }
       case 'update': {
-        return 'border border-yellow-500 bg-yellow-300'
+        return clsx('border', UPDATE_SUBITEM_CARD)
       }
       case 'delete': {
-        return 'border border-red-500 bg-red-300'
+        return clsx('border', DELETE_SUBITEM_CARD)
       }
     }
   }, [])
@@ -328,8 +352,13 @@ const Diff: FC<{
   return (
     <div className='flex space-x-3'>
       {lastHistory ? (
-        <div className='flex-1 rounded border border-gray-300 bg-gray-100'>
-          <div className='border-b border-gray-200 p-2 px-3 text-sm font-bold uppercase tracking-wide text-gray-500'>
+        <div className={clsx('flex-1 rounded border', DEFAULT_CARD)}>
+          <div
+            className={clsx(
+              'border-b p-2 px-3 text-sm font-bold uppercase tracking-wide text-gray-500',
+              DEFAULT_BORDER,
+            )}
+          >
             Before
           </div>
           <div className='space-y-3 p-2 px-3'>
@@ -411,8 +440,15 @@ const Diff: FC<{
           </div>
         </div>
       ) : (
-        <div className='flex flex-1 flex-col rounded border border-gray-300 bg-gray-100'>
-          <div className='border-b border-gray-200 p-2 px-3 text-sm font-bold uppercase tracking-wide text-gray-500'>
+        <div
+          className={clsx('flex flex-1 flex-col rounded border', DEFAULT_CARD)}
+        >
+          <div
+            className={clsx(
+              'border-b p-2 px-3 text-sm font-bold uppercase tracking-wide text-gray-500',
+              DEFAULT_BORDER,
+            )}
+          >
             Before
           </div>
           <div className='flex flex-1 items-center justify-center text-sm text-gray-500'>
@@ -422,8 +458,15 @@ const Diff: FC<{
       )}
 
       {thisHistory.operation === CrudOperation.DELETE ? (
-        <div className='flex flex-1 flex-col rounded border border-red-300 bg-red-100'>
-          <div className='border-b border-red-200 p-2 px-3 text-sm font-bold uppercase tracking-wide text-red-500'>
+        <div
+          className={clsx('flex flex-1 flex-col rounded border', DELETE_CARD)}
+        >
+          <div
+            className={clsx(
+              'border-b p-2 px-3 text-sm font-bold uppercase tracking-wide text-red-500',
+              DELETE_BORDER,
+            )}
+          >
             After
           </div>
           <div className='flex flex-1 items-center justify-center text-sm text-red-500'>
@@ -435,16 +478,16 @@ const Diff: FC<{
           className={clsx(
             'flex-1 rounded border',
             thisHistory.operation === CrudOperation.CREATE
-              ? 'border-green-300 bg-green-100'
-              : 'border-gray-300 bg-gray-100',
+              ? CREATE_CARD
+              : DEFAULT_CARD,
           )}
         >
           <div
             className={clsx(
               'border-b p-2 px-3 text-sm font-bold uppercase tracking-wide',
               thisHistory.operation === CrudOperation.CREATE
-                ? 'border-green-200 text-green-500'
-                : 'border-gray-200 text-gray-500',
+                ? clsx('text-green-500', CREATE_BORDER)
+                : clsx('text-gray-500', DEFAULT_BORDER),
             )}
           >
             After
