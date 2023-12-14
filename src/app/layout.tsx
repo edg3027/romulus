@@ -1,4 +1,5 @@
 import '../../styles/globals.css'
+import DarkModeApplier from '../components/DarkModeApplier'
 import Navbar from '../components/Navbar'
 import { ServerAccountProvider } from '../hooks/useServerAccount'
 import { getSessionWithAccount } from '../server/session'
@@ -27,6 +28,7 @@ export default async function RootLayout({
               <Navbar />
               <div className='min-h-0 flex-1 overflow-auto'>{children}</div>
               <Toaster />
+              <DarkModeApplier />
             </ClientProviders>
           </ServerAccountProvider>
         </div>

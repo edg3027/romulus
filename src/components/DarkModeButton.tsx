@@ -2,19 +2,10 @@
 
 import useAccountSettings from '../hooks/useAccountSettings'
 import Button from './common/Button'
-import { useEffect } from 'react'
 import { RiMoonLine, RiSunLine } from 'react-icons/ri'
 
 const DarkModeToggle = () => {
   const { darkMode, setDarkMode } = useAccountSettings()
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }, [darkMode])
 
   return (
     <Button
