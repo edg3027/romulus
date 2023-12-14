@@ -159,69 +159,78 @@ const HasData: FC<{
   })
 
   return (
-    <div className='p-4'>
-      <table>
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th key={header.id} className='p-1 px-2 text-left'>
-                  {header.isPlaceholder ? null : (
-                    <div
-                      className={clsx(
-                        'flex items-center space-x-1',
-                        header.column.getCanSort() &&
-                          'cursor-pointer select-none',
+    <div className='h-full w-full p-2 pt-0'>
+      <div className='flex h-full w-full flex-col rounded-lg border border-gray-200 bg-gray-100 transition dark:border-gray-800 dark:bg-gray-900'>
+        <div className='w-full flex-1 overflow-auto p-2'>
+          <table className='w-full table-fixed'>
+            <thead>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <th key={header.id} className='p-1 px-2 text-left'>
+                      {header.isPlaceholder ? null : (
+                        <div
+                          className={clsx(
+                            'flex items-center space-x-1',
+                            header.column.getCanSort() &&
+                              'cursor-pointer select-none',
+                          )}
+                          onClick={header.column.getToggleSortingHandler()}
+                        >
+                          <span>
+                            {flexRender(
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
+                          </span>
+                          {{
+                            asc: <RiSortAsc className='text-primary-500' />,
+                            desc: <RiSortDesc className='text-primary-500' />,
+                          }[header.column.getIsSorted() as string] ?? null}
+                        </div>
                       )}
-                      onClick={header.column.getToggleSortingHandler()}
-                    >
-                      <span>
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                      </span>
-                      {{
-                        asc: <RiSortAsc className='text-primary-500' />,
-                        desc: <RiSortDesc className='text-primary-500' />,
-                      }[header.column.getIsSorted() as string] ?? null}
-                    </div>
-                  )}
-                </th>
+                    </th>
+                  ))}
+                </tr>
               ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className='p-1 px-2'>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          {table.getFooterGroups().map((footerGroup) => (
-            <tr key={footerGroup.id}>
-              {footerGroup.headers.map((header) => (
-                <th key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.footer,
-                        header.getContext(),
+            </thead>
+            <tbody>
+              {table.getRowModel().rows.map((row) => (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <td key={cell.id} className='p-1 px-2'>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
                       )}
-                </th>
+                    </td>
+                  ))}
+                </tr>
               ))}
-            </tr>
-          ))}
-        </tfoot>
-      </table>
+            </tbody>
+            <tfoot>
+              {table.getFooterGroups().map((footerGroup) => (
+                <tr key={footerGroup.id}>
+                  {footerGroup.headers.map((header) => (
+                    <th key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.footer,
+                            header.getContext(),
+                          )}
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </tfoot>
+          </table>
+        </div>
 
-      <Paginator table={table} />
+        <div className='border-t border-gray-200 px-3 py-1 transition dark:border-gray-800'>
+          <Paginator table={table} />
+        </div>
+      </div>
     </div>
   )
 }

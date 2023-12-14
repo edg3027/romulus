@@ -12,7 +12,7 @@ const AccountPage: FC<{ id: number }> = ({ id }) => {
   if (accountQuery.data) {
     return (
       <div className='h-full w-full p-2 pt-0'>
-        <div className='h-full rounded-lg border border-gray-200 bg-gray-100 p-4'>
+        <div className='h-full rounded-lg border border-gray-200 bg-gray-100 p-4 transition dark:border-gray-800 dark:bg-gray-900'>
           <HasData account={accountQuery.data} />
         </div>
       </div>
