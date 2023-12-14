@@ -36,7 +36,7 @@ const Session = () => {
   const renderContent = () => {
     if (session.account) {
       return (
-        <Popover show={open}>
+        <Popover show={open} options={{ placement: 'bottom-end' }}>
           <Popover.Target className='h-full w-full'>
             <button
               className='group/account-button h-full w-full p-1'
@@ -52,8 +52,14 @@ const Session = () => {
             </button>
           </Popover.Target>
 
-          <Popover.Content className='rounded-lg border border-gray-200 bg-gray-100 p-1 shadow dark:border-gray-800 dark:bg-gray-900'>
-            <Link href={`/accounts/${session.account.id}`}>
+          <Popover.Content
+            className='w-max rounded-lg border border-gray-200 bg-gray-100 p-1 shadow dark:border-gray-800 dark:bg-gray-900'
+            onClickOutside={() => setOpen(false)}
+          >
+            <Link
+              href={`/accounts/${session.account.id}`}
+              onClick={() => setOpen(false)}
+            >
               <Button
                 template='tertiary'
                 className='flex w-full items-center justify-start gap-1.5 text-gray-600 dark:text-gray-300'
@@ -66,7 +72,10 @@ const Session = () => {
             <Button
               template='tertiary'
               className='flex w-full items-center justify-start gap-1.5 text-gray-600 dark:text-gray-300'
-              onClick={() => logout()}
+              onClick={() => {
+                setOpen(false)
+                logout()
+              }}
             >
               <RiLogoutBoxLine />
               <div>Log out</div>

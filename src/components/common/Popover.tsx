@@ -1,4 +1,5 @@
 import { twsx } from '../../utils/dom'
+import { useFloating, offset, UseFloatingOptions } from '@floating-ui/react-dom'
 import { Transition } from '@headlessui/react'
 import {
   createContext,
@@ -7,16 +8,16 @@ import {
   PropsWithChildren,
   SetStateAction,
   useContext,
+  useEffect,
   useMemo,
-  useRef,
   useState,
 } from 'react'
-import { usePopper } from 'react-popper'
 
 type PopoverContext = {
   show: boolean
   referenceElement: HTMLDivElement | null
   setReferenceElement: Dispatch<SetStateAction<HTMLDivElement | null>>
+  options?: Partial<UseFloatingOptions>
 }
 
 const PopoverContext = createContext<PopoverContext>({
@@ -25,18 +26,18 @@ const PopoverContext = createContext<PopoverContext>({
   setReferenceElement: () => {
     throw new Error('Must use within a PopoverContext provider')
   },
+  options: {},
 })
 
-const PopoverParent: FC<PropsWithChildren<{ show: boolean }>> = ({
-  show,
-  children,
-}) => {
+const PopoverParent: FC<
+  PropsWithChildren<{ show: boolean; options?: Partial<UseFloatingOptions> }>
+> = ({ show, options, children }) => {
   const [referenceElement, setReferenceElement] =
     useState<HTMLDivElement | null>(null)
 
   const value: PopoverContext = useMemo(
-    () => ({ show, referenceElement, setReferenceElement }),
-    [referenceElement, show],
+    () => ({ show, referenceElement, setReferenceElement, options }),
+    [options, referenceElement, show],
   )
 
   return (
@@ -57,17 +58,46 @@ const PopoverTarget: FC<PropsWithChildren<{ className?: string }>> = ({
   )
 }
 
-const PopoverContent: FC<PropsWithChildren<{ className?: string }>> = ({
-  children,
-  className,
-}) => {
-  const { show, referenceElement } = useContext(PopoverContext)
+const PopoverContent: FC<
+  PropsWithChildren<{
+    className?: string
+    onClickOutside?: () => void
+  }>
+> = ({ children, className, onClickOutside }) => {
+  const { show, referenceElement, options } = useContext(PopoverContext)
+  const [floatingElement, setFloatingElement] = useState<HTMLElement | null>(
+    null,
+  )
 
-  const ref = useRef<HTMLDivElement | null>(null)
-
-  const { styles, attributes } = usePopper(referenceElement, ref.current, {
-    modifiers: [{ name: 'offset', options: { offset: [0, 6] } }],
+  const { x, y, strategy } = useFloating({
+    placement: options?.placement ?? 'bottom',
+    strategy: options?.strategy ?? 'absolute',
+    middleware: options?.middleware ?? [offset(6)],
+    elements: {
+      reference: referenceElement,
+      floating: floatingElement,
+    },
   })
+
+  useEffect(() => {
+    if (!onClickOutside) return
+
+    const listener = (e: MouseEvent) => {
+      const target = e.target
+
+      if (!floatingElement) return
+      if (!(target instanceof Node)) return
+
+      if (!floatingElement.contains(target)) {
+        onClickOutside()
+      }
+    }
+
+    document.addEventListener('click', listener)
+    return () => {
+      document.removeEventListener('click', listener)
+    }
+  }, [floatingElement, onClickOutside])
 
   return (
     <Transition
@@ -78,10 +108,9 @@ const PopoverContent: FC<PropsWithChildren<{ className?: string }>> = ({
       leave='transition-opacity'
       leaveFrom='opacity-100'
       leaveTo='opacity-0'
-      ref={ref}
-      style={styles.popper}
+      ref={setFloatingElement}
+      style={{ position: strategy, top: y ?? '', left: x ?? '' }}
       className={twsx('z-10', className)}
-      {...attributes.popper}
     >
       {children}
     </Transition>
