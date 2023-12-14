@@ -80,8 +80,8 @@ const Select = <T extends Option = Option>(
                 id={id}
                 ref={internalRef}
                 className={twsx(
-                  'flex h-8 w-full items-center rounded border border-gray-500 bg-gray-100 p-1.5 text-start text-sm text-gray-900 outline-none transition',
-                  'hover:bg-gray-200 focus:border-secondary-500 active:bg-gray-300 disabled:pointer-events-none disabled:border-dashed',
+                  'flex h-8 w-full items-center rounded border border-gray-500 bg-gray-200 p-1.5 text-start text-sm text-gray-900 outline-none transition',
+                  'hover:bg-gray-300 focus:border-secondary-500 active:bg-gray-400 disabled:pointer-events-none disabled:border-dashed',
                   'dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:active:bg-gray-600',
                   value === undefined &&
                     'italic text-gray-600 dark:text-gray-400',

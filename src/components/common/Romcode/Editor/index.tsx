@@ -113,13 +113,13 @@ const RomcodeEditor = forwardRef<
     <>
       <div
         className={twsx(
-          'flex h-72 resize-y flex-col overflow-auto rounded border border-gray-500 bg-gray-100 text-sm text-gray-800 transition focus-within:border-secondary-500 dark:bg-gray-800 dark:text-gray-200',
+          'flex h-72 resize-y flex-col overflow-auto rounded border border-gray-500 bg-gray-200 text-sm text-gray-800 transition focus-within:border-secondary-500 dark:bg-gray-800 dark:text-gray-200',
           className,
         )}
       >
         {tab === Tab.EDIT && (
           <div className='flex flex-1 flex-col'>
-            <div className='flex border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900'>
+            <div className='flex border-b border-gray-300 bg-gray-100 transition dark:border-gray-700 dark:bg-gray-900'>
               <Tooltip tip='Bold'>
                 <IconButton type='button' onClick={() => handleBold()}>
                   <RiBold />
@@ -153,7 +153,7 @@ const RomcodeEditor = forwardRef<
             <textarea
               ref={internalRef}
               id={id}
-              className='flex-1 resize-none bg-transparent p-1.5 transition hover:bg-gray-200 focus:outline-none active:bg-gray-300 dark:hover:bg-gray-700 dark:active:bg-gray-600'
+              className='flex-1 resize-none bg-transparent p-1.5 transition hover:bg-gray-300 focus:outline-none active:bg-gray-400 dark:hover:bg-gray-700 dark:active:bg-gray-600'
               value={value}
               onChange={(e) => onChange(e.target.value)}
               onBlur={onBlur}
@@ -167,7 +167,7 @@ const RomcodeEditor = forwardRef<
           </div>
         )}
 
-        <div className='flex border-t border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900'>
+        <div className='flex border-t border-gray-300 bg-gray-100 transition dark:border-gray-700 dark:bg-gray-900'>
           <button
             className={clsx(
               'border-r border-gray-200 px-2 py-1 text-xs uppercase text-gray-400 transition hover:bg-gray-200 active:bg-gray-300 dark:border-gray-700 dark:hover:bg-gray-800 dark:active:bg-gray-700',

@@ -50,8 +50,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             value={value}
             onChange={(e) => onChange?.(e.target.value)}
             className={twsx(
-              'h-8 w-full rounded border border-gray-500 bg-gray-100 p-1.5 text-sm leading-3 text-gray-900 outline-none transition',
-              'placeholder:italic placeholder:text-gray-600 hover:bg-gray-200 focus:border-secondary-500 active:bg-gray-300',
+              'h-8 w-full rounded border border-gray-500 bg-gray-200 p-1.5 text-sm leading-3 text-gray-900 outline-none transition',
+              'placeholder:italic placeholder:text-gray-600 hover:bg-gray-300 focus:border-secondary-500 active:bg-gray-400',
               'disabled:pointer-events-none disabled:border-dashed',
               'dark:bg-gray-800 dark:text-gray-200 dark:placeholder:text-gray-400 dark:hover:bg-gray-700 dark:active:bg-gray-600',
               isClearVisible && 'pr-7',
