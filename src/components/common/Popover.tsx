@@ -1,5 +1,10 @@
 import { twsx } from '../../utils/dom'
-import { useFloating, offset, UseFloatingOptions } from '@floating-ui/react-dom'
+import {
+  useFloating,
+  offset,
+  UseFloatingOptions,
+  autoUpdate,
+} from '@floating-ui/react-dom'
 import { Transition } from '@headlessui/react'
 import {
   createContext,
@@ -73,6 +78,7 @@ const PopoverContent: FC<
     placement: options?.placement ?? 'bottom',
     strategy: options?.strategy ?? 'absolute',
     middleware: options?.middleware ?? [offset(6)],
+    whileElementsMounted: autoUpdate,
     elements: {
       reference: referenceElement,
       floating: floatingElement,

@@ -1,6 +1,6 @@
 import useDebouncedState from '../../hooks/useDebouncedState'
 import { isBrowser } from '../../utils/dom'
-import { useFloating, arrow, offset } from '@floating-ui/react-dom'
+import { useFloating, arrow, offset, autoUpdate } from '@floating-ui/react-dom'
 import { Transition } from '@headlessui/react'
 import {
   FC,
@@ -25,6 +25,7 @@ const Tooltip: FC<
   const { x, y, strategy, middlewareData, update } = useFloating({
     placement: 'top',
     middleware: [arrow({ element: arrowElement.current }), offset(6)],
+    whileElementsMounted: autoUpdate,
     elements: {
       reference: referenceElement,
       floating: floatingElement,
