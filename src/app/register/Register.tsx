@@ -34,6 +34,7 @@ const Register: NextPage = () => {
     formState: { errors },
     setFocus,
     setError,
+    clearErrors,
     watch,
   } = useForm<RegisterFormFields>()
 
@@ -46,12 +47,14 @@ const Register: NextPage = () => {
   useEffect(() => setFocus('username'), [setFocus])
 
   const [debouncedUsername] = useDebouncedState(watch('username'), 200)
-  const accountQuery = useAccountByUsernameQuery(debouncedUsername)
+  const accountQuery = useAccountByUsernameQuery(debouncedUsername ?? '')
   useEffect(() => {
     if (accountQuery.data?.username) {
       setError('username', { type: 'validate', message: 'Username is taken' })
+    } else {
+      clearErrors('username')
     }
-  }, [accountQuery.data?.username, setError])
+  }, [accountQuery.data?.username, clearErrors, setError])
 
   return (
     <div className='bg-texture dark:bg-texture-dark relative flex h-full w-full items-center justify-center transition'>

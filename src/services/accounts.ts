@@ -11,7 +11,10 @@ export const useAccountQuery = (id?: number) =>
   )
 
 export const useAccountByUsernameQuery = (username: string) =>
-  trpc.account.byUsername.useQuery({ username })
+  trpc.account.byUsername.useQuery(
+    { username },
+    { enabled: username.length > 0 },
+  )
 
 export const useEditAccountMutation = () => {
   const utils = trpc.useUtils()
