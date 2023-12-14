@@ -89,8 +89,8 @@ const HasData: FC<{
       {session.isLoggedIn &&
         session.hasPermission(Permission.EDIT_GENRES) &&
         (confirmDelete ? (
-          <div className='border-t'>
-            <div className='mt-1 flex justify-center text-gray-800'>
+          <div className='border-t border-gray-200 transition dark:border-gray-800'>
+            <div className='mt-1 flex justify-center text-gray-800 transition dark:text-gray-300'>
               Are you sure?
             </div>
             <div className='flex space-x-1 p-1'>
@@ -113,7 +113,7 @@ const HasData: FC<{
             </div>
           </div>
         ) : (
-          <div className='flex space-x-1 border-t border-gray-200 p-1 dark:border-gray-800'>
+          <div className='flex space-x-1 border-t border-gray-200 p-1 transition dark:border-gray-800'>
             <GenreLink id={genre.id} view='edit' className='flex-1'>
               <Button className='w-full'>Edit</Button>
             </GenreLink>

@@ -21,8 +21,13 @@ const GenreNavigator: FC<{ className?: string }> = ({ className }) => {
   const isSearching = useSearchState((state) => !!state.debouncedFilter)
 
   return (
-    <div className={twsx('flex h-full w-full flex-col', className)}>
-      <div className='flex space-x-1 border-b border-gray-100 p-4 dark:border-gray-800'>
+    <div
+      className={twsx(
+        'flex h-full w-full flex-col rounded-lg border border-gray-200 bg-gray-100 transition dark:border-gray-800 dark:bg-gray-900',
+        className,
+      )}
+    >
+      <div className='flex space-x-1 border-b border-gray-200 p-4 transition dark:border-gray-800'>
         <div className='relative flex-1'>
           <SearchInput />
         </div>
@@ -36,12 +41,12 @@ const GenreNavigator: FC<{ className?: string }> = ({ className }) => {
         </div>
       </div>
       {showSettings && (
-        <div className='border-b border-gray-200 p-4 dark:border-gray-600'>
+        <div className='p-4'>
           <GenreNavigatorSettings />
         </div>
       )}
       {isSearching && (
-        <div className='flex justify-center border-b border-gray-100 dark:border-gray-800'>
+        <div className='flex justify-center'>
           <Button
             template='tertiary'
             className='w-full'
@@ -55,7 +60,7 @@ const GenreNavigator: FC<{ className?: string }> = ({ className }) => {
         {isSearching ? <GenreSearchResults /> : <GenreTree />}
       </div>
       {session.isLoggedIn && session.hasPermission(Permission.EDIT_GENRES) && (
-        <div className='border-t border-gray-200 p-1 dark:border-gray-800'>
+        <div className='border-t border-gray-200 p-1 transition dark:border-gray-800'>
           <Link href='/genres?view=create' className='w-full'>
             <Button template='secondary' className='w-full'>
               New Genre

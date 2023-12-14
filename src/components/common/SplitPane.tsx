@@ -1,6 +1,6 @@
-import useEventListener from '../../../hooks/useEventListener'
-import useLocalStorage from '../../../hooks/useLocalStorage'
-import { isBrowser, twsx, unfocus } from '../../../utils/dom'
+import useEventListener from '../../hooks/useEventListener'
+import useLocalStorage from '../../hooks/useLocalStorage'
+import { isBrowser, twsx, unfocus } from '../../utils/dom'
 import clsx from 'clsx'
 import {
   FC,
@@ -105,8 +105,8 @@ const SplitPane: FC<{
       </Pane>
       <div
         className={twsx(
-          'group w-px cursor-col-resize bg-transparent px-1 transition hover:bg-gray-100 dark:hover:bg-gray-800',
-          active && 'bg-gray-100 dark:bg-gray-700',
+          'group w-px cursor-col-resize rounded-full bg-transparent px-1 py-[6px] transition hover:bg-primary-100 dark:hover:bg-primary-950',
+          active && 'bg-primary-100 dark:bg-primary-950',
         )}
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
@@ -114,8 +114,8 @@ const SplitPane: FC<{
       >
         <div
           className={twsx(
-            'h-full w-px bg-gray-200 transition group-hover:bg-gray-300 dark:bg-gray-700 dark:group-hover:bg-gray-600',
-            active && 'bg-gray-300 dark:bg-gray-500',
+            'h-full w-px bg-transparent transition group-hover:bg-primary-300 dark:group-hover:bg-primary-700',
+            active && 'bg-primary-300 dark:bg-gray-800',
           )}
         />
       </div>

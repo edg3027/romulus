@@ -61,7 +61,7 @@ const GenreTreeNode: FC<{ genre: TreeGenre; path: number[] }> = ({
       ref={setRef}
       className={clsx(
         parents.length > 0 &&
-          'ml-4 border-l border-gray-200 dark:border-gray-700',
+          'ml-4 border-l border-gray-200 transition dark:border-gray-800',
       )}
     >
       <div className='ml-1 flex space-x-1'>
@@ -82,7 +82,7 @@ const GenreTreeNode: FC<{ genre: TreeGenre; path: number[] }> = ({
             setSelectedPath(path)
           }}
           className={clsx(
-            'hover:font-bold',
+            'transition hover:font-bold',
             isSelected
               ? 'font-bold text-primary-600'
               : 'text-gray-600 dark:text-gray-300',
@@ -94,7 +94,7 @@ const GenreTreeNode: FC<{ genre: TreeGenre; path: number[] }> = ({
               {' '}
               <span
                 className={clsx(
-                  'text-sm',
+                  'text-sm transition',
                   isSelected
                     ? 'text-primary-500 dark:text-primary-700'
                     : 'text-gray-500',

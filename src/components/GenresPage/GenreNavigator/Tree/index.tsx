@@ -73,7 +73,7 @@ const Tree: FC<{ genres: SimpleGenre[] }> = ({ genres }) => {
     <GenreTreeRefProvider treeEl={ref}>
       <div className='flex h-full w-full flex-col'>
         {topLevelGenres.length > 0 ? (
-          <div ref={setRef} className='flex-1 overflow-auto p-4'>
+          <div ref={setRef} className='flex-1 overflow-auto p-4 pl-1'>
             <ul>
               {topLevelGenres.map((genre) => (
                 <GenreTreeNode key={genre.id} id={genre.id} path={[genre.id]} />
@@ -97,9 +97,15 @@ const Tree: FC<{ genres: SimpleGenre[] }> = ({ genres }) => {
           </div>
         )}
         {isAnyTopLevelExpanded && (
-          <Button template='tertiary' onClick={() => collapseAll()}>
-            Collapse all
-          </Button>
+          <div className='w-full p-1'>
+            <Button
+              className='w-full'
+              template='tertiary'
+              onClick={() => collapseAll()}
+            >
+              Collapse All
+            </Button>
+          </div>
         )}
       </div>
     </GenreTreeRefProvider>

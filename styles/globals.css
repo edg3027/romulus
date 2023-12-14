@@ -45,6 +45,9 @@
   }
 }
 
+html {
+  @apply bg-white text-gray-900 transition;
+}
 html.dark {
-  @apply bg-gray-900 text-gray-100;
+  @apply bg-black text-gray-100;
 }

@@ -27,7 +27,7 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({
         template === 'secondary' &&
           (disabled
             ? 'border border-gray-400 bg-transparent text-gray-400 dark:border-gray-500 dark:text-gray-500'
-            : 'border border-primary-500 bg-transparent text-primary-500 hover:border-primary-600 hover:text-primary-600 focus:border-secondary-500 active:border-primary-700 active:text-primary-700 dark:border-primary-700 dark:text-primary-500 dark:hover:bg-gray-800'),
+            : 'border border-primary-500 bg-transparent text-primary-500 hover:border-primary-600 hover:bg-gray-200 hover:text-primary-600 focus:border-secondary-500 active:border-primary-700 active:text-primary-700 dark:border-primary-700 dark:text-primary-500 dark:hover:bg-gray-800'),
         template === 'tertiary' &&
           (disabled
             ? 'border border-transparent bg-transparent text-gray-400 dark:text-gray-500'

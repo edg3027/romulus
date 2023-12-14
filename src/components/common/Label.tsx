@@ -6,7 +6,7 @@ export type LabelProps = LabelHTMLAttributes<HTMLLabelElement>
 const Label: FC<LabelProps> = ({ children, className, ...props }) => (
   <label
     className={twsx(
-      'block text-sm font-semibold text-gray-700 dark:text-gray-300',
+      'block text-sm font-semibold text-gray-700 transition dark:text-gray-300',
       className,
     )}
     {...props}

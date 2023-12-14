@@ -12,7 +12,7 @@ const Chip = ({
   return (
     <span
       className={twsx(
-        'rounded-full bg-gray-200 px-1 py-0.5 text-xs font-bold text-gray-500 dark:bg-gray-800',
+        'rounded-full bg-gray-200 px-1 py-0.5 text-xs font-bold text-gray-500 transition dark:bg-gray-800',
         className,
       )}
       title={title}

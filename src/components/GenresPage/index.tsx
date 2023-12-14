@@ -45,10 +45,12 @@ const GenrePage: FC<{ view: GenrePageView }> = ({ view }) => {
         defaultSize={300}
         minSize={200}
         maxSize={width - 300}
-        className='hidden h-full md:flex'
+        className='hidden h-full p-2 pt-0 md:flex'
       >
         <GenreNavigator />
-        {renderGenre()}
+        <div className='h-full rounded-lg border border-gray-200 bg-gray-100 transition dark:border-gray-800 dark:bg-gray-900'>
+          {renderGenre()}
+        </div>
       </SplitPane>
 
       {view.type === 'default' && <GenreNavigator className='md:hidden' />}
