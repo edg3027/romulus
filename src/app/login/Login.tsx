@@ -41,9 +41,10 @@ const Login: NextPage = () => {
   useEffect(() => setFocus('username'), [setFocus])
 
   return (
-    <div className='bg-texture flex h-full w-full items-center justify-center'>
+    <div className='bg-texture dark:bg-texture-dark relative flex h-full w-full items-center justify-center transition'>
+      <div className='absolute top-0 z-0 h-8 w-full bg-gradient-to-b from-white to-transparent transition dark:from-black' />
       <form
-        className='border bg-white p-4 shadow'
+        className='z-10 rounded-lg border bg-white p-4 shadow transition dark:border-gray-800 dark:bg-gray-900'
         onSubmit={(e) => void handleSubmit(onSubmit)(e)}
       >
         <div className='space-y-3'>
@@ -70,7 +71,7 @@ const Login: NextPage = () => {
           {isLoading ? 'Logging in...' : 'Login'}
         </Button>
 
-        <div className='mt-3 text-sm text-gray-700'>
+        <div className='mt-3 text-sm text-gray-700 transition dark:text-gray-400'>
           Need an account?{' '}
           <Link href='/register' className='text-primary-500 hover:underline'>
             Register.

@@ -54,9 +54,10 @@ const Register: NextPage = () => {
   }, [accountQuery.data?.username, setError])
 
   return (
-    <div className='bg-texture flex h-full w-full items-center justify-center'>
+    <div className='bg-texture dark:bg-texture-dark relative flex h-full w-full items-center justify-center transition'>
+      <div className='absolute top-0 z-0 h-8 w-full bg-gradient-to-b from-white to-transparent transition dark:from-black' />
       <form
-        className='border bg-white p-4 shadow'
+        className='z-10 rounded-lg border bg-white p-4 shadow transition dark:border-gray-800 dark:bg-gray-900'
         onSubmit={(e) => void handleSubmit(onSubmit)(e)}
       >
         <div className='space-y-3'>
