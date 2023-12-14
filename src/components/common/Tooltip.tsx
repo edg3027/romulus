@@ -1,5 +1,6 @@
 import useDebouncedState from '../../hooks/useDebouncedState'
 import { isBrowser } from '../../utils/dom'
+import { useFloating, arrow, offset } from '@floating-ui/react-dom'
 import { Transition } from '@headlessui/react'
 import {
   FC,
@@ -10,24 +11,24 @@ import {
   useState,
 } from 'react'
 import { createPortal } from 'react-dom'
-import { usePopper } from 'react-popper'
 
 const Tooltip: FC<
   PropsWithChildren<{ className?: string; tip: ReactNode; delay?: number }>
 > = ({ className, tip, children, delay = 500 }) => {
   const [referenceElement, setReferenceElement] =
     useState<HTMLDivElement | null>(null)
-  const ref = useRef(null)
-  const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null)
+  const [floatingElement, setFloatingElement] = useState<HTMLElement | null>(
+    null,
+  )
+  const arrowElement = useRef(null)
 
-  const { styles, attributes } = usePopper(referenceElement, ref.current, {
-    modifiers: [
-      {
-        name: 'arrow',
-        options: { element: arrowElement },
-      },
-      { name: 'offset', options: { offset: [0, 6] } },
-    ],
+  const { x, y, strategy, middlewareData, update } = useFloating({
+    placement: 'top',
+    middleware: [arrow({ element: arrowElement.current }), offset(6)],
+    elements: {
+      reference: referenceElement,
+      floating: floatingElement,
+    },
   })
 
   const [show, setShow] = useState(false)
@@ -48,6 +49,10 @@ const Tooltip: FC<
     }
   }, [referenceElement])
 
+  useEffect(() => {
+    update()
+  }, [showDebounced, update])
+
   return (
     <div className={className} ref={setReferenceElement}>
       {children}
@@ -62,15 +67,24 @@ const Tooltip: FC<
               leaveFrom='opacity-100'
               leaveTo='opacity-0'
               className='tooltip rounded bg-gray-900 px-1.5 py-1 text-xs font-medium text-gray-100 shadow dark:bg-gray-100 dark:text-gray-800'
-              ref={ref}
-              style={styles.popper}
-              {...attributes.popper}
+              ref={setFloatingElement}
+              style={{ position: strategy, top: y ?? '', left: x ?? '' }}
             >
               {tip}
               <div
                 className='arrow h-1 w-1 before:absolute before:h-1 before:w-1 before:rotate-45 before:bg-gray-900 dark:before:bg-gray-100'
-                ref={setArrowElement}
-                style={styles.arrow}
+                ref={arrowElement}
+                style={{
+                  position: 'absolute',
+                  left:
+                    middlewareData.arrow?.x == null
+                      ? ''
+                      : `${middlewareData.arrow.x}px`,
+                  top:
+                    middlewareData.arrow?.y == null
+                      ? ''
+                      : `${middlewareData.arrow.y}px`,
+                }}
               />
             </Transition>,
             document.body,
