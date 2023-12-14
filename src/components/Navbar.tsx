@@ -16,9 +16,19 @@ import {
 const Navbar: FC = () => {
   return (
     <div className='flex justify-between p-2'>
-      <div className='flex gap-3 rounded-lg border border-gray-200 bg-gray-100 p-2 px-3 text-sm font-bold tracking-wide text-gray-600 transition dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300'>
-        <Link href='/genres'>Tree</Link>
-        <Link href='/genres/table'>Table</Link>
+      <div className='flex rounded-lg border border-gray-200 bg-gray-100 p-1 text-sm font-bold tracking-wide text-gray-600 transition dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300'>
+        <Link
+          href='/genres'
+          className='h-full rounded bg-transparent px-2.5 py-1 transition hover:bg-gray-200'
+        >
+          Tree
+        </Link>
+        <Link
+          href='/genres/table'
+          className='h-full rounded bg-transparent px-2.5 py-1 transition hover:bg-gray-200'
+        >
+          Table
+        </Link>
       </div>
 
       <Session />
