@@ -13,20 +13,17 @@ import {
   RiProfileLine,
 } from 'react-icons/ri'
 
+const linkButtonClass =
+  'h-full rounded bg-transparent px-2.5 py-1 transition hover:bg-gray-200 dark:hover:bg-gray-800'
+
 const Navbar: FC = () => {
   return (
     <div className='flex justify-between p-2'>
       <div className='flex rounded-lg border border-gray-200 bg-gray-100 p-1 text-sm font-bold tracking-wide text-gray-600 transition dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300'>
-        <Link
-          href='/genres'
-          className='h-full rounded bg-transparent px-2.5 py-1 transition hover:bg-gray-200 dark:hover:bg-gray-800'
-        >
+        <Link href='/genres' className={linkButtonClass}>
           Tree
         </Link>
-        <Link
-          href='/genres/table'
-          className='h-full rounded bg-transparent px-2.5 py-1 transition hover:bg-gray-200 dark:hover:bg-gray-800'
-        >
+        <Link href='/genres/table' className={linkButtonClass}>
           Table
         </Link>
       </div>
@@ -97,9 +94,13 @@ const Session = () => {
 
     if (session.account === null || session.error) {
       return (
-        <div className='flex h-full w-full items-center gap-3 p-2 px-3'>
-          <Link href='/login'>Log in</Link>
-          <Link href='/register'>Register</Link>
+        <div className='flex h-full p-1'>
+          <Link href='/login' className={linkButtonClass}>
+            Log in
+          </Link>
+          <Link href='/register' className={linkButtonClass}>
+            Register
+          </Link>
         </div>
       )
     }
