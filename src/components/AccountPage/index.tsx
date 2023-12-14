@@ -4,7 +4,6 @@ import { useGenreHistoryCountByUserQuery } from '../../services/genre-history'
 import { CenteredLoader } from '../common/Loader'
 import AccountGenreHistory from './AccountGenreHistory'
 import { CrudOperation } from '@prisma/client'
-import clsx from 'clsx'
 import { FC } from 'react'
 
 const AccountPage: FC<{ id: number }> = ({ id }) => {
@@ -12,18 +11,8 @@ const AccountPage: FC<{ id: number }> = ({ id }) => {
 
   if (accountQuery.data) {
     return (
-      <div
-        className={clsx(
-          'h-full min-h-0 p-4',
-          'sm:bg-texture sm:dark:bg-texture-dark sm:flex sm:w-full sm:items-center sm:justify-center',
-        )}
-      >
-        <div
-          className={clsx(
-            'h-full',
-            'rounded border-gray-200 dark:border-gray-700 dark:bg-gray-900 sm:h-[600px] sm:w-[500px] sm:border sm:bg-white sm:p-4 sm:shadow',
-          )}
-        >
+      <div className='h-full w-full p-2 pt-0'>
+        <div className='h-full rounded-lg border border-gray-200 bg-gray-100 p-4'>
           <HasData account={accountQuery.data} />
         </div>
       </div>
