@@ -41,7 +41,7 @@ const GenreNavigator: FC<{ className?: string }> = ({ className }) => {
         </div>
       </div>
       {showSettings && (
-        <div className='p-4'>
+        <div className='border-b border-gray-200 p-4 transition dark:border-gray-800'>
           <GenreNavigatorSettings />
         </div>
       )}
