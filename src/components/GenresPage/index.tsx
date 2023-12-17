@@ -1,4 +1,5 @@
 import useWindowSize from '../../hooks/useWindowSize'
+import Card from '../common/Card'
 import SplitPane from '../common/SplitPane'
 import GenreNavigator from './GenreNavigator'
 import GenreCreate from './GenreView/Create'
@@ -48,9 +49,7 @@ const GenrePage: FC<{ view: GenrePageView }> = ({ view }) => {
         className='hidden h-full p-2 pt-0 md:flex'
       >
         <GenreNavigator />
-        <div className='h-full rounded-lg border border-gray-200 bg-gray-100 transition dark:border-gray-800 dark:bg-gray-900'>
-          {renderGenre()}
-        </div>
+        <Card className='h-full'>{renderGenre()}</Card>
       </SplitPane>
 
       {view.type === 'default' && <GenreNavigator className='md:hidden' />}

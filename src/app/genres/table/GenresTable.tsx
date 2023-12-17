@@ -2,6 +2,7 @@
 
 import RelevanceChip from '../../../components/GenresPage/GenreNavigator/Tree/RelevanceChip'
 import GenreTypeChip from '../../../components/GenresPage/GenreTypeChip'
+import Card from '../../../components/common/Card'
 import { CenteredLoader } from '../../../components/common/Loader'
 import Paginator from '../../../components/common/Paginator'
 import Tooltip from '../../../components/common/Tooltip'
@@ -160,7 +161,7 @@ const HasData: FC<{
 
   return (
     <div className='h-full w-full p-2 pt-0'>
-      <div className='flex h-full w-full flex-col rounded-lg border border-gray-200 bg-gray-100 transition dark:border-gray-800 dark:bg-gray-900'>
+      <Card className='flex h-full w-full flex-col'>
         <div className='w-full flex-1 overflow-auto p-2'>
           <table className='w-full table-fixed'>
             <thead>
@@ -230,7 +231,7 @@ const HasData: FC<{
         <div className='border-t border-gray-200 px-3 py-1 transition dark:border-gray-800'>
           <Paginator table={table} />
         </div>
-      </div>
+      </Card>
     </div>
   )
 }

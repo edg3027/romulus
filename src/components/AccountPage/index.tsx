@@ -1,6 +1,7 @@
 import { DefaultAccount } from '../../server/db/account/outputs'
 import { useAccountQuery } from '../../services/accounts'
 import { useGenreHistoryCountByUserQuery } from '../../services/genre-history'
+import Card from '../common/Card'
 import { CenteredLoader } from '../common/Loader'
 import AccountGenreHistory from './AccountGenreHistory'
 import { CrudOperation } from '@prisma/client'
@@ -12,9 +13,9 @@ const AccountPage: FC<{ id: number }> = ({ id }) => {
   if (accountQuery.data) {
     return (
       <div className='h-full w-full p-2 pt-0'>
-        <div className='h-full rounded-lg border border-gray-200 bg-gray-100 p-4 transition dark:border-gray-800 dark:bg-gray-900'>
+        <Card className='h-full p-4'>
           <HasData account={accountQuery.data} />
-        </div>
+        </Card>
       </div>
     )
   }

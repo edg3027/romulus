@@ -3,6 +3,7 @@
 import { useLogoutMutation, useSession } from '../services/auth'
 import DarkModeButton from './DarkModeButton'
 import Button from './common/Button'
+import Card from './common/Card'
 import Loader from './common/Loader'
 import Popover from './common/Popover'
 import Link from 'next/link'
@@ -19,14 +20,14 @@ const linkButtonClass =
 const Navbar: FC = () => {
   return (
     <div className='flex justify-between p-2'>
-      <div className='flex rounded-lg border border-gray-200 bg-gray-100 p-1 text-sm font-bold tracking-wide text-gray-600 transition dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300'>
+      <Card className='flex p-1 text-sm font-bold tracking-wide text-gray-600 transition dark:text-gray-300'>
         <Link href='/genres' className={linkButtonClass}>
           Tree
         </Link>
         <Link href='/genres/table' className={linkButtonClass}>
           Table
         </Link>
-      </div>
+      </Card>
 
       <Session />
     </div>
@@ -59,34 +60,33 @@ const Session = () => {
             </button>
           </Popover.Target>
 
-          <Popover.Content
-            className='w-max rounded-lg border border-gray-200 bg-gray-100 p-1 shadow dark:border-gray-800 dark:bg-gray-900'
-            onClickOutside={() => setOpen(false)}
-          >
-            <Link
-              href={`/accounts/${session.account.id}`}
-              onClick={() => setOpen(false)}
-            >
+          <Popover.Content onClickOutside={() => setOpen(false)}>
+            <Card className='shadow'>
+              <Link
+                href={`/accounts/${session.account.id}`}
+                onClick={() => setOpen(false)}
+              >
+                <Button
+                  template='tertiary'
+                  className='flex w-full items-center justify-start gap-1.5 text-gray-600 dark:text-gray-300'
+                >
+                  <RiProfileLine />
+                  <div>Profile</div>
+                </Button>
+              </Link>
+              <DarkModeButton />
               <Button
                 template='tertiary'
                 className='flex w-full items-center justify-start gap-1.5 text-gray-600 dark:text-gray-300'
+                onClick={() => {
+                  setOpen(false)
+                  logout()
+                }}
               >
-                <RiProfileLine />
-                <div>Profile</div>
+                <RiLogoutBoxLine />
+                <div>Log out</div>
               </Button>
-            </Link>
-            <DarkModeButton />
-            <Button
-              template='tertiary'
-              className='flex w-full items-center justify-start gap-1.5 text-gray-600 dark:text-gray-300'
-              onClick={() => {
-                setOpen(false)
-                logout()
-              }}
-            >
-              <RiLogoutBoxLine />
-              <div>Log out</div>
-            </Button>
+            </Card>
           </Popover.Content>
         </Popover>
       )
@@ -109,9 +109,9 @@ const Session = () => {
   }
 
   return (
-    <div className='rounded-lg border border-gray-200 bg-gray-100 text-sm font-bold tracking-wide text-gray-600 transition dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300'>
+    <Card className='text-sm font-bold tracking-wide text-gray-600 transition dark:text-gray-300'>
       {renderContent()}
-    </div>
+    </Card>
   )
 }
 

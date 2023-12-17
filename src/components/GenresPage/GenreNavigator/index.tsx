@@ -1,6 +1,7 @@
 import { useSession } from '../../../services/auth'
 import { twsx } from '../../../utils/dom'
 import Button from '../../common/Button'
+import Card from '../../common/Card'
 import IconButton from '../../common/IconButton'
 import GenreSearchResults from './Search'
 import SearchInput from './SearchInput'
@@ -21,12 +22,7 @@ const GenreNavigator: FC<{ className?: string }> = ({ className }) => {
   const isSearching = useSearchState((state) => !!state.debouncedFilter)
 
   return (
-    <div
-      className={twsx(
-        'flex h-full w-full flex-col rounded-lg border border-gray-200 bg-gray-100 transition dark:border-gray-800 dark:bg-gray-900',
-        className,
-      )}
-    >
+    <Card className={twsx('flex h-full w-full flex-col', className)}>
       <div className='flex space-x-1 border-b border-gray-200 p-4 transition dark:border-gray-800'>
         <div className='relative flex-1'>
           <SearchInput />
@@ -68,7 +64,7 @@ const GenreNavigator: FC<{ className?: string }> = ({ className }) => {
           </Link>
         </div>
       )}
-    </div>
+    </Card>
   )
 }
 
