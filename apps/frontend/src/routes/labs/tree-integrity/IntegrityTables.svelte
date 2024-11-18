@@ -16,7 +16,7 @@
     <thead>
       <tr>
         <th class="p-1 px-2 text-left">
-          <ColumnHeader label="Misplaced Scenes" />
+          <ColumnHeader label="Misplaced Scenes: {misplacedScenes.length}" />
         </th>
       </tr>
     </thead>
