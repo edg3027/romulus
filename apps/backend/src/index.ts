@@ -1,28 +1,69 @@
-import { serve } from "@hono/node-server";
-import { AuthenticationService } from "@romulus/authentication";
-import { AuthorizationService } from "@romulus/authorization";
-import { Hono } from "hono";
+import { serve } from '@hono/node-server'
+import { Hono } from 'hono'
 
-import { env } from "./env";
+import { createAuthenticationApplication, createAuthorizationApplication } from './application'
+import type { Infrastructure } from './infrastructure'
+import { createInfrastructure } from './infrastructure'
+import { setupPermissions } from './permissions'
+import {
+  getAuthenticationRouter,
+  getAuthorizationRouter,
+  getGenresRouter,
+  getMediaRouter,
+  getUserSettingsRouter,
+} from './web'
 
 async function main() {
-  const authorizationService = await AuthorizationService.create(
-    env.AUTHORIZATION_DATABASE_URL,
-  );
+  const infrastructure = await createInfrastructure()
 
-  const authenticationService = await AuthenticationService.create(
-    env.AUTHENTICATION_DATABASE_URL,
-    authorizationService.use(),
-  );
+  const authorization = createAuthorizationApplication(infrastructure)
+  await setupPermissions(async (permissions) => {
+    const result = await authorization.ensurePermissions(
+      permissions,
+      authorization.getSystemUserId(),
+    )
 
-  const app = new Hono().route(
-    "/authentication",
-    authenticationService.getRouter(),
-  );
+    if (result.isErr()) {
+      throw result.error
+    }
+  })
 
-  serve(app, (info) => {
-    console.log(`Server running on ${info.port}`);
-  });
+  const result = await authorization.setupRoles()
+  if (result.isErr()) {
+    console.error(result.error)
+  }
+
+  try {
+    await setupDevEnvironment(infrastructure)
+  } catch (error) {
+    console.error('Error setting up dev environment', error)
+  }
+
+  const app = new Hono()
+    .route('/authentication', getAuthenticationRouter(infrastructure))
+    .route('/authorization', getAuthorizationRouter(infrastructure))
+    .route('/genres', getGenresRouter(infrastructure))
+    .route('/media', getMediaRouter(infrastructure))
+    .route('/user-settings', getUserSettingsRouter(infrastructure))
+
+  serve(app, (info) => console.log(`Backend running on ${info.port}`))
 }
 
-void main();
+async function setupDevEnvironment(infrastructure: Infrastructure) {
+  const authentication = createAuthenticationApplication(infrastructure)
+  const admin = await authentication.registerCommand().execute('admin', 'admin')
+  if (admin instanceof Error) throw admin
+
+  const authorization = createAuthorizationApplication(infrastructure)
+  const permissions = await authorization.getAllPermissions(authorization.getSystemUserId())
+  if (permissions.isErr()) throw permissions.error
+
+  const result = await authorization.assignRoleToUser(
+    admin.newUserAccount.id,
+    'admin',
+    authorization.getSystemUserId(),
+  )
+  if (result.isErr()) throw result.error
+}
+
+void main()

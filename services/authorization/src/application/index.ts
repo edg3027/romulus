@@ -1,95 +1,152 @@
-import {
-  DuplicatePermissionError,
-  PermissionNotFoundError,
-  RoleNotFoundError,
-} from '../domain/authorizer'
-import type { IAuthorizerRepository } from '../domain/repository'
-import type { MaybePromise } from '../utils'
+import { errAsync, okAsync, ResultAsync } from 'neverthrow'
 
-export type IAuthorizationApplication = {
-  createPermission(
-    name: string,
-    description: string | undefined,
-  ): MaybePromise<void | DuplicatePermissionError>
+import { UnauthorizedError } from '../domain/authorizer.js'
+import { AuthorizationPermission, SYSTEM_USER_ID } from '../domain/permissions.js'
+import type { IAuthorizerRepository } from '../domain/repository.js'
+
+export class AuthorizationApplication {
+  constructor(private repo: IAuthorizerRepository) {}
+
+  createPermission(name: string, description: string | undefined, requestorUserId: number) {
+    return this.checkPermission(requestorUserId, AuthorizationPermission.CreatePermissions)
+      .map(() => this.repo.get())
+      .andThrough((authorizer) => authorizer.createPermission(name, description))
+      .map((authorizer) => this.repo.save(authorizer))
+  }
+
   ensurePermissions(
     permissions: { name: string; description: string | undefined }[],
-  ): MaybePromise<void>
-  deletePermission(name: string): MaybePromise<void>
+    requestorUserId: number,
+  ) {
+    return this.checkPermission(requestorUserId, AuthorizationPermission.CreatePermissions)
+      .map(() => this.repo.get())
+      .andTee((authorizer) => authorizer.ensurePermissions(permissions))
+      .map((authorizer) => this.repo.save(authorizer))
+  }
+
+  deletePermission(name: string, requestorUserId: number) {
+    return this.checkPermission(requestorUserId, AuthorizationPermission.DeletePermissions)
+      .map(() => this.repo.get())
+      .andTee((authorizer) => authorizer.deletePermission(name))
+      .map((authorizer) => this.repo.save(authorizer))
+  }
+
   createRole(
     name: string,
     permissions: Set<string>,
     description: string | undefined,
-  ): MaybePromise<void | PermissionNotFoundError>
-  deleteRole(name: string): MaybePromise<void>
-  assignRoleToUser(userId: number, roleName: string): MaybePromise<void | RoleNotFoundError>
-  hasPermission(userId: number, permission: string): MaybePromise<boolean>
-}
-
-export class AuthorizationApplication implements IAuthorizationApplication {
-  constructor(private repo: IAuthorizerRepository) {}
-
-  async createPermission(
-    name: string,
-    description: string | undefined,
-  ): Promise<void | DuplicatePermissionError> {
-    const authorizer = await this.repo.get()
-
-    const error = authorizer.createPermission(name, description)
-    if (error instanceof DuplicatePermissionError) {
-      return error
-    }
-
-    await this.repo.save(authorizer)
+    requestorUserId: number,
+  ) {
+    return this.checkPermission(requestorUserId, AuthorizationPermission.CreateRoles)
+      .map(() => this.repo.get())
+      .andThrough((authorizer) => authorizer.createRole(name, permissions, description))
+      .map((authorizer) => this.repo.save(authorizer))
   }
 
-  async ensurePermissions(
+  deleteRole(name: string, requestorUserId: number) {
+    return this.checkPermission(requestorUserId, AuthorizationPermission.DeleteRoles)
+      .map(() => this.repo.get())
+      .andTee((authorizer) => authorizer.deleteRole(name))
+      .map((authorizer) => this.repo.save(authorizer))
+  }
+
+  setDefaultRole(name: string, requestorUserId: number) {
+    return this.checkPermission(requestorUserId, AuthorizationPermission.SetDefaultRole)
+      .map(() => this.repo.get())
+      .andThrough((authorizer) => authorizer.setDefaultRole(name))
+      .map((authorizer) => this.repo.save(authorizer))
+  }
+
+  assignRoleToUser(userId: number, roleName: string, requestorUserId: number) {
+    return this.checkPermission(requestorUserId, AuthorizationPermission.AssignRoles)
+      .map(() => this.repo.get())
+      .andThrough((authorizer) => authorizer.assignRoleToUser(userId, roleName))
+      .map((authorizer) => this.repo.save(authorizer))
+  }
+
+  async checkMyPermission(permission: string, requestorUserId: number | undefined) {
+    const authorizer = await this.repo.get()
+    return authorizer.hasPermission(requestorUserId, permission)
+  }
+
+  checkUserPermission(userId: number, permission: string, requestorUserId: number) {
+    return this.checkPermission(requestorUserId, AuthorizationPermission.CheckUserPermissions)
+      .map(() => this.repo.get())
+      .map((authorizer) => authorizer.hasPermission(userId, permission))
+  }
+
+  getMyPermissions(requestorUserId: number | undefined) {
+    return this.checkPermission(requestorUserId, AuthorizationPermission.GetOwnPermissions)
+      .map(() => this.repo.get())
+      .map((authorizer) => authorizer.getPermissions(requestorUserId))
+  }
+
+  getUserPermissions(userId: number, requestorUserId: number) {
+    return this.checkPermission(requestorUserId, AuthorizationPermission.GetUserPermissions)
+      .map(() => this.repo.get())
+      .map((authorizer) => authorizer.getPermissions(userId))
+  }
+
+  getAllPermissions(requestorUserId: number) {
+    return this.checkPermission(requestorUserId, AuthorizationPermission.GetAllPermissions)
+      .map(() => this.repo.get())
+      .map((authorizer) => authorizer.getAllPermissions())
+  }
+
+  getSystemUserId() {
+    return SYSTEM_USER_ID
+  }
+
+  setupRoles() {
+    return ResultAsync.combineWithAllErrors(
+      Object.entries(roles).map(([role, permissions]) =>
+        this.createRole(role, new Set(permissions), undefined, SYSTEM_USER_ID),
+      ),
+    ).andThen(() => this.setDefaultRole('default', SYSTEM_USER_ID))
+  }
+
+  private checkPermission(userId: number | undefined, permission: string) {
+    if (userId === SYSTEM_USER_ID) return okAsync(undefined)
+
+    return ResultAsync.fromSafePromise(this.repo.get())
+      .map((authorizer) => authorizer.hasPermission(userId, permission))
+      .andThen((hasPermission) => {
+        if (!hasPermission) return errAsync(new UnauthorizedError())
+        return okAsync(undefined)
+      })
+  }
+}
+
+export async function setupAuthorizationPermissions(
+  createPermissions: (
     permissions: { name: string; description: string | undefined }[],
-  ): Promise<void> {
-    const authorizer = await this.repo.get()
-    authorizer.ensurePermissions(permissions)
-    await this.repo.save(authorizer)
-  }
-
-  async deletePermission(name: string): Promise<void> {
-    const authorizer = await this.repo.get()
-    authorizer.deletePermission(name)
-    await this.repo.save(authorizer)
-  }
-
-  async createRole(
-    name: string,
-    permissions: Set<string>,
-    description: string | undefined,
-  ): Promise<void | PermissionNotFoundError> {
-    const authorizer = await this.repo.get()
-
-    const error = authorizer.createRole(name, permissions, description)
-    if (error instanceof PermissionNotFoundError) {
-      return error
-    }
-
-    await this.repo.save(authorizer)
-  }
-
-  async deleteRole(name: string): Promise<void> {
-    const authorizer = await this.repo.get()
-    authorizer.deleteRole(name)
-    await this.repo.save(authorizer)
-  }
-
-  async assignRoleToUser(userId: number, roleName: string): Promise<void | RoleNotFoundError> {
-    const authorizer = await this.repo.get()
-
-    const error = authorizer.assignRoleToUser(userId, roleName)
-    if (error instanceof RoleNotFoundError) {
-      return error
-    }
-
-    await this.repo.save(authorizer)
-  }
-
-  async hasPermission(userId: number, permission: string): Promise<boolean> {
-    const authorizer = await this.repo.get()
-    return authorizer.hasPermission(userId, permission)
-  }
+  ) => Promise<void>,
+) {
+  await createPermissions(
+    Object.values(AuthorizationPermission).map((permission) => ({
+      name: permission,
+      description: undefined,
+    })),
+  )
 }
+
+const roles = {
+  admin: [
+    'authentication:request-password-reset',
+    'authorization:create-permissions',
+    'authorization:delete-permissions',
+    'authorization:create-roles',
+    'authorization:delete-roles',
+    'authorization:assign-roles',
+    'authorization:check-user-permissions',
+    'authorization:get-user-permissions',
+    'authorization:get-all-permissions',
+  ],
+  'genre-editor': [
+    'genres:create-genres',
+    'genres:edit-genres',
+    'genres:delete-genres',
+    'genres:vote-genre-relevance',
+  ],
+  default: ['authorization:check-own-permissions', 'authorization:get-own-permissions'],
+} as const

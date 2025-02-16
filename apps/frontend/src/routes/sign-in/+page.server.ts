@@ -1,6 +1,6 @@
-import { AuthenticationClientError } from '@romulus/authentication'
-import { type Actions, redirect } from '@sveltejs/kit'
-import { fail, setError, superValidate } from 'sveltekit-superforms'
+import { FetchError } from '@romulus/authentication/client'
+import { type Actions, error, redirect } from '@sveltejs/kit'
+import { fail, superValidate } from 'sveltekit-superforms'
 import { zod } from 'sveltekit-superforms/adapters'
 import { z } from 'zod'
 
@@ -33,11 +33,18 @@ export const actions: Actions = {
     const response = await locals.di
       .authentication()
       .login({ username: form.data.username, password: form.data.password })
-    if (response instanceof AuthenticationClientError) {
-      return setError(form, 'Incorrect username or password')
+    if (response.isErr()) {
+      if (response.error instanceof FetchError) {
+        return error(500, `Failed to sign in: ${response.error.message}`)
+      } else {
+        return error(response.error.statusCode, response.error.message)
+      }
     }
 
-    setSessionCookie({ token: response.token, expires: new Date(response.expiresAt) }, cookies)
+    setSessionCookie(
+      { token: response.value.token, expires: new Date(response.value.expiresAt) },
+      cookies,
+    )
 
     redirect(302, '/genres')
   },

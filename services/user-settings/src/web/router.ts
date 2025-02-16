@@ -1,20 +1,26 @@
 import { Hono } from 'hono'
 import { z } from 'zod'
 
+import type { UserSettingsApplication } from '../application'
+import type { IAuthenticationService } from '../domain/authentication'
 import { InvalidGenreRelevanceFilterError } from '../domain/user-settings'
 import { bearerAuth } from './bearer-auth-middleware'
-import type { CompositionRoot } from './composition-root'
 import { setError } from './utils'
 import { zodValidator } from './zod-validator'
 
-export type Router = ReturnType<typeof createRouter>
+export type UserSettingsRouter = ReturnType<typeof createUserSettingsRouter>
 
-export function createRouter(di: CompositionRoot) {
-  const requireUser = bearerAuth(di.authentication())
+export type UserSettingsRouterDependencies = {
+  application(): UserSettingsApplication
+  authentication(): IAuthenticationService
+}
+
+export function createUserSettingsRouter(deps: UserSettingsRouterDependencies) {
+  const requireUser = bearerAuth(deps.authentication())
 
   const app = new Hono()
     .get('/settings', requireUser, async (c) => {
-      const settings = await di.application().getUserSettings({ userId: c.var.user.id })
+      const settings = await deps.application().getUserSettings({ userId: c.var.user.id })
 
       return c.json({
         success: true,
@@ -40,7 +46,7 @@ export function createRouter(di: CompositionRoot) {
       async (c) => {
         const settings = c.req.valid('json')
 
-        const result = await di.application().updateUserSettings({
+        const result = await deps.application().updateUserSettings({
           userId: c.var.user.id,
           settings: {
             ...settings,

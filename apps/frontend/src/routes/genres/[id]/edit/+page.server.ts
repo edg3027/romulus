@@ -4,17 +4,11 @@ import { zod } from 'sveltekit-superforms/adapters'
 import { z } from 'zod'
 
 import { genreSchema } from '$lib/server/api/genres/types'
-import { GenreNotFoundError } from '$lib/server/features/genres/commands/application/errors/genre-not-found'
-import { DerivedChildError } from '$lib/server/features/genres/commands/domain/errors/derived-child'
-import { DerivedInfluenceError } from '$lib/server/features/genres/commands/domain/errors/derived-influence'
-import { DuplicateAkaError } from '$lib/server/features/genres/commands/domain/errors/duplicate-aka'
-import { GenreCycleError } from '$lib/server/features/genres/commands/domain/errors/genre-cycle'
-import { SelfInfluenceError } from '$lib/server/features/genres/commands/domain/errors/self-influence'
 
 import type { PageServerLoad } from './$types'
 
 export const load: PageServerLoad = async ({ locals, params }) => {
-  if (!locals.user?.permissions?.includes('EDIT_GENRES')) {
+  if (!locals.user?.permissions.genres.canEdit) {
     return error(403, { message: 'You do not have permission to edit genres' })
   }
 
@@ -24,12 +18,15 @@ export const load: PageServerLoad = async ({ locals, params }) => {
   }
   const id = maybeId.data
 
-  const maybeGenre = await locals.di.genreQueryService().getGenre(id)
-  if (!maybeGenre) {
-    return error(404, { message: 'Genre not found' })
+  const maybeGenre = await locals.di.genres().getGenre(id)
+  if (maybeGenre.isErr()) {
+    return error(
+      maybeGenre.error.name === 'FetchError' ? 500 : maybeGenre.error.statusCode,
+      maybeGenre.error.message,
+    )
   }
 
-  const { akas, ...genre } = maybeGenre
+  const { akas, ...genre } = maybeGenre.value.genre
 
   const data = {
     ...genre,
@@ -47,11 +44,6 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 
 export const actions: Actions = {
   default: async ({ params, request, locals }) => {
-    if (!locals.user?.permissions?.includes('EDIT_GENRES')) {
-      return error(403, { message: 'You do not have permission to edit genres' })
-    }
-    const user = locals.user
-
     const maybeId = z.coerce.number().int().safeParse(params.id)
     if (!maybeId.success) {
       return error(400, { message: 'Invalid genre ID' })
@@ -64,50 +56,50 @@ export const actions: Actions = {
       return fail(400, { form })
     }
 
-    const genreUpdate = {
-      ...form.data,
-      parents: new Set(form.data.parents),
-      derivedFrom: new Set(form.data.derivedFrom),
-      influences: new Set(form.data.influencedBy),
-      akas: {
-        primary: form.data.primaryAkas?.length
-          ? form.data.primaryAkas?.split(',').map((aka) => aka.trim())
-          : [],
-        secondary: form.data.secondaryAkas?.length
-          ? form.data.secondaryAkas?.split(',').map((aka) => aka.trim())
-          : [],
-        tertiary: form.data.tertiaryAkas?.length
-          ? form.data.tertiaryAkas?.split(',').map((aka) => aka.trim())
-          : [],
-      },
-    }
-
-    const updateResult = await locals.di.genreCommandService().updateGenre(id, genreUpdate, user.id)
-    if (updateResult instanceof DuplicateAkaError) {
-      return setError(form, getDuplicateAkaErrorField(updateResult.level), updateResult.message)
-    } else if (updateResult instanceof GenreNotFoundError) {
-      return error(404, { message: 'Genre not found' })
-    } else if (updateResult instanceof SelfInfluenceError) {
-      return setError(form, 'influencedBy._errors', 'A genre cannot influence itself')
-    } else if (updateResult instanceof DerivedChildError) {
-      return setError(form, 'derivedFrom._errors', updateResult.message)
-    } else if (updateResult instanceof DerivedInfluenceError) {
-      return setError(form, 'influencedBy._errors', updateResult.message)
-    } else if (updateResult instanceof GenreCycleError) {
-      return setError(form, 'parents._errors', updateResult.message)
+    const updateResult = await locals.di.genres().updateGenre(id, form.data)
+    if (updateResult.isErr()) {
+      switch (updateResult.error.name) {
+        case 'FetchError': {
+          return error(500, updateResult.error.message)
+        }
+        case 'ValidationError': {
+          for (const issue of updateResult.error.details.issues) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            setError(form, issue.path as any, issue.message)
+          }
+          return fail(400, { form })
+        }
+        case 'GenreNotFoundError': {
+          return error(404, updateResult.error.message)
+        }
+        case 'DuplicateAkaError': {
+          return setError(
+            form,
+            `${updateResult.error.details.level}Akas`,
+            updateResult.error.message,
+          )
+        }
+        case 'DerivedChildError':
+        case 'DerivedInfluenceError': {
+          return setError(form, 'derivedFrom._errors', updateResult.error.message)
+        }
+        case 'SelfInfluenceError': {
+          return setError(form, 'influencedBy._errors', updateResult.error.message)
+        }
+        case 'GenreCycleError': {
+          return setError(form, 'parents._errors', updateResult.error.message)
+        }
+        case 'UnauthenticatedError':
+        case 'UnauthorizedError': {
+          return error(updateResult.error.statusCode, updateResult.error.message)
+        }
+        default: {
+          updateResult.error satisfies never
+          return error(500, 'An unknown error occurred')
+        }
+      }
     }
 
     redirect(302, `/genres/${id}`)
   },
-}
-
-function getDuplicateAkaErrorField(level: DuplicateAkaError['level']) {
-  switch (level) {
-    case 'primary':
-      return 'primaryAkas' as const
-    case 'secondary':
-      return 'secondaryAkas' as const
-    case 'tertiary':
-      return 'tertiaryAkas' as const
-  }
 }

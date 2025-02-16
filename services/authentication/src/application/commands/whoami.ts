@@ -1,7 +1,7 @@
-import { UnauthorizedError } from '../../domain/errors/unauthorized'
-import type { AccountRepository } from '../../domain/repositories/account'
-import type { HashRepository } from '../../domain/repositories/hash-repository'
-import type { SessionRepository } from '../../domain/repositories/session'
+import { UnauthorizedError } from '../../domain/errors/unauthorized.js'
+import type { AccountRepository } from '../../domain/repositories/account.js'
+import type { HashRepository } from '../../domain/repositories/hash-repository.js'
+import type { SessionRepository } from '../../domain/repositories/session.js'
 
 export class WhoamiQuery {
   constructor(
@@ -15,11 +15,6 @@ export class WhoamiQuery {
         account: {
           id: number
           username: string
-          genreRelevanceFilter: number
-          showRelevanceTags: boolean
-          showTypeTags: boolean
-          showNsfw: boolean
-          darkMode: boolean
         }
         session: { expiresAt: Date }
       }
@@ -48,11 +43,6 @@ export class WhoamiQuery {
     const accountOutput = {
       id: account.id,
       username: account.username,
-      genreRelevanceFilter: account.genreRelevanceFilter,
-      showRelevanceTags: account.showRelevanceTags,
-      showTypeTags: account.showTypeTags,
-      showNsfw: account.showNsfw,
-      darkMode: account.darkMode,
     }
 
     return {

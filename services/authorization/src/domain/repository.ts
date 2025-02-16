@@ -1,7 +1,6 @@
-import type { MaybePromise } from '../utils'
-import type { Authorizer } from './authorizer'
+import type { Authorizer } from './authorizer.js'
 
 export type IAuthorizerRepository = {
-  get(): MaybePromise<Authorizer>
-  save(authorizer: Authorizer): MaybePromise<void>
+  get(): Promise<Authorizer>
+  save(authorizer: Authorizer): Promise<void>
 }

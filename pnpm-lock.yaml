@@ -6,22 +6,62 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      turbo:
+        specifier: ^2.4.0
+        version: 2.4.0
 
   apps/backend:
     dependencies:
+      '@electric-sql/pglite':
+        specifier: ^0.2.12
+        version: 0.2.12
       '@hono/node-server':
         specifier: ^1.13.7
         version: 1.13.7(hono@4.6.12)
+      '@hono/zod-validator':
+        specifier: ^0.4.1
+        version: 0.4.1(hono@4.6.12)(zod@3.23.8)
       '@romulus/authentication':
         specifier: workspace:*
         version: link:../../services/authentication
       '@romulus/authorization':
         specifier: workspace:*
         version: link:../../services/authorization
+      '@romulus/fetch-retry':
+        specifier: workspace:*
+        version: link:../../packages/fetch-retry
+      '@romulus/genres':
+        specifier: workspace:*
+        version: link:../../services/genres
+      '@romulus/media':
+        specifier: workspace:*
+        version: link:../../services/media
+      '@romulus/user-settings':
+        specifier: workspace:*
+        version: link:../../services/user-settings
+      '@types/bcryptjs':
+        specifier: ^2.4.6
+        version: 2.4.6
+      bcryptjs:
+        specifier: ^2.4.3
+        version: 2.4.3
+      drizzle-orm:
+        specifier: ^0.36.0
+        version: 0.36.0(@electric-sql/pglite@0.2.12)(@neondatabase/serverless@0.10.1)(@types/pg@8.11.10)(postgres@3.4.5)(react@18.3.1)
       hono:
         specifier: ^4.6.12
         version: 4.6.12
+      neverthrow:
+        specifier: ^8.1.1
+        version: 8.1.1
+      oslo:
+        specifier: ^1.2.1
+        version: 1.2.1
+      postgres:
+        specifier: ^3.4.5
+        version: 3.4.5
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -32,6 +72,9 @@ importers:
       '@types/node':
         specifier: ^20.14.15
         version: 20.17.6
+      drizzle-kit:
+        specifier: ^0.27.0
+        version: 0.27.0
       eslint:
         specifier: ^9.13.0
         version: 9.13.0(jiti@2.3.3)
@@ -50,39 +93,39 @@ importers:
 
   apps/frontend:
     dependencies:
-      '@electric-sql/pglite':
-        specifier: ^0.2.12
-        version: 0.2.12
       '@floating-ui/dom':
         specifier: ^1.6.12
         version: 1.6.12
+      '@romulus/authentication':
+        specifier: workspace:*
+        version: link:../../services/authentication
+      '@romulus/authorization':
+        specifier: workspace:*
+        version: link:../../services/authorization
+      '@romulus/genres':
+        specifier: workspace:*
+        version: link:../../services/genres
       '@romulus/media':
         specifier: workspace:*
         version: link:../../services/media
-      '@tanstack/svelte-query':
-        specifier: ^5.59.16
-        version: 5.59.16(svelte@5.1.13)
-      '@types/bcryptjs':
-        specifier: ^2.4.6
-        version: 2.4.6
+      '@romulus/user-settings':
+        specifier: workspace:*
+        version: link:../../services/user-settings
       '@types/ramda':
         specifier: ^0.30.2
         version: 0.30.2
       '@types/swagger-ui':
         specifier: ^3.52.4
         version: 3.52.4
-      bcryptjs:
-        specifier: ^2.4.3
-        version: 2.4.3
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
       drizzle-orm:
         specifier: ^0.36.0
         version: 0.36.0(@electric-sql/pglite@0.2.12)(@neondatabase/serverless@0.10.1)(@types/pg@8.11.10)(postgres@3.4.5)(react@18.3.1)
-      oslo:
-        specifier: ^1.2.1
-        version: 1.2.1
+      neverthrow:
+        specifier: ^8.1.1
+        version: 8.1.1
       phosphor-svelte:
         specifier: ^2.0.1
         version: 2.0.1(svelte@5.1.13)
@@ -120,15 +163,9 @@ importers:
       '@playwright/test':
         specifier: ^1.48.2
         version: 1.48.2
-      '@romulus/authentication':
-        specifier: workspace:*
-        version: link:../../services/authentication
       '@romulus/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
-      '@romulus/user-settings':
-        specifier: workspace:*
-        version: link:../../services/user-settings
       '@sveltejs/adapter-node':
         specifier: ^5.2.9
         version: 5.2.9(@sveltejs/kit@2.8.0(@sveltejs/vite-plugin-svelte@4.0.0(svelte@5.1.13)(vite@5.4.10(@types/node@20.17.6)))(svelte@5.1.13)(vite@5.4.10(@types/node@20.17.6)))
@@ -232,6 +269,28 @@ importers:
         specifier: ^2.1.4
         version: 2.1.4(@types/node@20.17.6)(@vitest/ui@2.1.4)(jsdom@25.0.1)
 
+  packages/custom-error:
+    dependencies:
+      '@types/node':
+        specifier: ^20.14.15
+        version: 20.17.6
+    devDependencies:
+      '@romulus/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      eslint:
+        specifier: ^9.13.0
+        version: 9.13.0(jiti@2.3.3)
+      prettier:
+        specifier: ^3.3.3
+        version: 3.3.3
+      typescript:
+        specifier: ^5.6.3
+        version: 5.6.3
+      vitest:
+        specifier: ^2.1.4
+        version: 2.1.4(@types/node@20.17.6)(@vitest/ui@2.1.4)(jsdom@25.0.1)
+
   packages/eslint-config:
     dependencies:
       '@eslint/js':
@@ -279,17 +338,82 @@ importers:
         specifier: ^2.1.4
         version: 2.1.4(@types/node@20.17.6)(@vitest/ui@2.1.4)(jsdom@25.0.1)
 
+  packages/fetch-retry:
+    dependencies:
+      '@romulus/custom-error':
+        specifier: workspace:*
+        version: link:../custom-error
+    devDependencies:
+      '@romulus/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      eslint:
+        specifier: ^9.13.0
+        version: 9.13.0(jiti@2.3.3)
+      prettier:
+        specifier: ^3.3.3
+        version: 3.3.3
+      typescript:
+        specifier: ^5.6.3
+        version: 5.6.3
+      vitest:
+        specifier: ^2.1.4
+        version: 2.1.4(@types/node@20.17.6)(@vitest/ui@2.1.4)(jsdom@25.0.1)
+
+  packages/hono-utils:
+    dependencies:
+      '@hono/zod-validator':
+        specifier: ^0.4.1
+        version: 0.4.1(hono@4.6.12)(zod@3.23.8)
+      '@romulus/custom-error':
+        specifier: workspace:*
+        version: link:../custom-error
+      hono:
+        specifier: ^4.6.12
+        version: 4.6.12
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
+    devDependencies:
+      '@romulus/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@types/node':
+        specifier: ^20.14.15
+        version: 20.17.6
+      eslint:
+        specifier: ^9.13.0
+        version: 9.13.0(jiti@2.3.3)
+      prettier:
+        specifier: ^3.3.3
+        version: 3.3.3
+      typescript:
+        specifier: ^5.6.3
+        version: 5.6.3
+      vitest:
+        specifier: ^2.1.4
+        version: 2.1.4(@types/node@20.17.6)(@vitest/ui@2.1.4)(jsdom@25.0.1)
+
   services/authentication:
     dependencies:
       '@electric-sql/pglite':
         specifier: ^0.2.12
         version: 0.2.12
+      '@hono/node-server':
+        specifier: ^1.13.7
+        version: 1.13.7(hono@4.6.12)
+      '@hono/zod-openapi':
+        specifier: ^0.18.3
+        version: 0.18.3(hono@4.6.12)(zod@3.23.8)
       '@hono/zod-validator':
         specifier: ^0.4.1
         version: 0.4.1(hono@4.6.12)(zod@3.23.8)
-      '@romulus/authorization':
+      '@romulus/custom-error':
         specifier: workspace:*
-        version: link:../authorization
+        version: link:../../packages/custom-error
+      '@romulus/fetch-retry':
+        specifier: workspace:*
+        version: link:../../packages/fetch-retry
       '@types/bcryptjs':
         specifier: ^2.4.6
         version: 2.4.6
@@ -302,6 +426,9 @@ importers:
       hono:
         specifier: ^4.6.12
         version: 4.6.12
+      neverthrow:
+        specifier: ^8.1.1
+        version: 8.1.1
       oslo:
         specifier: ^1.2.1
         version: 1.2.1
@@ -327,6 +454,9 @@ importers:
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
+      tsx:
+        specifier: ^4.19.2
+        version: 4.19.2
       typescript:
         specifier: ^5.6.3
         version: 5.6.3
@@ -339,9 +469,21 @@ importers:
       '@electric-sql/pglite':
         specifier: ^0.2.12
         version: 0.2.12
+      '@hono/node-server':
+        specifier: ^1.13.7
+        version: 1.13.7(hono@4.6.12)
+      '@hono/zod-openapi':
+        specifier: ^0.18.3
+        version: 0.18.3(hono@4.6.12)(zod@3.23.8)
       '@hono/zod-validator':
         specifier: ^0.4.1
         version: 0.4.1(hono@4.6.12)(zod@3.23.8)
+      '@romulus/custom-error':
+        specifier: workspace:*
+        version: link:../../packages/custom-error
+      '@romulus/fetch-retry':
+        specifier: workspace:*
+        version: link:../../packages/fetch-retry
       '@types/bcryptjs':
         specifier: ^2.4.6
         version: 2.4.6
@@ -354,6 +496,9 @@ importers:
       hono:
         specifier: ^4.6.12
         version: 4.6.12
+      neverthrow:
+        specifier: ^8.1.1
+        version: 8.1.1
       oslo:
         specifier: ^1.2.1
         version: 1.2.1
@@ -379,6 +524,9 @@ importers:
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
+      tsx:
+        specifier: ^4.19.2
+        version: 4.19.2
       typescript:
         specifier: ^5.6.3
         version: 5.6.3
@@ -391,15 +539,15 @@ importers:
       '@electric-sql/pglite':
         specifier: ^0.2.12
         version: 0.2.12
+      '@hono/zod-openapi':
+        specifier: ^0.18.3
+        version: 0.18.3(hono@4.6.12)(zod@3.23.8)
       '@hono/zod-validator':
         specifier: ^0.4.1
         version: 0.4.1(hono@4.6.12)(zod@3.23.8)
-      '@romulus/authentication':
+      '@romulus/custom-error':
         specifier: workspace:*
-        version: link:../authentication
-      '@romulus/authorization':
-        specifier: workspace:*
-        version: link:../authorization
+        version: link:../../packages/custom-error
       '@types/bcryptjs':
         specifier: ^2.4.6
         version: 2.4.6
@@ -415,6 +563,9 @@ importers:
       hono:
         specifier: ^4.6.12
         version: 4.6.12
+      neverthrow:
+        specifier: ^8.1.1
+        version: 8.1.1
       oslo:
         specifier: ^1.2.1
         version: 1.2.1
@@ -455,12 +606,30 @@ importers:
       '@electric-sql/pglite':
         specifier: ^0.2.12
         version: 0.2.12
+      '@romulus/custom-error':
+        specifier: workspace:*
+        version: link:../../packages/custom-error
+      '@romulus/hono-utils':
+        specifier: workspace:*
+        version: link:../../packages/hono-utils
       drizzle-orm:
         specifier: ^0.36.0
         version: 0.36.0(@electric-sql/pglite@0.2.12)(@neondatabase/serverless@0.10.1)(@types/pg@8.11.10)(postgres@3.4.5)(react@18.3.1)
+      hono:
+        specifier: ^4.6.12
+        version: 4.6.12
+      immutable:
+        specifier: ^5.0.3
+        version: 5.0.3
+      neverthrow:
+        specifier: ^8.1.1
+        version: 8.1.1
       postgres:
         specifier: ^3.4.5
         version: 3.4.5
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
     devDependencies:
       '@romulus/eslint-config':
         specifier: workspace:*
@@ -492,12 +661,9 @@ importers:
       '@hono/zod-validator':
         specifier: ^0.4.1
         version: 0.4.1(hono@4.6.12)(zod@3.23.8)
-      '@romulus/authentication':
+      '@romulus/custom-error':
         specifier: workspace:*
-        version: link:../authentication
-      '@romulus/authorization':
-        specifier: workspace:*
-        version: link:../authorization
+        version: link:../../packages/custom-error
       '@types/bcryptjs':
         specifier: ^2.4.6
         version: 2.4.6
@@ -510,6 +676,9 @@ importers:
       hono:
         specifier: ^4.6.12
         version: 4.6.12
+      neverthrow:
+        specifier: ^8.1.1
+        version: 8.1.1
       oslo:
         specifier: ^1.2.1
         version: 1.2.1
@@ -560,6 +729,11 @@ packages:
 
   '@ark/util@0.10.0':
     resolution: {integrity: sha512-uK+9VU5doGMYOoOZVE+XaSs1vYACoaEJdrDkuBx26S4X7y3ChyKsPnIg/9pIw2vUySph1GkAXbvBnfVE2GmXgQ==}
+
+  '@asteasolutions/zod-to-openapi@7.3.0':
+    resolution: {integrity: sha512-7tE/r1gXwMIvGnXVUdIqUhCU1RevEFC4Jk6Bussa0fk1ecbnnINkZzj1EOAJyE/M3AI25DnHT/zKQL1/FPFi8Q==}
+    peerDependencies:
+      zod: ^3.20.2
 
   '@babel/code-frame@7.26.2':
     resolution: {integrity: sha512-RJlIHRueQgwWitWgF8OdFYGZX328Ax5BCemNGlqHfplnRT9ESi8JkFlvaVYbS+UubVY6dpv87Fs2u5M29iNFVQ==}
@@ -1383,6 +1557,13 @@ packages:
     peerDependencies:
       hono: ^4
 
+  '@hono/zod-openapi@0.18.3':
+    resolution: {integrity: sha512-bNlRDODnp7P9Fs13ZPajEOt13G0XwXKfKRHMEFCphQsFiD1Y+twzHaglpNAhNcflzR1DQwHY92ZS06b4LTPbIQ==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      hono: '>=4.3.6'
+      zod: 3.*
+
   '@hono/zod-validator@0.4.1':
     resolution: {integrity: sha512-I8LyfeJfvVmC5hPjZ2Iij7RjexlgSBT7QJudZ4JvNPLxn0JQ3sqclz2zydlwISAnw21D2n4LQ0nfZdoiv9fQQA==}
     peerDependencies:
@@ -1889,14 +2070,6 @@ packages:
 
   '@swagger-api/apidom-reference@1.0.0-alpha.8':
     resolution: {integrity: sha512-mt22fvH8xZO7g5vjTY5wJqjk7O9EGjUJi7NYA8swptg+6k1Ha3cOItFVMsZIPnOcsH+V6dI4bs9fuGQ7PUvx5w==}
-
-  '@tanstack/query-core@5.59.16':
-    resolution: {integrity: sha512-crHn+G3ltqb5JG0oUv6q+PMz1m1YkjpASrXTU+sYWW9pLk0t2GybUHNRqYPZWhxgjPaVGC4yp92gSFEJgYEsPw==}
-
-  '@tanstack/svelte-query@5.59.16':
-    resolution: {integrity: sha512-s0CRtjUK0Lo+uvRU+XFxWjmTRV1hr0fe+Z/R+wDGnTzbMKSyaSKYeC0aZSQKZdAO6R/DvEVrD9tgjof1ojufnQ==}
-    peerDependencies:
-      svelte: ^3.54.0 || ^4.0.0 || ^5.0.0-next.0
 
   '@testing-library/dom@10.4.0':
     resolution: {integrity: sha512-pemlzrSESWbdAloYml3bAJMEfNh1Z7EduzqPKprCH5S341frlpYnUEW0H72dLxa6IsYr+mPno20GiSm+h9dEdQ==}
@@ -3000,6 +3173,9 @@ packages:
     resolution: {integrity: sha512-15gZoQ38eYjEjxkorfbcgBKBL6R7T459OuK+CpcWt7O3KF4uPCx2tD0uFETlUDIyo+1789crbMhTvQBSR5yBMg==}
     engines: {node: '>=0.10.0'}
 
+  immutable@5.0.3:
+    resolution: {integrity: sha512-P8IdPQHq3lA1xVeBRi5VPqUm5HDgKnx0Ru51wZz5mjxHr5n3RWhjIpOFU7ybkUxfB+5IToy+OLaHYDBIWsv+uw==}
+
   import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -3302,6 +3478,10 @@ packages:
     resolution: {integrity: sha512-HZpdkco+JeXq0G+WWpMJ4NsX3pqb5O7eR9uGz3FfoFt+LYzU8iRWp49nJtud6hsDoywM8tIrDo3gjgmOqJA8LA==}
     engines: {node: '>= 10'}
 
+  neverthrow@8.1.1:
+    resolution: {integrity: sha512-DpbZ/UDI0B+TxJB1JysXSfi1++3YK2xLBqQLTlRN0b4zxlZ2MoiB+dKKV8dMRzt1fAFjRKDknXOVJgpl+a4Amw==}
+    engines: {node: '>=18'}
+
   node-abi@3.65.0:
     resolution: {integrity: sha512-ThjYBfoDNr08AWx6hGaRbfPwxKV9kVzAzOzlLKbk2CuqXE2xnCh+cbAGnwM3t8Lq4v9rUB7VfondlkBckcJrVA==}
     engines: {node: '>=10'}
@@ -3361,12 +3541,16 @@ packages:
     resolution: {integrity: sha512-dtyTFKx2xVcO0W8JKaluXIHC9l/MLjHeflBaWjiWNMCHp/TBs9dEjQDbj/VFlHR4omFOKjjmqm1pW1aCAhmPBg==}
     engines: {node: '>=12.20.0'}
 
+  openapi3-ts@4.4.0:
+    resolution: {integrity: sha512-9asTNB9IkKEzWMcHmVZE7Ts3kC9G7AFHfs8i7caD8HbI76gEjdkId4z/AkP83xdZsH7PLAnnbl47qZkXuxpArw==}
+
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
     engines: {node: '>= 0.8.0'}
 
   oslo@1.2.1:
     resolution: {integrity: sha512-HfIhB5ruTdQv0XX2XlncWQiJ5SIHZ7NHZhVyHth0CSZ/xzge00etRyYy/3wp/Dsu+PkxMC+6+B2lS/GcKoewkA==}
+    deprecated: Package is no longer supported. Please see https://oslojs.dev for the successor project.
 
   p-limit@3.1.0:
     resolution: {integrity: sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ==}
@@ -4147,6 +4331,40 @@ packages:
   tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
 
+  turbo-darwin-64@2.4.0:
+    resolution: {integrity: sha512-kVMScnPUa3R4n7woNmkR15kOY0aUwCLJcUyH5UC59ggKqr5HIHwweKYK8N1pwBQso0LQF4I9i93hIzfJguCcwQ==}
+    cpu: [x64]
+    os: [darwin]
+
+  turbo-darwin-arm64@2.4.0:
+    resolution: {integrity: sha512-8JObIpfun1guA7UlFR5jC/SOVm49lRscxMxfg5jZ5ABft79rhFC+ygN9AwAhGKv6W2DUhIh2xENkSgu4EDmUyg==}
+    cpu: [arm64]
+    os: [darwin]
+
+  turbo-linux-64@2.4.0:
+    resolution: {integrity: sha512-xWDGGcRlBuGV7HXWAVuTY6vsQi4aZxGMAnuiuNDg8Ij1aHGohOM0RUsWMXjxz4vuJmjk9+/D6NQqHH3AJEXezg==}
+    cpu: [x64]
+    os: [linux]
+
+  turbo-linux-arm64@2.4.0:
+    resolution: {integrity: sha512-c3En99xMguc/Pdtk/rZP53LnDdw0W6lgUc04he8r8F+UHYSNvgzHh0WGXXmCC6lGbBH72kPhhGx4bAwyvi7dug==}
+    cpu: [arm64]
+    os: [linux]
+
+  turbo-windows-64@2.4.0:
+    resolution: {integrity: sha512-/gOORuOlyA8JDPzyA16CD3wvyRcuBFePa1URAnFUof9hXQmKxK0VvSDO79cYZFsJSchCKNJpckUS0gYxGsWwoA==}
+    cpu: [x64]
+    os: [win32]
+
+  turbo-windows-arm64@2.4.0:
+    resolution: {integrity: sha512-/DJIdTFijEMM5LSiEpSfarDOMOlYqJV+EzmppqWtHqDsOLF4hbbIBH9sJR6OOp5dURAu5eURBYdmvBRz9Lo6TA==}
+    cpu: [arm64]
+    os: [win32]
+
+  turbo@2.4.0:
+    resolution: {integrity: sha512-ah/yQp2oMif1X0u7fBJ4MLMygnkbKnW5O8SG6pJvloPCpHfFoZctkSVQiJ3VnvNTq71V2JJIdwmOeu1i34OQyg==}
+    hasBin: true
+
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
@@ -4415,6 +4633,11 @@ snapshots:
 
   '@ark/util@0.10.0':
     optional: true
+
+  '@asteasolutions/zod-to-openapi@7.3.0(zod@3.23.8)':
+    dependencies:
+      openapi3-ts: 4.4.0
+      zod: 3.23.8
 
   '@babel/code-frame@7.26.2':
     dependencies:
@@ -4901,6 +5124,13 @@ snapshots:
   '@hono/node-server@1.13.7(hono@4.6.12)':
     dependencies:
       hono: 4.6.12
+
+  '@hono/zod-openapi@0.18.3(hono@4.6.12)(zod@3.23.8)':
+    dependencies:
+      '@asteasolutions/zod-to-openapi': 7.3.0(zod@3.23.8)
+      '@hono/zod-validator': 0.4.1(hono@4.6.12)(zod@3.23.8)
+      hono: 4.6.12
+      zod: 3.23.8
 
   '@hono/zod-validator@0.4.1(hono@4.6.12)(zod@3.23.8)':
     dependencies:
@@ -5588,13 +5818,6 @@ snapshots:
       '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.0.0-alpha.8
     transitivePeerDependencies:
       - debug
-
-  '@tanstack/query-core@5.59.16': {}
-
-  '@tanstack/svelte-query@5.59.16(svelte@5.1.13)':
-    dependencies:
-      '@tanstack/query-core': 5.59.16
-      svelte: 5.1.13
 
   '@testing-library/dom@10.4.0':
     dependencies:
@@ -6816,6 +7039,8 @@ snapshots:
 
   immutable@3.8.2: {}
 
+  immutable@5.0.3: {}
+
   import-fresh@3.3.0:
     dependencies:
       parent-module: 1.0.1
@@ -7110,6 +7335,10 @@ snapshots:
 
   neotraverse@0.6.15: {}
 
+  neverthrow@8.1.1:
+    optionalDependencies:
+      '@rollup/rollup-linux-x64-gnu': 4.24.3
+
   node-abi@3.65.0:
     dependencies:
       semver: 7.6.3
@@ -7156,6 +7385,10 @@ snapshots:
   openapi-server-url-templating@1.1.0:
     dependencies:
       apg-lite: 1.0.4
+
+  openapi3-ts@4.4.0:
+    dependencies:
+      yaml: 2.6.0
 
   optionator@0.9.4:
     dependencies:
@@ -8019,6 +8252,33 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
     optional: true
+
+  turbo-darwin-64@2.4.0:
+    optional: true
+
+  turbo-darwin-arm64@2.4.0:
+    optional: true
+
+  turbo-linux-64@2.4.0:
+    optional: true
+
+  turbo-linux-arm64@2.4.0:
+    optional: true
+
+  turbo-windows-64@2.4.0:
+    optional: true
+
+  turbo-windows-arm64@2.4.0:
+    optional: true
+
+  turbo@2.4.0:
+    optionalDependencies:
+      turbo-darwin-64: 2.4.0
+      turbo-darwin-arm64: 2.4.0
+      turbo-linux-64: 2.4.0
+      turbo-linux-arm64: 2.4.0
+      turbo-windows-64: 2.4.0
+      turbo-windows-arm64: 2.4.0
 
   type-check@0.4.0:
     dependencies:

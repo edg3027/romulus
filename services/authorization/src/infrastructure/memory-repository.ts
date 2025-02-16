@@ -1,26 +1,30 @@
-import { Role, RoleAssignedToUserEvent } from '../domain/authorizer'
+import { DefaultRoleSetEvent, Role, RoleAssignedToUserEvent } from '../domain/authorizer.js'
 import {
   Permission,
   PermissionDeletedEvent,
   RoleCreatedEvent,
   RoleDeletedEvent,
-} from '../domain/authorizer'
-import { Authorizer, PermissionCreatedEvent } from '../domain/authorizer'
-import type { IAuthorizerRepository } from '../domain/repository'
+} from '../domain/authorizer.js'
+import { Authorizer, PermissionCreatedEvent } from '../domain/authorizer.js'
+import type { IAuthorizerRepository } from '../domain/repository.js'
 
 export class MemoryAuthorizerRepository implements IAuthorizerRepository {
   private permissions: Map<string, Permission>
   private roles: Map<string, Role>
+  private defaultRole: string | undefined
   private userRoles: Map<number, Set<string>>
 
   constructor() {
     this.permissions = new Map()
     this.roles = new Map()
+    this.defaultRole = undefined
     this.userRoles = new Map()
   }
 
   get() {
-    return Authorizer.fromState(this.permissions, this.roles, this.userRoles)
+    return Promise.resolve(
+      Authorizer.fromState(this.permissions, this.roles, this.defaultRole, this.userRoles),
+    )
   }
 
   save(authorizer: Authorizer) {
@@ -34,6 +38,8 @@ export class MemoryAuthorizerRepository implements IAuthorizerRepository {
         this.roles.set(event.name, new Role(event.name, event.permissions, event.description))
       } else if (event instanceof RoleDeletedEvent) {
         this.roles.delete(event.name)
+      } else if (event instanceof DefaultRoleSetEvent) {
+        this.defaultRole = event.name
       } else if (event instanceof RoleAssignedToUserEvent) {
         const userRoles = this.userRoles.get(event.userId) ?? new Set()
         userRoles.add(event.roleName)
@@ -42,5 +48,6 @@ export class MemoryAuthorizerRepository implements IAuthorizerRepository {
         event satisfies never
       }
     }
+    return Promise.resolve()
   }
 }

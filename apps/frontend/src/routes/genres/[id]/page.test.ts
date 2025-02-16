@@ -20,7 +20,14 @@ const mockUser = {
   showRelevanceTags: false,
   showTypeTags: false,
   showNsfw: false,
-  permissions: [],
+  permissions: {
+    genres: {
+      canCreate: true,
+      canEdit: true,
+      canDelete: true,
+      canVoteRelevance: true,
+    },
+  },
   createdAt: new Date(),
   updatedAt: new Date(),
 }
@@ -66,6 +73,7 @@ async function setup(
       data: {
         id: 0,
         user: mockUser,
+        settings: DEFAULT_USER_SETTINGS,
         genre: mockGenre,
         leftPaneSize: undefined,
         streamed: {

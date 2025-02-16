@@ -1,4 +1,4 @@
-import { AuthenticationClientError } from '@romulus/authentication'
+import { FetchError } from '@romulus/authentication/client'
 import { type Actions, error, redirect } from '@sveltejs/kit'
 import { fail, superValidate } from 'sveltekit-superforms'
 import { zod } from 'sveltekit-superforms/adapters'
@@ -44,11 +44,18 @@ export const actions: Actions = {
     const response = await locals.di
       .authentication()
       .resetPassword({ passwordResetToken: verificationToken, newPassword: form.data.password })
-    if (response instanceof AuthenticationClientError) {
-      return error(response.originalError.statusCode, response.message)
+    if (response.isErr()) {
+      if (response.error instanceof FetchError) {
+        return error(500, `Failed to reset password: ${response.error.message}`)
+      } else {
+        return error(response.error.statusCode, response.error.message)
+      }
     }
 
-    setSessionCookie({ token: response.token, expires: new Date(response.expiresAt) }, cookies)
+    setSessionCookie(
+      { token: response.value.token, expires: new Date(response.value.expiresAt) },
+      cookies,
+    )
 
     setHeaders({ 'Referrer-Policy': 'strict-origin' })
     redirect(302, '/genres')

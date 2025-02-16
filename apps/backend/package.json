@@ -8,18 +8,31 @@
     "lint": "prettier --check . && tsc --noEmit && eslint .",
     "lint:fix": "prettier --write . && eslint . --fix",
     "format": "prettier --write .",
-    "dev": "tsx watch --env-file=.env src/index.ts"
+    "dev": "tsx watch src/index.ts"
   },
   "dependencies": {
+    "@electric-sql/pglite": "^0.2.12",
     "@hono/node-server": "^1.13.7",
+    "@hono/zod-validator": "^0.4.1",
     "@romulus/authentication": "workspace:*",
     "@romulus/authorization": "workspace:*",
+    "@romulus/fetch-retry": "workspace:*",
+    "@romulus/genres": "workspace:*",
+    "@romulus/media": "workspace:*",
+    "@romulus/user-settings": "workspace:*",
+    "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^2.4.3",
+    "drizzle-orm": "^0.36.0",
     "hono": "^4.6.12",
+    "neverthrow": "^8.1.1",
+    "oslo": "^1.2.1",
+    "postgres": "^3.4.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@romulus/eslint-config": "workspace:*",
     "@types/node": "^20.14.15",
+    "drizzle-kit": "^0.27.0",
     "eslint": "^9.13.0",
     "prettier": "^3.3.3",
     "tsx": "^4.19.2",

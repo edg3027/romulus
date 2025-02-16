@@ -1,8 +1,30 @@
 {
   "name": "@romulus/genres",
   "type": "module",
+  "files": [
+    "dist/*"
+  ],
   "exports": {
-    ".": "./src/index.ts"
+    "./application": {
+      "import": "./dist/application/index.js",
+      "types": "./dist/application/index.d.ts"
+    },
+    "./infrastructure": {
+      "import": "./dist/infrastructure/index.js",
+      "types": "./dist/infrastructure/index.d.ts"
+    },
+    "./router": {
+      "import": "./dist/web/router.js",
+      "types": "./dist/web/router.d.ts"
+    },
+    "./client": {
+      "import": "./dist/web/client.js",
+      "types": "./dist/web/client.d.ts"
+    },
+    "./permissions": {
+      "import": "./dist/domain/permissions.js",
+      "types": "./dist/domain/permissions.d.ts"
+    }
   },
   "scripts": {
     "test": "pnpm test:unit run",
@@ -10,18 +32,21 @@
     "db:generate": "drizzle-kit generate",
     "lint": "prettier --check . && tsc --noEmit && eslint .",
     "lint:fix": "prettier --write . && eslint . --fix",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "build": "rm -rf ./dist && tsc -p tsconfig.build.json && cp -r ./src/infrastructure/migrations ./dist/infrastructure/migrations"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.2.12",
+    "@hono/zod-openapi": "^0.18.3",
     "@hono/zod-validator": "^0.4.1",
-    "@romulus/authentication": "workspace:*",
-    "@romulus/authorization": "workspace:*",
+    "@romulus/custom-error": "workspace:*",
     "@types/bcryptjs": "^2.4.6",
     "@types/ramda": "^0.30.2",
     "bcryptjs": "^2.4.3",
     "drizzle-orm": "^0.36.0",
     "hono": "^4.6.12",
+    "neverthrow": "^8.1.1",
     "oslo": "^1.2.1",
     "postgres": "^3.4.5",
     "ramda": "^0.30.1",

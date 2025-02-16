@@ -1,95 +1,28 @@
-import type { IAuthorizationApplication } from '@romulus/authorization'
+import { AuthenticationPermission } from '../domain/permissions.js'
 
-import type { AccountRepository } from '../domain/repositories/account'
-import type { HashRepository } from '../domain/repositories/hash-repository'
-import type { PasswordResetTokenRepository } from '../domain/repositories/password-reset-token'
-import type { SessionRepository } from '../domain/repositories/session'
-import type { TokenGenerator } from '../domain/repositories/token-generator'
-import { GetAccountCommand } from './commands/get-account'
-import { LoginCommand } from './commands/login'
-import { LogoutCommand } from './commands/logout'
-import { RefreshSessionCommand } from './commands/refresh-session'
-import { RegisterCommand } from './commands/register'
-import { RequestPasswordResetCommand } from './commands/request-password-reset'
-import { ResetPasswordCommand } from './commands/reset-password'
-import { WhoamiQuery } from './commands/whoami'
+export { CreateApiKeyCommand } from './commands/create-api-key.js'
+export { DeleteApiKeyCommand } from './commands/delete-api-key.js'
+export { GetAccountQuery } from './commands/get-account.js'
+export { GetAccountsQuery } from './commands/get-accounts.js'
+export { GetApiKeysByAccountQuery } from './commands/get-api-keys-by-account.js'
+export { LoginCommand } from './commands/login.js'
+export { LogoutCommand } from './commands/logout.js'
+export { RefreshSessionCommand } from './commands/refresh-session.js'
+export { RegisterCommand } from './commands/register.js'
+export { RequestPasswordResetCommand } from './commands/request-password-reset.js'
+export { ResetPasswordCommand } from './commands/reset-password.js'
+export { ValidateApiKeyCommand } from './commands/validate-api-key.js'
+export { WhoamiQuery } from './commands/whoami.js'
 
-export type IAuthenticationApplication = {
-  getAccount: GetAccountCommand['execute']
-  whoami: WhoamiQuery['execute']
-  login: LoginCommand['execute']
-  logout: LogoutCommand['execute']
-  refreshSession: RefreshSessionCommand['execute']
-  register: RegisterCommand['execute']
-  requestPasswordReset: RequestPasswordResetCommand['execute']
-  resetPassword: ResetPasswordCommand['execute']
-}
-
-export class AuthenticationApplication implements IAuthenticationApplication {
-  getAccount: GetAccountCommand['execute']
-  whoami: WhoamiQuery['execute']
-  login: LoginCommand['execute']
-  logout: LogoutCommand['execute']
-  refreshSession: RefreshSessionCommand['execute']
-  register: RegisterCommand['execute']
-  requestPasswordReset: RequestPasswordResetCommand['execute']
-  resetPassword: ResetPasswordCommand['execute']
-
-  constructor(
-    accountRepo: AccountRepository,
-    sessionRepo: SessionRepository,
-    sessionTokenHashRepo: HashRepository,
-    passwordHashRepo: HashRepository,
-    sessionTokenGenerator: TokenGenerator,
-    passwordResetTokenRepo: PasswordResetTokenRepository,
-    passwordResetTokenGenerator: TokenGenerator,
-    passwordResetTokenHashRepo: HashRepository,
-    authorization: IAuthorizationApplication,
-  ) {
-    const getAccountCommand = new GetAccountCommand(accountRepo, authorization)
-    const whoamiQuery = new WhoamiQuery(accountRepo, sessionRepo, sessionTokenHashRepo)
-    const loginCommand = new LoginCommand(
-      accountRepo,
-      sessionRepo,
-      passwordHashRepo,
-      sessionTokenHashRepo,
-      sessionTokenGenerator,
-    )
-    const logoutCommand = new LogoutCommand(sessionRepo, sessionTokenHashRepo)
-    const refreshSessionCommand = new RefreshSessionCommand(sessionRepo, sessionTokenHashRepo)
-    const registerCommand = new RegisterCommand(
-      accountRepo,
-      sessionRepo,
-      passwordHashRepo,
-      sessionTokenHashRepo,
-      sessionTokenGenerator,
-    )
-    const requestPasswordResetCommand = new RequestPasswordResetCommand(
-      passwordResetTokenRepo,
-      passwordResetTokenGenerator,
-      passwordResetTokenHashRepo,
-      accountRepo,
-      authorization,
-    )
-    const resetPasswordCommand = new ResetPasswordCommand(
-      accountRepo,
-      sessionRepo,
-      passwordResetTokenRepo,
-      passwordResetTokenHashRepo,
-      passwordHashRepo,
-      sessionTokenHashRepo,
-      sessionTokenGenerator,
-    )
-
-    this.getAccount = getAccountCommand.execute.bind(getAccountCommand)
-    this.whoami = whoamiQuery.execute.bind(whoamiQuery)
-    this.login = loginCommand.execute.bind(loginCommand)
-    this.logout = logoutCommand.execute.bind(logoutCommand)
-    this.refreshSession = refreshSessionCommand.execute.bind(refreshSessionCommand)
-    this.register = registerCommand.execute.bind(registerCommand)
-    this.requestPasswordReset = requestPasswordResetCommand.execute.bind(
-      requestPasswordResetCommand,
-    )
-    this.resetPassword = resetPasswordCommand.execute.bind(resetPasswordCommand)
-  }
+export async function setupAuthenticationPermissions(
+  createPermissions: (
+    permissions: { name: string; description: string | undefined }[],
+  ) => Promise<void>,
+) {
+  await createPermissions(
+    Object.values(AuthenticationPermission).map((permission) => ({
+      name: permission,
+      description: undefined,
+    })),
+  )
 }

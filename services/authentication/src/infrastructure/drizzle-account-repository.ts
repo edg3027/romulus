@@ -1,11 +1,11 @@
 import { eq } from 'drizzle-orm'
 
-import type { NewAccount } from '../domain/entities/account'
-import { CreatedAccount } from '../domain/entities/account'
-import { NonUniqueUsernameError } from '../domain/errors/non-unique-username'
-import type { AccountRepository } from '../domain/repositories/account'
-import type { IDrizzleConnection } from './drizzle-database'
-import { accountsTable } from './drizzle-schema'
+import type { NewAccount } from '../domain/entities/account.js'
+import { CreatedAccount } from '../domain/entities/account.js'
+import { NonUniqueUsernameError } from '../domain/errors/non-unique-username.js'
+import type { AccountRepository } from '../domain/repositories/account.js'
+import type { IDrizzleConnection } from './drizzle-database.js'
+import { accountsTable } from './drizzle-schema.js'
 
 export class DrizzleAccountRepository implements AccountRepository {
   constructor(private db: IDrizzleConnection) {}
@@ -26,6 +26,22 @@ export class DrizzleAccountRepository implements AccountRepository {
     return account
   }
 
+  async findByIds(ids: number[]): Promise<CreatedAccount[]> {
+    const entries = await this.db.query.accountsTable.findMany({
+      where: (accounts, { inArray }) => inArray(accounts.id, ids),
+    })
+
+    return entries.map(
+      (entry) =>
+        new CreatedAccount(entry.id, {
+          username: entry.username,
+          passwordHash: entry.password,
+          createdAt: entry.createdAt,
+          updatedAt: entry.updatedAt,
+        }),
+    )
+  }
+
   async findByUsername(username: string): Promise<CreatedAccount | undefined> {
     const entry = await this.db.query.accountsTable.findFirst({
       where: (accounts, { eq }) => eq(accounts.username, username),
@@ -44,7 +60,7 @@ export class DrizzleAccountRepository implements AccountRepository {
 
   async create(account: NewAccount): Promise<CreatedAccount | NonUniqueUsernameError> {
     try {
-      const [{ accountId }] = await this.db
+      const results = await this.db
         .insert(accountsTable)
         .values({
           username: account.username,
@@ -53,7 +69,7 @@ export class DrizzleAccountRepository implements AccountRepository {
           updatedAt: account.updatedAt,
         })
         .returning({ accountId: accountsTable.id })
-
+      const accountId = results[0]!.accountId
       return new CreatedAccount(accountId, account)
     } catch (error) {
       if (isPostgresError(error, '23505', 'Account_username_unique')) {

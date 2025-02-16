@@ -1,4 +1,4 @@
-import { AuthenticationClientError } from '@romulus/authentication'
+import { FetchError } from '@romulus/authentication/client'
 import { error } from '@sveltejs/kit'
 import { z } from 'zod'
 
@@ -23,15 +23,23 @@ export const load: PageServerLoad = async ({ params, locals, url }) => {
   }
   const id = maybeId.data
 
-  const getAccountResponse = await locals.di.authentication().getAccount({ accountId: id })
-  if (getAccountResponse instanceof AuthenticationClientError) {
-    return error(
-      getAccountResponse.originalError.statusCode,
-      getAccountResponse.originalError.message,
-    )
+  const getAccountResponse = await locals.di.authentication().getAccount({ id })
+  if (getAccountResponse.isErr()) {
+    if (getAccountResponse.error instanceof FetchError) {
+      return error(500, `Failed to fetch account: ${getAccountResponse.error.message}`)
+    } else {
+      return error(getAccountResponse.error.statusCode, getAccountResponse.error.message)
+    }
   }
 
-  const history = await locals.di.genreQueryService().getGenreHistoryByAccount(id)
+  const response = await locals.di.genres().getGenreHistoryByAccount(id)
+  if (response.isErr()) {
+    return error(
+      response.error.name === 'FetchError' ? 500 : response.error.statusCode,
+      response.error.message,
+    )
+  }
+  const history = response.value.history
 
   const numCreated = new Set(
     history.filter((h) => h.operation === 'CREATE').map((h) => h.treeGenreId),
@@ -53,7 +61,7 @@ export const load: PageServerLoad = async ({ params, locals, url }) => {
   const limit = getIntParam(url, 'limit') ?? 30
 
   return {
-    account: { username: getAccountResponse.account.username },
+    account: { username: getAccountResponse.value.account.username },
     numCreated,
     numUpdated,
     numDeleted,
@@ -73,13 +81,15 @@ export const actions: Actions = {
     }
     const id = maybeId.data
 
-    const response = await locals.di.authentication().requestPasswordReset({ accountId: id })
-    if (response instanceof AuthenticationClientError) {
-      return error(response.originalError.statusCode, {
-        message: response.message,
-      })
+    const response = await locals.di.authentication().requestPasswordReset({ userId: id })
+    if (response.isErr()) {
+      if (response.error instanceof FetchError) {
+        return error(500, `Failed to fetch account: ${response.error.message}`)
+      } else {
+        return error(response.error.statusCode, response.error.message)
+      }
     }
 
-    return { verificationLink: response.passwordResetLink }
+    return { verificationLink: response.value.passwordResetLink }
   },
 }

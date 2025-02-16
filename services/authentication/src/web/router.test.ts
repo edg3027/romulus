@@ -1,17 +1,88 @@
 import { testClient } from 'hono/testing'
 import { describe, expect } from 'vitest'
 
-import { AuthenticationPermission } from '../domain/permissions'
-import type { IDrizzleConnection } from '../infrastructure/drizzle-database'
-import { MemoryAuthorizationApplication } from '../infrastructure/memory-authorization-service'
-import { test } from '../vitest-setup'
-import { CommandsCompositionRoot } from './composition-root'
-import { createRouter } from './router'
+import {
+  CreateApiKeyCommand,
+  DeleteApiKeyCommand,
+  GetAccountQuery,
+  GetAccountsQuery,
+  GetApiKeysByAccountQuery,
+  LoginCommand,
+  LogoutCommand,
+  RefreshSessionCommand,
+  RegisterCommand,
+  RequestPasswordResetCommand,
+  ResetPasswordCommand,
+  ValidateApiKeyCommand,
+  WhoamiQuery,
+} from '../application/index.js'
+import type { IDrizzleConnection } from '../infrastructure/drizzle-database.js'
+import { MockAuthorizationService } from '../test/mock-authorization-service.js'
+import { test } from '../vitest-setup.js'
+import { CommandsCompositionRoot } from './composition-root.js'
+import { createAuthenticationRouter } from './router.js'
 
 function setup(dbConnection: IDrizzleConnection) {
-  const authorizationService = new MemoryAuthorizationApplication()
-  const di = new CommandsCompositionRoot(dbConnection, authorizationService)
-  const app = createRouter(di)
+  const authorization = new MockAuthorizationService()
+
+  const di = new CommandsCompositionRoot(dbConnection)
+  const app = createAuthenticationRouter({
+    loginCommand: () =>
+      new LoginCommand(
+        di.accountRepository(),
+        di.sessionRepository(),
+        di.passwordHashRepository(),
+        di.sessionTokenHashRepository(),
+        di.sessionTokenGenerator(),
+      ),
+    logoutCommand: () => new LogoutCommand(di.sessionRepository(), di.sessionTokenHashRepository()),
+    registerCommand: () =>
+      new RegisterCommand(
+        di.accountRepository(),
+        di.sessionRepository(),
+        di.passwordHashRepository(),
+        di.sessionTokenHashRepository(),
+        di.sessionTokenGenerator(),
+      ),
+    requestPasswordResetCommand: () =>
+      new RequestPasswordResetCommand(
+        di.passwordResetTokenRepository(),
+        di.passwordResetTokenGenerator(),
+        di.passwordResetTokenHashRepository(),
+        di.accountRepository(),
+        authorization,
+      ),
+    resetPasswordCommand: () =>
+      new ResetPasswordCommand(
+        di.accountRepository(),
+        di.sessionRepository(),
+        di.passwordResetTokenRepository(),
+        di.passwordResetTokenHashRepository(),
+        di.passwordHashRepository(),
+        di.sessionTokenHashRepository(),
+        di.sessionTokenGenerator(),
+      ),
+    whoamiQuery: () =>
+      new WhoamiQuery(
+        di.accountRepository(),
+        di.sessionRepository(),
+        di.sessionTokenHashRepository(),
+      ),
+    getAccountQuery: () => new GetAccountQuery(di.accountRepository()),
+    getAccountsQuery: () => new GetAccountsQuery(di.accountRepository()),
+    refreshSessionCommand: () =>
+      new RefreshSessionCommand(di.sessionRepository(), di.sessionTokenHashRepository()),
+    createApiKeyCommand: () =>
+      new CreateApiKeyCommand(
+        di.apiKeyRepository(),
+        di.apiKeyTokenGenerator(),
+        di.apiKeyHashRepository(),
+      ),
+    deleteApiKeyCommand: () => new DeleteApiKeyCommand(di.apiKeyRepository()),
+    getApiKeysByAccountQuery: () => new GetApiKeysByAccountQuery(di.dbConnection()),
+    validateApiKeyCommand: () =>
+      new ValidateApiKeyCommand(di.apiKeyRepository(), di.apiKeyHashRepository()),
+  })
   const client = testClient(app)
 
   async function registerTestUser(user?: { username?: string; password?: string }) {
@@ -24,10 +95,9 @@ function setup(dbConnection: IDrizzleConnection) {
     }
     const sessionToken = registerBody.token
 
-    const whoamiResponse = await client.whoami.$get(
-      {},
-      { headers: { authorization: `Bearer ${sessionToken}` } },
-    )
+    const whoamiResponse = await client.whoami.$get({
+      header: { authorization: `Bearer ${sessionToken}` },
+    })
     const whoamiBody = await whoamiResponse.json()
     if (whoamiBody.success === false) {
       expect.fail(`Failed to get registered user: ${whoamiBody.error.message}`)
@@ -37,13 +107,7 @@ function setup(dbConnection: IDrizzleConnection) {
     return { sessionToken, account }
   }
 
-  function assignPermissionToUser(userId: number, permission: AuthenticationPermission) {
-    authorizationService.createPermission(permission, undefined)
-    authorizationService.createRole('test-role', new Set([permission]), undefined)
-    authorizationService.assignRoleToUser(userId, 'test-role')
-  }
-
-  return { client, registerTestUser, assignPermissionToUser }
+  return { client, registerTestUser, authorization }
 }
 
 describe('login', () => {
@@ -56,7 +120,7 @@ describe('login', () => {
       success: false,
       error: {
         message: 'Incorrect username or password',
-        name: 'InvalidLogin',
+        name: 'InvalidLoginError',
         statusCode: 401,
       },
     })
@@ -71,7 +135,7 @@ describe('login', () => {
       success: false,
       error: {
         message: 'Incorrect username or password',
-        name: 'InvalidLogin',
+        name: 'InvalidLoginError',
         statusCode: 401,
       },
     })
@@ -97,19 +161,16 @@ describe('logout', () => {
     const { client, registerTestUser } = setup(dbConnection)
     const { sessionToken } = await registerTestUser()
 
-    const res = await client.logout.$post(
-      {},
-      { headers: { authorization: `Bearer ${sessionToken}` } },
-    )
+    const res = await client.logout.$post({ header: { authorization: `Bearer ${sessionToken}` } })
 
     expect(res.status).toBe(200)
     expect(await res.json()).toEqual({ success: true })
   })
 
-  test('should error if the user is not logged in', async ({ dbConnection }) => {
+  test('should error if the authorization header is empty', async ({ dbConnection }) => {
     const { client } = setup(dbConnection)
 
-    const res = await client.logout.$post({})
+    const res = await client.logout.$post({ header: { authorization: '' } })
 
     expect(res.status).toBe(401)
     expect(await res.json()).toEqual({
@@ -127,10 +188,7 @@ describe('logout', () => {
   }) => {
     const { client } = setup(dbConnection)
 
-    const res = await client.logout.$post(
-      {},
-      { headers: { authorization: 'Bearer invalid-token' } },
-    )
+    const res = await client.logout.$post({ header: { authorization: 'Bearer invalid-token' } })
 
     expect(res.status).toBe(200)
     expect(await res.json()).toEqual({ success: true })
@@ -158,20 +216,23 @@ describe('register', () => {
     expect(await res.json()).toEqual({
       success: false,
       error: {
-        name: 'InvalidRequestError',
-        message: 'Invalid request',
+        name: 'ValidationError',
+        message: 'Request validation failed',
         statusCode: 400,
-        details: [
-          {
-            code: 'too_small',
-            exact: false,
-            inclusive: true,
-            message: 'String must contain at least 8 character(s)',
-            minimum: 8,
-            path: ['password'],
-            type: 'string',
-          },
-        ],
+        details: {
+          target: 'json',
+          issues: [
+            {
+              code: 'too_small',
+              exact: false,
+              inclusive: true,
+              message: 'String must contain at least 8 character(s)',
+              minimum: 8,
+              path: ['password'],
+              type: 'string',
+            },
+          ],
+        },
       },
     })
   })
@@ -186,20 +247,23 @@ describe('register', () => {
     expect(await res.json()).toEqual({
       success: false,
       error: {
-        name: 'InvalidRequestError',
-        message: 'Invalid request',
+        name: 'ValidationError',
+        message: 'Request validation failed',
         statusCode: 400,
-        details: [
-          {
-            code: 'too_big',
-            exact: false,
-            inclusive: true,
-            message: 'String must contain at most 72 character(s)',
-            maximum: 72,
-            path: ['password'],
-            type: 'string',
-          },
-        ],
+        details: {
+          target: 'json',
+          issues: [
+            {
+              code: 'too_big',
+              exact: false,
+              inclusive: true,
+              message: 'String must contain at most 72 character(s)',
+              maximum: 72,
+              path: ['password'],
+              type: 'string',
+            },
+          ],
+        },
       },
     })
   })
@@ -223,11 +287,12 @@ describe('register', () => {
 })
 
 describe('request-password-reset', () => {
-  test('should error if the user is not logged in', async ({ dbConnection }) => {
+  test('should error if the authorization header is empty', async ({ dbConnection }) => {
     const { client } = setup(dbConnection)
 
-    const res = await client['request-password-reset'][':accountId'].$post({
-      param: { accountId: '1' },
+    const res = await client['request-password-reset'][':userId'].$post({
+      param: { userId: 1 },
+      header: { authorization: '' },
     })
 
     expect(res.status).toBe(401)
@@ -242,13 +307,14 @@ describe('request-password-reset', () => {
   })
 
   test('should error if the user is not authorized', async ({ dbConnection }) => {
-    const { client, registerTestUser } = setup(dbConnection)
+    const { client, registerTestUser, authorization } = setup(dbConnection)
     const { sessionToken } = await registerTestUser({ username: 'user1' })
+    authorization.hasPermission.mockResolvedValue(false)
 
-    const res = await client['request-password-reset'][':accountId'].$post(
-      { param: { accountId: '1' } },
-      { headers: { authorization: `Bearer ${sessionToken}` } },
-    )
+    const res = await client['request-password-reset'][':userId'].$post({
+      param: { userId: 1 },
+      header: { authorization: `Bearer ${sessionToken}` },
+    })
 
     expect(res.status).toBe(401)
     expect(await res.json()).toEqual({
@@ -262,15 +328,14 @@ describe('request-password-reset', () => {
   })
 
   test('should return a password reset link', async ({ dbConnection }) => {
-    const { client, registerTestUser, assignPermissionToUser } = setup(dbConnection)
+    const { client, registerTestUser } = setup(dbConnection)
 
-    const { sessionToken, account } = await registerTestUser()
-    assignPermissionToUser(account.id, AuthenticationPermission.RequestPasswordReset)
+    const { sessionToken } = await registerTestUser()
 
-    const res = await client['request-password-reset'][':accountId'].$post(
-      { param: { accountId: '1' } },
-      { headers: { authorization: `Bearer ${sessionToken}` } },
-    )
+    const res = await client['request-password-reset'][':userId'].$post({
+      param: { userId: 1 },
+      header: { authorization: `Bearer ${sessionToken}` },
+    })
 
     expect(res.status).toBe(200)
     expect(await res.json()).toEqual({
@@ -282,15 +347,14 @@ describe('request-password-reset', () => {
   })
 
   test('should error if the requested user does not exist', async ({ dbConnection }) => {
-    const { client, registerTestUser, assignPermissionToUser } = setup(dbConnection)
+    const { client, registerTestUser } = setup(dbConnection)
 
-    const { sessionToken, account } = await registerTestUser()
-    assignPermissionToUser(account.id, AuthenticationPermission.RequestPasswordReset)
+    const { sessionToken } = await registerTestUser()
 
-    const res = await client['request-password-reset'][':accountId'].$post(
-      { param: { accountId: '2' } },
-      { headers: { authorization: `Bearer ${sessionToken}` } },
-    )
+    const res = await client['request-password-reset'][':userId'].$post({
+      param: { userId: 2 },
+      header: { authorization: `Bearer ${sessionToken}` },
+    })
 
     expect(res.status).toBe(404)
     expect(await res.json()).toEqual({
@@ -306,13 +370,14 @@ describe('request-password-reset', () => {
   test('should error if the requestor does not have the required permission', async ({
     dbConnection,
   }) => {
-    const { client, registerTestUser } = setup(dbConnection)
+    const { client, registerTestUser, authorization } = setup(dbConnection)
     const { sessionToken } = await registerTestUser()
+    authorization.hasPermission.mockResolvedValue(false)
 
-    const res = await client['request-password-reset'][':accountId'].$post(
-      { param: { accountId: '1' } },
-      { headers: { authorization: `Bearer ${sessionToken}` } },
-    )
+    const res = await client['request-password-reset'][':userId'].$post({
+      param: { userId: 1 },
+      header: { authorization: `Bearer ${sessionToken}` },
+    })
 
     expect(res.status).toBe(401)
     expect(await res.json()).toEqual({
@@ -331,21 +396,13 @@ describe('whoami', () => {
     const { client, registerTestUser } = setup(dbConnection)
     const { sessionToken } = await registerTestUser()
 
-    const res = await client.whoami.$get(
-      {},
-      { headers: { authorization: `Bearer ${sessionToken}` } },
-    )
+    const res = await client.whoami.$get({ header: { authorization: `Bearer ${sessionToken}` } })
 
     expect(res.status).toBe(200)
     expect(await res.json()).toEqual({
       success: true,
       account: {
-        darkMode: true,
-        genreRelevanceFilter: 0,
         id: 1,
-        showNsfw: false,
-        showRelevanceTags: false,
-        showTypeTags: true,
         username: 'test',
       },
       session: {
@@ -354,9 +411,11 @@ describe('whoami', () => {
     })
   })
 
-  test('should error if the user is not logged in', async ({ dbConnection }) => {
+  test('should error if the authorization header is empty', async ({ dbConnection }) => {
     const { client } = setup(dbConnection)
-    const res = await client.whoami.$get()
+    const res = await client.whoami.$get({
+      header: { authorization: '' },
+    })
 
     expect(res.status).toBe(401)
     expect(await res.json()).toEqual({
@@ -371,10 +430,9 @@ describe('whoami', () => {
 
   test('should error if the session does not exist', async ({ dbConnection }) => {
     const { client } = setup(dbConnection)
-    const res = await client.whoami.$get(
-      {},
-      { headers: { authorization: 'Bearer invalid-session-token' } },
-    )
+    const res = await client.whoami.$get({
+      header: { authorization: 'Bearer invalid-session-token' },
+    })
 
     expect(res.status).toBe(401)
     expect(await res.json()).toEqual({
@@ -390,120 +448,30 @@ describe('whoami', () => {
 
 describe('get-account', () => {
   test('should return the requested account', async ({ dbConnection }) => {
-    const { client, registerTestUser, assignPermissionToUser } = setup(dbConnection)
+    const { client, registerTestUser } = setup(dbConnection)
 
-    const { sessionToken, account } = await registerTestUser()
-    assignPermissionToUser(account.id, AuthenticationPermission.GetAccount)
+    await registerTestUser()
 
-    const res = await client.account[':id'].$get(
-      { param: { id: '1' } },
-      { headers: { authorization: `Bearer ${sessionToken}` } },
-    )
+    const res = await client.accounts[':id'].$get({
+      param: { id: 1 },
+    })
 
     expect(res.status).toBe(200)
     expect(await res.json()).toEqual({
       success: true,
       account: {
-        darkMode: true,
-        genreRelevanceFilter: 0,
         id: 1,
-        showNsfw: false,
-        showRelevanceTags: false,
-        showTypeTags: true,
         username: 'test',
-      },
-    })
-  })
-
-  test('should allow getting your own account without permission', async ({ dbConnection }) => {
-    const { client, registerTestUser } = setup(dbConnection)
-    const { sessionToken } = await registerTestUser()
-
-    const res = await client.account[':id'].$get(
-      { param: { id: '1' } },
-      { headers: { authorization: `Bearer ${sessionToken}` } },
-    )
-
-    expect(res.status).toBe(200)
-    expect(await res.json()).toEqual({
-      success: true,
-      account: {
-        darkMode: true,
-        genreRelevanceFilter: 0,
-        id: 1,
-        showNsfw: false,
-        showRelevanceTags: false,
-        showTypeTags: true,
-        username: 'test',
-      },
-    })
-  })
-
-  test('should error if the user does not have permission', async ({ dbConnection }) => {
-    const { client, registerTestUser } = setup(dbConnection)
-    const { sessionToken } = await registerTestUser()
-
-    const res = await client.account[':id'].$get(
-      { param: { id: '2' } },
-      { headers: { authorization: `Bearer ${sessionToken}` } },
-    )
-
-    expect(res.status).toBe(401)
-    expect(await res.json()).toEqual({
-      success: false,
-      error: {
-        name: 'UnauthorizedError',
-        message: 'You are not authorized to perform this action',
-        statusCode: 401,
-      },
-    })
-  })
-
-  test('should error if the user is not logged in', async ({ dbConnection }) => {
-    const { client } = setup(dbConnection)
-
-    const res = await client.account[':id'].$get({ param: { id: '1' } })
-
-    expect(res.status).toBe(401)
-    expect(await res.json()).toEqual({
-      success: false,
-      error: {
-        name: 'UnauthorizedError',
-        message: 'You are not authorized to perform this action',
-        statusCode: 401,
-      },
-    })
-  })
-
-  test('should error if the session does not exist', async ({ dbConnection }) => {
-    const { client } = setup(dbConnection)
-
-    const res = await client.account[':id'].$get(
-      { param: { id: '1' } },
-      { headers: { authorization: 'Bearer invalid-session-token' } },
-    )
-
-    expect(res.status).toBe(401)
-    expect(await res.json()).toEqual({
-      success: false,
-      error: {
-        name: 'UnauthorizedError',
-        message: 'You are not authorized to perform this action',
-        statusCode: 401,
       },
     })
   })
 
   test('should error if the requested account does not exist', async ({ dbConnection }) => {
-    const { client, registerTestUser, assignPermissionToUser } = setup(dbConnection)
+    const { client } = setup(dbConnection)
 
-    const { sessionToken, account } = await registerTestUser()
-    assignPermissionToUser(account.id, AuthenticationPermission.GetAccount)
-
-    const res = await client.account[':id'].$get(
-      { param: { id: '2' } },
-      { headers: { authorization: `Bearer ${sessionToken}` } },
-    )
+    const res = await client.accounts[':id'].$get({
+      param: { id: 2 },
+    })
 
     expect(res.status).toBe(404)
     expect(await res.json()).toEqual({

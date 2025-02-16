@@ -1,11 +1,11 @@
-import type { IAuthenticationApplication } from '@romulus/authentication'
 import { createMiddleware } from 'hono/factory'
 
+import type { IAuthenticationService } from '../domain/authentication'
 import { UnauthorizedError } from '../domain/user-settings'
 import { setError } from './utils'
 
-export const bearerAuth = (authentication: IAuthenticationApplication) =>
-  createMiddleware<{
+export function bearerAuth(authentication: IAuthenticationService) {
+  return createMiddleware<{
     Variables: {
       token: string
       user: { id: number }
@@ -24,11 +24,12 @@ export const bearerAuth = (authentication: IAuthenticationApplication) =>
     c.set('token', token)
 
     const userResponse = await authentication.whoami(token)
-    if (userResponse instanceof Error) {
-      return setError(c, userResponse, 401)
+    if (userResponse.isErr()) {
+      return setError(c, userResponse.error, 401)
     }
 
-    c.set('user', userResponse.account)
+    c.set('user', { id: userResponse.value.id })
 
     await next()
   })
+}

@@ -1,15 +1,51 @@
+import { CustomError } from '@romulus/custom-error'
 import { hc } from 'hono/client'
 import type { StatusCode } from 'hono/utils/http-status'
 
-import { CustomError } from '../domain/user-settings'
-import type { Router } from './router'
+import type { UserSettingsRouter } from './router'
 
-export class UserSettingsClient {
-  private client: ReturnType<typeof hc<Router>>
+export type IUserSettingsClient = {
+  getUserSettings(): Promise<
+    | {
+        readonly success: true
+        readonly settings: {
+          readonly genreRelevanceFilter: number | null
+          readonly showRelevanceTags: boolean
+          readonly showTypeTags: boolean
+          readonly showNsfw: boolean
+          readonly darkMode: boolean
+        }
+      }
+    | UserSettingsClientError
+  >
+
+  updateUserSettings(body: {
+    genreRelevanceFilter: number | undefined
+    showRelevanceTags: boolean
+    showTypeTags: boolean
+    showNsfw: boolean
+    darkMode: boolean
+  }): Promise<
+    | {
+        readonly success: true
+        readonly settings: {
+          genreRelevanceFilter: number | null
+          showRelevanceTags: boolean
+          showTypeTags: boolean
+          showNsfw: boolean
+          darkMode: boolean
+        }
+      }
+    | UserSettingsClientError
+  >
+}
+
+export class UserSettingsClient implements IUserSettingsClient {
+  private client: ReturnType<typeof hc<UserSettingsRouter>>
   private sessionToken: string | undefined
 
   constructor(baseUrl: string, sessionToken: string | undefined) {
-    this.client = hc<Router>(baseUrl)
+    this.client = hc<UserSettingsRouter>(baseUrl)
     this.sessionToken = sessionToken
   }
 

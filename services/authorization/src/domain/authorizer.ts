@@ -1,12 +1,17 @@
+import { CustomError } from '@romulus/custom-error'
+import { err, ok, type Result } from 'neverthrow'
+
 export class Authorizer {
   private permissions: Map<string, Permission>
   private roles: Map<string, Role>
+  private defaultRole: string | undefined
   private userRoles: Map<number, Set<string>>
   private uncommittedEvents: AuthorizerEvent[]
 
   private constructor() {
     this.permissions = new Map()
     this.roles = new Map()
+    this.defaultRole = undefined
     this.userRoles = new Map()
     this.uncommittedEvents = []
   }
@@ -14,11 +19,13 @@ export class Authorizer {
   static fromState(
     permissions: Map<string, Permission>,
     roles: Map<string, Role>,
+    defaultRole: string | undefined,
     userRoles: Map<number, Set<string>>,
   ): Authorizer {
     const authorizer = new Authorizer()
     authorizer.permissions = permissions
     authorizer.roles = roles
+    authorizer.defaultRole = defaultRole
     authorizer.userRoles = userRoles
     return authorizer
   }
@@ -31,14 +38,19 @@ export class Authorizer {
     return authorizer
   }
 
-  createPermission(name: string, description: string | undefined): void | DuplicatePermissionError {
+  createPermission(
+    name: string,
+    description: string | undefined,
+  ): Result<void, DuplicatePermissionError> {
     if (this.permissions.has(name)) {
-      return new DuplicatePermissionError(name)
+      return err(new DuplicatePermissionError(name))
     }
 
     const event = new PermissionCreatedEvent(name, description)
     this.applyEvent(event)
     this.addEvent(event)
+
+    return ok(undefined)
   }
 
   ensurePermissions(permissions: { name: string; description: string | undefined }[]): void {
@@ -63,16 +75,18 @@ export class Authorizer {
     name: string,
     permissions: Set<string>,
     description: string | undefined,
-  ): void | PermissionNotFoundError {
+  ): Result<void, PermissionNotFoundError> {
     for (const permission of permissions) {
       if (!this.permissions.has(permission)) {
-        return new PermissionNotFoundError(permission)
+        return err(new PermissionNotFoundError(permission))
       }
     }
 
     const event = new RoleCreatedEvent(name, permissions, description)
     this.applyEvent(event)
     this.addEvent(event)
+
+    return ok(undefined)
   }
 
   deleteRole(name: string): void {
@@ -83,14 +97,28 @@ export class Authorizer {
     this.addEvent(event)
   }
 
-  assignRoleToUser(userId: number, roleName: string): void | RoleNotFoundError {
+  setDefaultRole(name: string): Result<void, RoleNotFoundError> {
+    if (!this.roles.has(name)) {
+      return err(new RoleNotFoundError(name))
+    }
+
+    const event = new DefaultRoleSetEvent(name)
+    this.applyEvent(event)
+    this.addEvent(event)
+
+    return ok(undefined)
+  }
+
+  assignRoleToUser(userId: number, roleName: string): Result<void, RoleNotFoundError> {
     if (!this.roles.has(roleName)) {
-      return new RoleNotFoundError(roleName)
+      return err(new RoleNotFoundError(roleName))
     }
 
     const event = new RoleAssignedToUserEvent(userId, roleName)
     this.applyEvent(event)
     this.addEvent(event)
+
+    return ok(undefined)
   }
 
   private applyEvent(event: AuthorizerEvent): void {
@@ -108,6 +136,8 @@ export class Authorizer {
       for (const userRoles of this.userRoles.values()) {
         userRoles.delete(event.name)
       }
+    } else if (event instanceof DefaultRoleSetEvent) {
+      this.defaultRole = event.name
     } else if (event instanceof RoleAssignedToUserEvent) {
       const userRoles = this.userRoles.get(event.userId) ?? new Set()
       userRoles.add(event.roleName)
@@ -121,8 +151,9 @@ export class Authorizer {
     this.uncommittedEvents.push(event)
   }
 
-  hasPermission(userId: number, permission: string): boolean {
-    const userRoles = this.userRoles.get(userId) ?? new Set()
+  hasPermission(userId: number | undefined, permission: string): boolean {
+    const userRoles = this.getUserRoles(userId)
+
     for (const roleName of userRoles) {
       const role = this.roles.get(roleName)
       if (role?.permissions.has(permission)) {
@@ -131,6 +162,32 @@ export class Authorizer {
     }
 
     return false
+  }
+
+  getPermissions(userId: number | undefined): Set<string> {
+    const userRoles = this.getUserRoles(userId)
+
+    const permissions = new Set<string>()
+    for (const roleName of userRoles) {
+      const role = this.roles.get(roleName)
+      if (role) {
+        for (const permission of role.permissions) {
+          permissions.add(permission)
+        }
+      }
+    }
+    return permissions
+  }
+
+  private getUserRoles(userId: number | undefined) {
+    return new Set([
+      ...(userId !== undefined ? (this.userRoles.get(userId) ?? []) : []),
+      ...(this.defaultRole !== undefined ? [this.defaultRole] : []),
+    ])
+  }
+
+  getAllPermissions(): Permission[] {
+    return [...this.permissions.values()]
   }
 
   getUncommittedEvents(): AuthorizerEvent[] {
@@ -158,6 +215,7 @@ type AuthorizerEvent =
   | PermissionDeletedEvent
   | RoleCreatedEvent
   | RoleDeletedEvent
+  | DefaultRoleSetEvent
   | RoleAssignedToUserEvent
 
 export class PermissionCreatedEvent {
@@ -183,6 +241,10 @@ export class RoleDeletedEvent {
   constructor(public readonly name: string) {}
 }
 
+export class DefaultRoleSetEvent {
+  constructor(public readonly name: string) {}
+}
+
 export class RoleAssignedToUserEvent {
   constructor(
     public readonly userId: number,
@@ -190,28 +252,26 @@ export class RoleAssignedToUserEvent {
   ) {}
 }
 
-export class CustomError extends Error {
-  constructor(name: string, message: string) {
-    super(message)
-    this.name = name
-    Object.setPrototypeOf(this, new.target.prototype)
-  }
-}
-
 export class PermissionNotFoundError extends CustomError {
-  constructor(public readonly name: string) {
-    super('PermissionNotFoundError', `No permission found with name: ${name}`)
+  constructor(public readonly permissionName: string) {
+    super('PermissionNotFoundError', `No permission found with name: ${permissionName}`)
   }
 }
 
 export class DuplicatePermissionError extends CustomError {
-  constructor(public readonly name: string) {
-    super('DuplicatePermissionError', `Permission with name ${name} already exists`)
+  constructor(public readonly permissionName: string) {
+    super('DuplicatePermissionError', `Permission with name ${permissionName} already exists`)
   }
 }
 
 export class RoleNotFoundError extends CustomError {
-  constructor(public readonly name: string) {
-    super('RoleNotFoundError', `No role found with name: ${name}`)
+  constructor(public readonly permissionName: string) {
+    super('RoleNotFoundError', `No role found with name: ${permissionName}`)
+  }
+}
+
+export class UnauthorizedError extends CustomError {
+  constructor() {
+    super('UnauthorizedError', 'You are not authorized to perform this action')
   }
 }

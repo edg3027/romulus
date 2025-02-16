@@ -1,57 +1,57 @@
-import { AuthenticationClientError } from '@romulus/authentication'
-import { type Actions, redirect } from '@sveltejs/kit'
-import { fail, setError, superValidate } from 'sveltekit-superforms'
+import { FetchError } from '@romulus/authentication/client'
+import { type Actions, error, redirect } from '@sveltejs/kit'
+import { fail, superValidate, setError } from 'sveltekit-superforms'
 import { zod } from 'sveltekit-superforms/adapters'
-import { z } from 'zod'
 
 import { setSessionCookie } from '$lib/cookie'
 
 import type { PageServerLoad } from './$types'
-
-const schema = z
-  .object({
-    username: z.string(),
-    password: z.object({
-      password: z.string(),
-      confirmPassword: z.string(),
-    }),
-  })
-  .superRefine((data, ctx) => {
-    if (data.password.password !== data.password.confirmPassword) {
-      return ctx.addIssue({
-        path: ['password', 'confirmPassword'],
-        message: 'Passwords do not match',
-        code: 'custom',
-      })
-    }
-  })
+import { signUpSchema } from './common'
 
 export const load: PageServerLoad = async ({ locals }) => {
   if (locals.user) {
     return redirect(302, '/')
   }
 
-  const form = await superValidate(zod(schema))
+  const form = await superValidate(zod(signUpSchema))
   return { form }
 }
 
 export const actions: Actions = {
   default: async ({ request, cookies, locals }) => {
-    const form = await superValidate(request, zod(schema))
+    const form = await superValidate(request, zod(signUpSchema))
 
     if (!form.valid) {
       return fail(400, { form })
     }
 
-    const registerResult = await locals.di
+    const response = await locals.di
       .authentication()
       .register({ username: form.data.username, password: form.data.password.password })
-    if (registerResult instanceof AuthenticationClientError) {
-      return setError(form, 'username', 'Username is already taken')
+    if (response.isErr()) {
+      switch (response.error.name) {
+        case 'FetchError': {
+          return error(500, `Failed to sign up: ${response.error.message}`)
+        }
+        case 'ValidationError': {
+          for (const issue of response.error.details.issues) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            setError(form, issue.path as any, issue.message)
+          }
+          return fail(400, { form })
+        }
+        case 'NonUniqueUsernameError': {
+          return setError(form, 'username', response.error.message)
+        }
+        default: {
+          response.error satisfies never
+          return error(500, 'An unknown error occurred')
+        }
+      }
     }
 
     setSessionCookie(
-      { token: registerResult.token, expires: new Date(registerResult.expiresAt) },
+      { token: response.value.token, expires: new Date(response.value.expiresAt) },
       cookies,
     )
 

@@ -3,17 +3,12 @@ import { fail, setError, superValidate } from 'sveltekit-superforms'
 import { zod } from 'sveltekit-superforms/adapters'
 
 import { genreSchema } from '$lib/server/api/genres/types'
-import { DerivedChildError } from '$lib/server/features/genres/commands/domain/errors/derived-child'
-import { DerivedInfluenceError } from '$lib/server/features/genres/commands/domain/errors/derived-influence'
-import { DuplicateAkaError } from '$lib/server/features/genres/commands/domain/errors/duplicate-aka'
-import { InvalidGenreRelevanceError } from '$lib/server/features/genres/commands/domain/errors/invalid-genre-relevance'
-import { SelfInfluenceError } from '$lib/server/features/genres/commands/domain/errors/self-influence'
 import { UNSET_GENRE_RELEVANCE } from '$lib/types/genres'
 
 import type { PageServerLoad } from './$types'
 
 export const load: PageServerLoad = async ({ locals }) => {
-  if (!locals.user?.permissions?.includes('EDIT_GENRES')) {
+  if (!locals.user?.permissions.genres.canCreate) {
     return error(403, { message: 'You do not have permission to create genres' })
   }
 
@@ -27,77 +22,83 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 export const actions: Actions = {
   default: async ({ request, locals }) => {
-    if (!locals.user?.permissions?.includes('EDIT_GENRES')) {
-      return error(403, { message: 'You do not have permission to create genres' })
-    }
-    const user = locals.user
-
     const form = await superValidate(request, zod(genreSchema))
 
     if (!form.valid) {
       return fail(400, { form })
     }
 
-    const genreData = {
-      ...form.data,
-      subtitle: form.data.subtitle ?? undefined,
-      shortDescription: form.data.shortDescription ?? undefined,
-      longDescription: form.data.longDescription ?? undefined,
-      notes: form.data.notes ?? undefined,
-      parents: new Set(form.data.parents),
-      derivedFrom: new Set(form.data.derivedFrom),
-      influences: new Set(form.data.influencedBy),
-      akas: {
-        primary: form.data.primaryAkas?.length
-          ? form.data.primaryAkas?.split(',').map((aka) => aka.trim())
-          : [],
-        secondary: form.data.secondaryAkas?.length
-          ? form.data.secondaryAkas?.split(',').map((aka) => aka.trim())
-          : [],
-        tertiary: form.data.tertiaryAkas?.length
-          ? form.data.tertiaryAkas?.split(',').map((aka) => aka.trim())
-          : [],
-      },
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }
-
-    const createResult = await locals.di.genreCommandService().createGenre(genreData, user.id)
-    if (createResult instanceof SelfInfluenceError) {
-      return setError(form, 'influencedBy._errors', 'A genre cannot influence itself')
-    } else if (createResult instanceof DuplicateAkaError) {
-      return setError(form, getDuplicateAkaErrorField(createResult.level), createResult.message)
-    } else if (createResult instanceof DerivedChildError) {
-      return setError(form, 'derivedFrom._errors', createResult.message)
-    } else if (createResult instanceof DerivedInfluenceError) {
-      return setError(form, 'influencedBy._errors', createResult.message)
+    const createResult = await locals.di.genres().createGenre(form.data)
+    if (createResult.isErr()) {
+      switch (createResult.error.name) {
+        case 'FetchError': {
+          return error(500, createResult.error.message)
+        }
+        case 'ValidationError': {
+          for (const issue of createResult.error.details.issues) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            setError(form, issue.path as any, issue.message)
+          }
+          return fail(400, { form })
+        }
+        case 'DuplicateAkaError': {
+          return setError(
+            form,
+            `${createResult.error.details.level}Akas`,
+            createResult.error.message,
+          )
+        }
+        case 'DerivedChildError':
+        case 'DerivedInfluenceError': {
+          return setError(form, 'derivedFrom._errors', createResult.error.message)
+        }
+        case 'SelfInfluenceError': {
+          return setError(form, 'influencedBy._errors', createResult.error.message)
+        }
+        case 'UnauthenticatedError':
+        case 'UnauthorizedError': {
+          return error(createResult.error.statusCode, createResult.error.message)
+        }
+        default: {
+          createResult.error satisfies never
+          return error(500, 'An unknown error occurred')
+        }
+      }
     }
 
     const relevance = form.data.relevance
-    if (relevance !== undefined) {
+    if (relevance !== undefined && relevance !== UNSET_GENRE_RELEVANCE) {
       const voteResult = await locals.di
-        .genreCommandService()
-        .voteGenreRelevance(createResult.id, relevance, user.id)
+        .genres()
+        .voteGenreRelevance(createResult.value.id, relevance)
 
-      if (voteResult instanceof InvalidGenreRelevanceError) {
-        return setError(form, 'relevance', voteResult.message)
+      if (voteResult.isErr()) {
+        switch (voteResult.error.name) {
+          case 'FetchError': {
+            return error(500, voteResult.error.message)
+          }
+          case 'ValidationError': {
+            return setError(
+              form,
+              'relevance',
+              voteResult.error.details.issues.map((issue) => issue.message).join(', '),
+            )
+          }
+          case 'UnauthenticatedError':
+          case 'UnauthorizedError': {
+            return error(voteResult.error.statusCode, voteResult.error.message)
+          }
+          case 'InvalidGenreRelevanceError': {
+            return setError(form, 'relevance', voteResult.error.message)
+          }
+          default: {
+            voteResult.error satisfies never
+            return error(500, 'An unknown error occurred')
+          }
+        }
       }
-
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const _exhaustiveCheck: void = voteResult
     }
 
-    redirect(302, `/genres/${createResult.id}`)
+    redirect(302, `/genres/${createResult.value.id}`)
   },
-}
-
-function getDuplicateAkaErrorField(level: DuplicateAkaError['level']) {
-  switch (level) {
-    case 'primary':
-      return 'primaryAkas' as const
-    case 'secondary':
-      return 'secondaryAkas' as const
-    case 'tertiary':
-      return 'tertiaryAkas' as const
-  }
 }
